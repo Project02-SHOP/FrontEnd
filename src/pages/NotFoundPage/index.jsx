@@ -1,0 +1,17 @@
+import styles from "./NotFoundPage.module.scss";
+
+const NotFoundPage = () => {
+  return (
+    <div className="page">
+      <div className="container">
+        <div className={styles.not_found}>
+          <img src="/img/not-found.png" alt="페이지 찾을 수 없음" />
+          <p>찾고 있는 페이지를 찾을 수 없습니다.</p>
+          <p>홈페이지 이동</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NotFoundPage;
