@@ -4,7 +4,7 @@ const CardItem = () => {
   return (
     <li className={styles.card_item}>
       <img
-        src="아이템이미지"
+        src="/img/detail_img.jpg"
         width={"80%"}
         height={"200px"}
         alt="product card"
