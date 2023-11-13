@@ -1,7 +1,7 @@
-import Form from "../../../components/form/Form";
+import FormRegister from "../../../components/form/FormRegister";
 
 const SignUp = () => {
-  return <Form title={"가입하기"} />;
+  return <FormRegister title={"가입하기"} />;
 };
 
 export default SignUp;
