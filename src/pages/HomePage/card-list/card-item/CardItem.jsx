@@ -1,19 +1,35 @@
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { addToCart } from "../../../../store/cart/cart.slice";
 import styles from "./CardItem.module.scss";
 
-const CardItem = () => {
+const CardItem = ({ item }) => {
+  const { products } = useAppSelector((state) => state.cartSlice);
+  const productMatching = products.some((product) => product.id === item.id);
+
+  const dispatch = useAppDispatch();
+  const addItemToCart = () => {
+    dispatch(addToCart(item));
+  };
   return (
     <li className={styles.card_item}>
-      <img
-        src="아이템이미지"
-        width={"80%"}
-        height={"200px"}
-        alt="product card"
-      />
-
-      <h5>아이템타이틀</h5>
+      <Link to={`/product/${item.id}`}>
+        <img
+          src={item.image}
+          width={"80%"}
+          height={"200px"}
+          alt="product card"
+        />
+      </Link>
+      <h5>{item.title.substring(0, 15)}...</h5>
       <div>
-        <button>장바구니에 담긴 제품</button>
-        <p>$ 아이템 가격</p>
+        <button
+          disabled={productMatching}
+          onClick={() => !productMatching && addItemToCart()}
+        >
+          {productMatching ? "장바구니에 담긴 제품" : "장바구니에 담기"}
+        </button>
+        <p>$ {item.price}</p>
       </div>
     </li>
   );
