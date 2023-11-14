@@ -1,28 +1,82 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 
-const initialState = localStorage.getItem('user') ?
-JSON.parse(localStorage.getItem('user')) : { email:"", token:"", id:"" }
+const initialState = {
+  userInfo: {
+    email: "",
+    password: "",
+  },
+  is_login: false,
+};
 
-export const userSlice = createSlice({
-  name: 'user',
-  initialState,
-  reducers: {
-    setUser: (state, action) => {
-      state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.id = action.payload.id;
-
-      localStorage.setItem('user', JSON.stringify(state));
-    },
-    removeUser: (state) => {
-      state.email = "";
-      state.token = "";
-      state.id = "";
-
-      localStorage.setItem('user', JSON.stringify(state));
+export const loadTokenFB = createAsyncThunk(
+  "user/loadToken",
+  async (_, { dispatch }) => {
+    if (getCookie("Authorization")) {
+      dispatch(loadToken());
     }
   }
-})
+);
 
-export const { setUser, removeUser } = userSlice.actions;
+// 로그인 비동기 액션
+export const loginDB = createAsyncThunk(
+  "user/login",
+  async ({ email, password }, { dispatch }) => {
+    try {
+      const response = await axios.post("백엔드 베이스 url/api/login", {
+        email: email,
+        password: password,
+      });
+      dispatch(login({ is_login: true, token: response.data.token }));
+      setCookie("Authorization", response.data.token);
+      setCookie("nickname", response.data.nickname);
+      return response.data;
+    } catch (error) {
+      window.alert("로그인 에러");
+      console.error("Login Error", error);
+    }
+  }
+);
+
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    login: (state, action) => {
+      setCookie("is_login", "true");
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      state.is_login = true;
+    },
+    logOut: (state) => {
+      deleteCookie("is_login");
+      localStorage.removeItem("nickname");
+      localStorage.removeItem("token");
+      state.user = null;
+      state.is_login = false;
+    },
+    loadToken: (state) => {
+      const token = getCookie("Authorization");
+      if (token) {
+        state.is_login = true;
+        state.token = token;
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loginDB.fulfilled, (state, action) => {
+      state.is_login = true;
+      state.token = action.payload.token;
+    });
+    builder.addCase(loadTokenFB.fulfilled, (state, action) => {
+      state.is_login = true;
+      state.token = action.payload.token;
+    });
+  },
+});
+
+export const { login, logOut, loadToken } = userSlice.actions;
+
+// Export the reducer
 export default userSlice.reducer;
