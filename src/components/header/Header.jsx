@@ -8,7 +8,7 @@ const Header = () => {
       <div className="container">
         <div className={styles.header_wrapper}>
           <div className={styles.header_logo}>
-            <Link to={"/"}>
+            <Link to={"/"} style={{ textDecoration: "none", color: "black" }}>
               <h2>NewShop</h2>
             </Link>
           </div>
