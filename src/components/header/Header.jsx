@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Nav from "./nav/Nav";
 
@@ -7,7 +8,9 @@ const Header = () => {
       <div className="container">
         <div className={styles.header_wrapper}>
           <div className={styles.header_logo}>
-            <h2>NewShop</h2>
+            <Link to={"/"}>
+              <h2>NewShop</h2>
+            </Link>
           </div>
           <Nav />
         </div>
