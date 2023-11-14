@@ -1,13 +1,16 @@
 .nav_cart_list {
-    max-height: 255px;
-    overflow: scroll;
-    overflow-x: hidden;
+  max-height: 255px;
+  overflow: scroll;
+  overflow-x: hidden;
 
-    &::-webkit-scrollbar {
-        width: 4px;
-    }
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background: #a9abac;
-    }
+  &::-webkit-scrollbar-thumb {
+    background: #a9abac;
+  }
+}
+.nav_cart_link:hover {
+  color: #000;
 }

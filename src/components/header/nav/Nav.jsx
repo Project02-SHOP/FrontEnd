@@ -3,6 +3,7 @@ import { VscSignOut } from "react-icons/vsc";
 import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   return (
@@ -10,7 +11,13 @@ const Nav = () => {
       <ul>
         <li>
           <div className={styles.counter}>
-            <FiShoppingCart />
+            <Link
+              to={"/cart"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              {""}
+              <FiShoppingCart />
+            </Link>
             <div className={styles.nav_hover_cart}>
               <NavCartBlock />
             </div>
