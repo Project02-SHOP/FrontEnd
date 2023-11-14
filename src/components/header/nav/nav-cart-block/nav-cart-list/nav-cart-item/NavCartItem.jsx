@@ -1,17 +1,28 @@
+import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../../../../hooks/redux";
 import styles from "./NavCartItem.module.scss";
 import { AiOutlineDelete } from "react-icons/ai";
+import { deleteFromCart } from "../../../../../../store/cart/cart.slice";
 
-const NavCartItem = () => {
+const NavCartItem = ({ item }) => {
+  const dispatch = useAppDispatch();
+  const deleteProduct = () => {
+    dispatch(deleteFromCart(item.id));
+  };
   return (
     <div className={styles.nav_cart_item}>
-      <img src="#" alt="product cart" />
-
+      <Link to={`/product/${item.id}`}>
+        {" "}
+        <img src={item.image} alt="product cart" />
+      </Link>
       <div className={styles.nav_cart_description}>
-        <h3>아이템카테고리</h3>
-        <h2>아이템타이틀</h2>
-        <span>총가격을 보여줍니다</span>
+        <h3>{item.category}</h3>
+        <h2>{item.title}</h2>
+        <span>
+          {item.price} x {item.quantity} = $ {item.total.toFixed(2)}
+        </span>
       </div>
-      <button className={styles.nav_cart_delete}>
+      <button onClick={deleteProduct} className={styles.nav_cart_delete}>
         <AiOutlineDelete />
       </button>
     </div>
