@@ -4,8 +4,10 @@ import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../hooks/redux";
 
 const Nav = () => {
+  const { products } = useAppSelector((state) => state.cartSlice);
   return (
     <nav className={styles.nav}>
       <ul>
@@ -18,9 +20,12 @@ const Nav = () => {
               {""}
               <FiShoppingCart />
             </Link>
-            <div className={styles.nav_hover_cart}>
-              <NavCartBlock />
-            </div>
+            {products.length > 0 && <b>{products.length}</b>}
+            {products.length > 0 && (
+              <div className={styles.nav_hover_cart}>
+                <NavCartBlock />
+              </div>
+            )}
           </div>
         </li>
         <li>
