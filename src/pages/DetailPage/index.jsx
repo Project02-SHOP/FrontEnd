@@ -11,18 +11,21 @@ const DetailPage = () => {
   const productId = Number(id);
   const dispatch = useAppDispatch();
 
-  const { product, isLoading } = useAppSelector((state) => state.productSlice);
-  const { products } = useAppSelector((state) => state.cartSlice);
-  const productMatching = products.some((product) => product.id === product.id);
+  const { product, isLoading } = useAppSelector((state) => state.productSlice); //store에서 product를 가져온다
+  const { products } = useAppSelector((state) => state.cartSlice); // 장바구니에 있는 products도 가져온다
+  const productMatching = products.some(
+    (cartItem) => cartItem.id === product.id
+  ); //장바구니에 하나라도 있으면 true반환
 
   useEffect(() => {
-    dispatch(fetchProduct(productId));
+    dispatch(fetchProduct(productId)); //store에서 product를 가져온다
   }, [productId]);
 
   const addItemToCart = () => {
     dispatch(addToCart(product));
   };
 
+  console.log(productMatching);
   return (
     <div className="page">
       {isLoading ? (
@@ -48,13 +51,19 @@ const DetailPage = () => {
               <div className={styles.option_sel}></div>
             </div>
             <div>
-              <button
-                disabled={!productMatching}
+              {/* <button
+                disabled={productMatching}
                 onClick={() => productMatching && addItemToCart()}
               >
-                {productMatching ? "장바구니에 담기" : "장바구니에 담긴 제품"}
+                {!productMatching ? "장바구니에 담기" : "장바구니에 담긴 제품"}
+              </button> */}
+              <button
+                disabled={productMatching}
+                onClick={() => !productMatching && addItemToCart()}
+              >
+                {!productMatching ? "장바구니에 담기" : "장바구니에 담긴 제품"}
               </button>
-              <Link to={"/cart"}>장바구니로 이동</Link>
+              <Link to="/cart">장바구니로 이동</Link>
             </div>
           </div>
         </div>
