@@ -21,10 +21,16 @@ const FormAdditional = () => {
   };
 
   const inputImgHandler = (e) => {
+    if (e.target.files.length >= 4) {
+      alert("최대 3개의 이미지만 선택할 수 있습니다.");
+      e.target.value = "";
+      return;
+    }
     if (e.target.files.length > 0) {
       encodeFileToBase64(e.target.files[0]);
     }
   };
+
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -46,13 +52,13 @@ const FormAdditional = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     console.log("img : ", imageSrc);
     console.log("title : ", title);
     console.log("category : ", category);
     console.log("price : ", price);
     console.log("color : ", color);
     console.log("option : ", option);
-    e.preventDefault();
     setImageSrc("");
     setTitle("");
     setCategory("");
