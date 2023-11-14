@@ -46,6 +46,12 @@ const FormAdditional = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log("img : ", imageSrc);
+    console.log("title : ", title);
+    console.log("category : ", category);
+    console.log("price : ", price);
+    console.log("color : ", color);
+    console.log("option : ", option);
     e.preventDefault();
     setImageSrc("");
     setTitle("");
@@ -53,12 +59,7 @@ const FormAdditional = () => {
     setPrice("");
     setColor("");
     setOption("");
-    console.log("img : ", imageSrc);
-    console.log("title : ", title);
-    console.log("category : ", category);
-    console.log("price : ", price);
-    console.log("color : ", color);
-    console.log("option : ", option);
+    e.target.itemImg.value = "";
   };
 
   return (
