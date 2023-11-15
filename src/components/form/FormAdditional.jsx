@@ -6,7 +6,7 @@ const FormAdditional = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
-  const [count, setCount] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [option, setOption] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const [placeholder, setPlaceholder] =
@@ -50,8 +50,8 @@ const FormAdditional = () => {
     setPrice(e.target.value);
   };
 
-  const inputCountHandler = (e) => {
-    setCount(e.target.value);
+  const inputQuantityHandler = (e) => {
+    setQuantity(e.target.value);
   };
 
   const inputOptionHandler = (e) => {
@@ -64,13 +64,13 @@ const FormAdditional = () => {
     console.log("title : ", title);
     console.log("category : ", category);
     console.log("price : ", price);
-    console.log("count : ", count);
+    console.log("quantity : ", quantity);
     console.log("option : ", option);
     setImageSrc("");
     setTitle("");
     setCategory("");
     setPrice("");
-    setCount("");
+    setQuantity("");
     setOption("");
     e.target.itemImg.value = "";
   };
@@ -83,7 +83,6 @@ const FormAdditional = () => {
         <label htmlFor="itemImg" className={styles.label}>
           업로드
         </label>
-
         <input
           type="text"
           name="title"
@@ -112,12 +111,12 @@ const FormAdditional = () => {
         />
         <input
           type="number"
-          name="count"
+          name="quantity"
           min="0"
-          placeholder="Item Count"
+          placeholder="Item Quantity"
           required
-          onChange={inputCountHandler}
-          value={count}
+          onChange={inputQuantityHandler}
+          value={quantity}
         />
         <input
           type="text"
