@@ -36,13 +36,13 @@ const DetailPage = () => {
             <img src={product.image} alt="product card" />
             <ul className={styles.card_thumb}>
               <li>
-                <img src={product.image} />
+                {/* <img src={product?.image} /> */}
               </li>
               <li>
-                <img src={product.image} />
+                {/* <img src={product?.image} /> */}
               </li>
               <li>
-                <img src={product.image} />
+                {/* <img src={product?.image} /> */}
               </li>
             </ul>
           </div>

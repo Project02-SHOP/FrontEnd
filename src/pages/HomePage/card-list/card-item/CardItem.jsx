@@ -22,6 +22,7 @@ const CardItem = ({ item }) => {
         />
       </Link>
       <h5>{item.title.substring(0, 15)}...</h5>
+      <p>$ {item.price}</p>
       <div>
         <button
           disabled={productMatching}
@@ -29,7 +30,6 @@ const CardItem = ({ item }) => {
         >
           {productMatching ? "장바구니에 담긴 제품" : "장바구니에 담기"}
         </button>
-        <p>$ {item.price}</p>
       </div>
     </li>
   );

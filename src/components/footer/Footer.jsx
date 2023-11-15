@@ -1,4 +1,3 @@
-import { BsGithub } from "react-icons/bs";
 import styles from "./Footer.module.scss";
 
 const Footer = () => {
@@ -6,13 +5,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.contacts}>
-          <a
-            href="https://github.com"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            {" "}
-            <BsGithub />
-          </a>
+          Copyright © Project02. All Rights Reserved.
         </div>
       </div>
     </footer>
