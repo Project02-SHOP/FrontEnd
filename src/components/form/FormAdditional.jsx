@@ -6,7 +6,7 @@ const FormAdditional = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
-  const [color, setColor] = useState("");
+  const [count, setCount] = useState("");
   const [option, setOption] = useState("");
   const [imageSrc, setImageSrc] = useState("");
   const [placeholder, setPlaceholder] =
@@ -64,13 +64,13 @@ const FormAdditional = () => {
     console.log("title : ", title);
     console.log("category : ", category);
     console.log("price : ", price);
-    console.log("color : ", color);
+    console.log("count : ", count);
     console.log("option : ", option);
     setImageSrc("");
     setTitle("");
     setCategory("");
     setPrice("");
-    setColor("");
+    setCount("");
     setOption("");
     e.target.itemImg.value = "";
   };
@@ -117,7 +117,7 @@ const FormAdditional = () => {
           placeholder="Item Count"
           required
           onChange={inputCountHandler}
-          value={color}
+          value={count}
         />
         <input
           type="text"
