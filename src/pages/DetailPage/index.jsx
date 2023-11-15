@@ -35,9 +35,15 @@ const DetailPage = () => {
           <div className={styles.card_img}>
             <img src={product.image} alt="product card" />
             <ul className={styles.card_thumb}>
-              <li>{product?.image}</li>
-              <li>{product?.image}</li>
-              <li>{product?.image}</li>
+              <li>
+                <img src={product.image} />
+              </li>
+              <li>
+                <img src={product.image} />
+              </li>
+              <li>
+                <img src={product.image} />
+              </li>
             </ul>
           </div>
 
