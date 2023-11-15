@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
 
 const FormAdditional = () => {
+  const img_ref = useRef(null);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [color, setColor] = useState("");
   const [option, setOption] = useState("");
   const [imageSrc, setImageSrc] = useState("");
+  const [placeholder, setPlaceholder] =
+    useState("이미지는 3장까지 가능합니다.");
 
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
@@ -21,10 +24,14 @@ const FormAdditional = () => {
   };
 
   const inputImgHandler = (e) => {
-    if (e.target.files.length >= 4) {
-      alert("최대 3개의 이미지만 선택할 수 있습니다.");
-      e.target.value = "";
-      return;
+    if (img_ref.current.value !== "") {
+      const fileName = img_ref.current.value;
+      setPlaceholder(fileName);
+      if (e.target.files.length >= 4) {
+        alert("최대 3개의 이미지만 선택할 수 있습니다.");
+        e.target.value = "";
+        return;
+      }
     }
     if (e.target.files.length > 0) {
       encodeFileToBase64(e.target.files[0]);
@@ -43,8 +50,8 @@ const FormAdditional = () => {
     setPrice(e.target.value);
   };
 
-  const inputColorHandler = (e) => {
-    setColor(e.target.value);
+  const inputCountHandler = (e) => {
+    setCount(e.target.value);
   };
 
   const inputOptionHandler = (e) => {
@@ -72,15 +79,11 @@ const FormAdditional = () => {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div>{imageSrc && <img src={imageSrc} alt="preview-img" />}</div>
       <div>
-        <input
-          type="file"
-          name="image"
-          multiple="multiple"
-          accept=".jpg, .jpeg, .png"
-          id="itemImg"
-          required
-          onChange={inputImgHandler}
-        />
+        <input placeholder={placeholder} disabled />
+        <label htmlFor="itemImg" className={styles.label}>
+          업로드
+        </label>
+
         <input
           type="text"
           name="title"
@@ -100,17 +103,20 @@ const FormAdditional = () => {
         <input
           type="number"
           name="price"
+          min="0"
+          step="1"
           placeholder="Item Price"
           required
           onChange={inputPriceHandler}
           value={price}
         />
         <input
-          type="text"
-          name="color"
-          placeholder="Item Color"
+          type="number"
+          name="count"
+          min="0"
+          placeholder="Item Count"
           required
-          onChange={inputColorHandler}
+          onChange={inputCountHandler}
           value={color}
         />
         <input
@@ -122,6 +128,19 @@ const FormAdditional = () => {
           value={option}
         />
         <button>상품등록</button>
+        <div className={styles.itemImg}>
+          <input
+            type="file"
+            name="image"
+            ref={img_ref}
+            multiple="multiple"
+            accept=".jpg, .jpeg, .png"
+            id="itemImg"
+            className="itemImg"
+            required
+            onChange={inputImgHandler}
+          />
+        </div>
       </div>
     </form>
   );
