@@ -26,12 +26,13 @@ const Form = () => {
     dispatch(loginDB(email, password));
   };
 
-  // useEffect(() => {
-  //   console.log(user);
-  //   if (user.user.is_login === true) {
-  //     navigate("/");
-  //   }
-  // }, [user.is_login]);
+  useEffect(() => {
+    console.log(user);
+    //user에 모든 redux toolkit의 slice가 포함되어 있음
+    if (user.userSlice.is_login === true) {
+      navigate("/");
+    }
+  }, [user.userSlice.is_login]);
 
   return (
     <form className={styles.form}>
@@ -43,10 +44,6 @@ const Form = () => {
             setEmail(event.target.value);
           }}
         />
-
-        {/* <div>
-          <span className={styles.form_error}>에러메시지를 보여줍니다</span>
-        </div> */}
       </div>
       <div>
         <input
@@ -56,14 +53,8 @@ const Form = () => {
             setPassword(event.target.value);
           }}
         />
-
-        {/* <div>
-          <span className={styles.form_error}>에러메시지를 보여줍니다</span>
-        </div> */}
       </div>
       <button onClick={login}>제출</button>
-
-      {/* <span className={styles.form_error}>에러메시지를 보여줍니다</span> */}
     </form>
   );
 };
