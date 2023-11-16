@@ -1,14 +1,17 @@
-import MyInfo from "../MyPage/MyPage/MyInfo";
+import { useAuth } from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
 import OrdersList from "./orders-list/OrdersList";
 
 const OrderPage = () => {
+  const { isAuth } = useAuth();
+
+  if (!isAuth) return <Navigate to="/" />;
+
   return (
     <div className="page">
       <div className="container">
         <h1>주문 히스토리</h1>
         <OrdersList />
-        <h1>나의 정보</h1>
-        <MyInfo />
       </div>
     </div>
   );

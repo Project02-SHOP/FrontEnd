@@ -24,6 +24,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
           <Route path="additional" element={<AdditionalPage />} />
           <Route path="mypage" element={<Mypage />} />
+          <Route path="order" element={<OrderPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

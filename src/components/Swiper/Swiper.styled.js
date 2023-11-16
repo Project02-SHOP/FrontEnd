@@ -75,9 +75,3 @@ export const SlideImg = styled.div`
   width: 100%;
   aspect-ratio: 1/1;
 `;
-
-export const CategoryTitle = styled.h2`
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 70px;
-`;
