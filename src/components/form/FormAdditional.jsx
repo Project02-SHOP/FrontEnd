@@ -12,17 +12,6 @@ const FormAdditional = () => {
   const [placeholder, setPlaceholder] =
     useState("이미지는 3장까지 가능합니다.");
 
-  // const encodeFileToBase64 = (fileBlob) => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileBlob);
-  //   return new Promise((resolve) => {
-  //     reader.onload = () => {
-  //       setImageSrc(reader.result);
-  //       resolve();
-  //     };
-  //   });
-  // };
-
   const encodeFileToBase64 = (files) => {
     let promises = [];
     for (let i = 0; i < files.length; i++) {
@@ -39,22 +28,7 @@ const FormAdditional = () => {
     return Promise.all(promises);
   };
 
-  // const inputImgHandler = (e) => {
-  //   if (img_ref.current.value !== "") {
-  //     const fileName = img_ref.current.value;
-  //     setPlaceholder(fileName);
-  //     if (e.target.files.length >= 4) {
-  //       alert("최대 3개의 이미지만 선택할 수 있습니다.");
-  //       e.target.value = "";
-  //       return;
-  //     }
-  //   }
-  //   if (e.target.files.length > 0) {
-  //     encodeFileToBase64(e.target.files[0]);
-  //   }
-  // };
-
-  const inputImgHandler = async (e) => {
+  const inputImgHandler = (e) => {
     if (img_ref.current.value !== "") {
       const fileName = img_ref.current.value;
       setPlaceholder(fileName);
