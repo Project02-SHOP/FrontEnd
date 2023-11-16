@@ -19,7 +19,7 @@ const FormRegister = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
-  const [imageSrc, setImageSrc] = useState("");
+  const [profileimage, setProfileimage] = useState("");
   const [placeholder, setPlaceholder] = useState("썸네일은 하나만 등록 가능합니다.");
 
   const encodeFileToBase64 = (fileBlob) => {
@@ -27,7 +27,7 @@ const FormRegister = () => {
     reader.readAsDataURL(fileBlob);
     return new Promise((resolve) => {
       reader.onload = () => {
-        setImageSrc(reader.result);
+        setProfileimage(reader.result);
         resolve();
       };
     });
@@ -113,7 +113,7 @@ const FormRegister = () => {
             password,
             confirmPassword,
             address,
-            imageSrc,
+            profileimage,
           })
           .then((res) => {
             console.log(res);
@@ -137,7 +137,7 @@ const FormRegister = () => {
         <input type="password" placeholder="비밀번호" onChange={(event)=>{setPassword(event.target.value)}} />
         <input type="password" placeholder="비밀번호확인" onChange={(event)=>{setConfirmPassword(event.target.value)}} />
         <input type="text" placeholder="주소입력란" onChange={(event)=>{setAddress(event.target.value)}}/>
-        <div>{imageSrc && <img src={imageSrc} alt="preview-img" />}</div>
+        <div>{profileimage && <img src={profileimage} alt="preview-img" />}</div>
         <input placeholder={placeholder} disabled />
         <label htmlFor="itemImg" className={styles.label}>
           업로드

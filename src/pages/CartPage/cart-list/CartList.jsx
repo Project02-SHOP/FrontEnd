@@ -4,6 +4,8 @@ import styles from "./CartList.module.scss";
 
 const CartList = () => {
   const { products } = useAppSelector((state) => state.cartSlice);
+  console.log(products)
+  
 
   return (
     <div className={styles.cart_list}>
