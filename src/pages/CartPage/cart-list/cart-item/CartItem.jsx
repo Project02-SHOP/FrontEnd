@@ -9,7 +9,9 @@ import styles from "./CartItem.module.scss";
 import { AiOutlineDelete } from "react-icons/ai";
 
 const CartItem = ({ item }) => {
+  
   const dispatch = useAppDispatch();
+  console.log(item);
 
   const deleteProduct = () => {
     dispatch(deleteFromCart(item.id));
