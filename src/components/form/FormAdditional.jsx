@@ -8,22 +8,53 @@ const FormAdditional = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [option, setOption] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState([]);
   const [placeholder, setPlaceholder] =
     useState("이미지는 3장까지 가능합니다.");
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setImageSrc(reader.result);
+  //       resolve();
+  //     };
+  //   });
+  // };
+
+  const encodeFileToBase64 = (files) => {
+    let promises = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      const promise = new Promise((resolve) => {
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+      });
+      reader.readAsDataURL(file);
+      promises.push(promise);
+    }
+    return Promise.all(promises);
   };
 
-  const inputImgHandler = (e) => {
+  // const inputImgHandler = (e) => {
+  //   if (img_ref.current.value !== "") {
+  //     const fileName = img_ref.current.value;
+  //     setPlaceholder(fileName);
+  //     if (e.target.files.length >= 4) {
+  //       alert("최대 3개의 이미지만 선택할 수 있습니다.");
+  //       e.target.value = "";
+  //       return;
+  //     }
+  //   }
+  //   if (e.target.files.length > 0) {
+  //     encodeFileToBase64(e.target.files[0]);
+  //   }
+  // };
+
+  const inputImgHandler = async (e) => {
     if (img_ref.current.value !== "") {
       const fileName = img_ref.current.value;
       setPlaceholder(fileName);
@@ -33,9 +64,11 @@ const FormAdditional = () => {
         return;
       }
     }
-    if (e.target.files.length > 0) {
-      encodeFileToBase64(e.target.files[0]);
-    }
+
+    const files = Array.from(e.target.files);
+    encodeFileToBase64(files).then((encodedFiles) => {
+      setImageSrc(encodedFiles);
+    });
   };
 
   const inputTitleHandler = (e) => {
@@ -66,18 +99,24 @@ const FormAdditional = () => {
     console.log("price : ", price);
     console.log("quantity : ", quantity);
     console.log("option : ", option);
-    setImageSrc("");
+    setImageSrc([]);
     setTitle("");
     setCategory("");
     setPrice("");
     setQuantity("");
     setOption("");
-    e.target.itemImg.value = "";
+    img_ref.current.value = "";
+    setPlaceholder("이미지는 3장까지 가능합니다.");
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div>{imageSrc && <img src={imageSrc} alt="preview-img" />}</div>
+      {/* <div>{imageSrc && <img src={imageSrc[0]} alt="preview-img" />}</div> */}
+      <div>
+        {imageSrc.length > 0 ? (
+          <img src={imageSrc[0]} alt="preview-img" />
+        ) : null}
+      </div>
       <div>
         <input placeholder={placeholder} disabled />
         <label htmlFor="itemImg" className={styles.label}>
