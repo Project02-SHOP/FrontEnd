@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
+import { api } from "../../shared/apis/Apis";
 
 const initialState = {
   userInfo: {
@@ -24,13 +24,16 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await axios.post("백엔드 베이스 url/api/login", {
+      const response = await api.post("/api/user/login", {
         email: email,
         password: password,
       });
       dispatch(login({ is_login: true, token: response.data.token }));
       setCookie("Authorization", response.data.token);
       setCookie("nickname", response.data.nickname);
+      setCookie("profileimage", response.data.profileimage);
+      setCookie("email", response.data.email);
+      setCookie("password", response.data.password)
       return response.data;
     } catch (error) {
       window.alert("로그인 에러");
