@@ -1,11 +1,11 @@
 import React from "react";
-import Option from "./option/Option";
+import Option from "./Option";
 
-const SelectBox = (props) => {
+const SelectBox = ({ options }) => {
   return (
     <select>
-      {props.map((props) => (
-        <Option key={props.id} option={props.option} />
+      {options.map((option) => (
+        <Option key={option.id} value={option.option} />
       ))}
     </select>
   );
