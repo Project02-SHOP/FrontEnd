@@ -5,10 +5,10 @@ const OrderPage = () => {
   return (
     <div className="page">
       <div className="container">
-        <h1>주문 히스토리</h1>
-        <OrdersList />
         <h1>나의 정보</h1>
         <MyInfo />
+        <h1>주문 히스토리</h1>
+        <OrdersList />
       </div>
     </div>
   );
