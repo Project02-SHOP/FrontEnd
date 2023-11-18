@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
+import { useAppDispatch } from "../../hooks/redux";
+import { createProduct } from "../../store/additional/additional.slice";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
@@ -67,6 +70,18 @@ const FormAdditional = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const product = {
+      title,
+      category,
+      price,
+      quantity,
+      option,
+      imageSrc,
+    };
+
+    dispatch(createProduct(product));
+
     console.log("img : ", imageSrc);
     console.log("title : ", title);
     console.log("category : ", category);
@@ -85,7 +100,6 @@ const FormAdditional = () => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {/* <div>{imageSrc && <img src={imageSrc[0]} alt="preview-img" />}</div> */}
       <div>
         {imageSrc.length > 0 ? (
           <img src={imageSrc[0]} alt="preview-img" />
