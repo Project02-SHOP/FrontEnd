@@ -35,7 +35,9 @@ const DetailPage = () => {
           <div className={styles.card_img}>
             <img src={product.image} alt="product card" />
             <ul className={styles.card_thumb}>
-              <li>{/* <img src={product?.image} /> */}</li>
+              <li className={styles.select}>
+                <img src={product.image} alt="product card" />
+              </li>
               <li>{/* <img src={product?.image} /> */}</li>
               <li>{/* <img src={product?.image} /> */}</li>
             </ul>
@@ -47,8 +49,24 @@ const DetailPage = () => {
             <h4> $ {product.price}</h4>
             <p>{product.description}</p>
             <div className={styles.option}>
-              <div className={styles.option_sel}></div>
-              <div className={styles.option_sel}></div>
+              {/* <div className={styles.option_sel}></div>
+              <div className={styles.option_sel}></div> */}
+              <div>
+                <select
+                  className={styles.form_select}
+                  name="product-1"
+                  id="product-1"
+                  required
+                >
+                  <option value="">옵션선택</option>
+                  <option value="1">선택 사항1</option>
+                  <option value="2">선택 사항2</option>
+                  <option value="3">선택 사항3</option>
+                  <option value="4">선택 사항4</option>
+                  <option value="5">선택 사항5</option>
+                </select>
+                <div className={styles.ic_caret}></div>
+              </div>
             </div>
             <div>
               {/* <button
