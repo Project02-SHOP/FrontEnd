@@ -39,10 +39,20 @@
   }
 
   li {
-    width: 80px;
-    height: 80px;
-    background-color: aquamarine;
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
     margin: 0 10px;
+    border: 1px solid #868686;
+    padding-top: 5px;
+    img {
+      width: 60px;
+      height: auto;
+      text-align: center;
+    }
+  }
+  .select {
+    border: 1px solid var(--second-color);
   }
 
   @media (min-width: 992px) {
@@ -92,7 +102,7 @@
     color: var(--main-color);
     font-size: 14px;
     background: #fff;
-    border: 1px solid var(--main-color);
+    border: 1px solid var(--second-color);
     cursor: pointer;
     transition: 0.3s all ease;
 
@@ -184,4 +194,43 @@
   border-radius: 50%;
   background-color: aqua;
   margin: 0 5px 20px;
+}
+
+.form_select {
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--main-color);
+  display: block;
+  width: 542px;
+  height: 3.5rem;
+  padding: 0 1.6rem;
+  margin-bottom: 20px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 0.1rem solid var(--main-color);
+  appearance: none;
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
+}
+.form_select::placeholder {
+  color: #b2b3b9;
+}
+.form_select:hover:not(:disabled) {
+  background-color: #f7f8fa;
+}
+.form_select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form_select {
+  text-overflow: ellipsis;
+}
+
+.ic_caret {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.8rem;
+  font-size: 2.4rem;
 }
