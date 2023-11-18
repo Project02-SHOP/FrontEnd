@@ -5,6 +5,7 @@ import styles from "./Nav.module.scss";
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/redux";
+import { BsFillPencilFill } from "react-icons/bs";
 
 const Nav = () => {
   const { products } = useAppSelector((state) => state.cartSlice);
@@ -38,6 +39,15 @@ const Nav = () => {
               <FiUser title="주문" />
             </Link>
           </div>
+        </li>
+        <li>
+          {/* user && user.isAdmin && 일때만 등록페이지 */}
+          <Link
+            to="/additional"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <BsFillPencilFill />
+          </Link>
         </li>
         <li>
           <VscSignOut className={styles.nav_sign_out} title="로그아웃" />

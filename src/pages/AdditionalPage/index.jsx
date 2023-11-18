@@ -1,5 +1,5 @@
 import React from "react";
-import Additional from "./Additional/Additional";
+import Additional from "./additional/Additional";
 import { Link } from "react-router-dom";
 
 const index = () => {
