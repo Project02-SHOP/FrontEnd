@@ -2,14 +2,20 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { addToCart } from "../../../../store/cart/cart.slice";
 import styles from "./CardItem.module.scss";
+import { useAuth } from "../../../../hooks/useAuth";
 
 const CardItem = ({ item }) => {
   const { products } = useAppSelector((state) => state.cartSlice);
   const productMatching = products.some((product) => product.id === item.id);
+  const { is_login } = useAuth();
 
   const dispatch = useAppDispatch();
   const addItemToCart = () => {
-    dispatch(addToCart(item));
+    if (is_login === false) {
+      alert("로그인 후 이용가능합니다.");
+    } else if (is_login === true) {
+      dispatch(addToCart(item));
+    }
   };
   return (
     <li className={styles.card_item}>

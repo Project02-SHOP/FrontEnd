@@ -1,7 +1,7 @@
 import { useAppSelector } from "./redux";
 
 export function useAuth() {
-  const { id, email, token, is_login } = useAppSelector(
+  const { id, email, token, is_login, nickname } = useAppSelector(
     (state) => state.userSlice
   );
 
@@ -10,5 +10,6 @@ export function useAuth() {
     email,
     id,
     token,
+    nickname,
   };
 }

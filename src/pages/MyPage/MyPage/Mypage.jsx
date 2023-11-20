@@ -3,9 +3,11 @@ import { useState } from "react";
 import { api } from "../../../shared/apis/Apis";
 import { deleteCookie } from "../../../shared/Cookie";
 import styles from "./Mypage.module.scss";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Mypage = () => {
   const [isDeleted, setIsDeleted] = useState(false);
+  const { nickname, email } = useAuth();
 
   const deleteUser = async () => {
     try {
@@ -36,7 +38,7 @@ const Mypage = () => {
         <div>
           <div>유저 아이디(email)</div>
           <div>유저 프로필이미지</div>
-          <div>유저 닉네임</div>
+          <div>{nickname}</div>
           <div>유저 주소</div>
         </div>
       </div>
