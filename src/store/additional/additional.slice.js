@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../shared/apis/Apis";
+import axios from "axios";
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
-  async (thunkAPI) => {
+  async (product, thunkAPI) => {
     try {
-      const response = await api.post("/api/sell/create");
+      const response = await api.post("/api/product/create", {
+        product: product,
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("Error creating product");

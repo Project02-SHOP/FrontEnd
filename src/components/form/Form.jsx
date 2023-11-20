@@ -11,10 +11,11 @@ const Form = () => {
   const navigate = useNavigate();
   const user = useAppSelector((user) => user);
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const login = () => {
+  const login = (e) => {
+    e.preventDefault();
     if (email === "" || password === "") {
       window.alert("아이디와 비밀번호를 입력해주세요.");
       return;
@@ -23,7 +24,7 @@ const Form = () => {
       window.alert("이메일 형식이 맞지 않습니다.");
       return;
     }
-    dispatch(loginDB({email, password}));
+    dispatch(loginDB({ email, password }));
   };
 
   useEffect(() => {

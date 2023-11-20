@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import { api } from "../../shared/apis/Apis";
+import axios from "axios";
 
 const initialState = {
   userInfo: {
@@ -13,29 +13,49 @@ const initialState = {
 export const loadTokenFB = createAsyncThunk(
   "user/loadToken",
   async (_, { dispatch }) => {
-    if (getCookie("Authorization")) {
-      dispatch(loadToken());
+    const token = getCookie("Authorization");
+    if (token) {
+      dispatch(loadToken({ token }));
     }
   }
 );
 
-// 로그인 비동기 액션
 export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await api.post("/api/user/login", {
-        email: email,
-        password: password,
-      });
-      dispatch(login({ is_login: true, token: response.data.token, }));
-      setCookie("Authorization", response.data.token);
-      setCookie("nickname", response.data.nickname);
-      setCookie("profileimage", response.data.profileimage);
-      setCookie("email", response.data.email);
-      setCookie("password", response.data.password)
-      window.alert("로그인 완료")
-      return response.data;
+      const response = await axios.post(
+        "http://15.164.234.129:8080/api/user/login",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { token, nickname, profileimage } = response.data;
+      dispatch(
+        login({
+          is_login: true,
+          token,
+          user: {
+            nickname,
+            profileimage,
+            email: email,
+            password: password,
+          },
+        })
+      );
+      console.log(token);
+      setCookie("Authorization", token);
+      setCookie("nickname", nickname);
+      setCookie("profileimage", profileimage);
+      setCookie("email", email);
+      setCookie("password", password);
+      return { token };
     } catch (error) {
       window.alert("로그인 에러");
       console.error("Login Error", error);
@@ -50,37 +70,42 @@ const userSlice = createSlice({
     login: (state, action) => {
       setCookie("is_login", "true");
       state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.userInfo = action.payload.user;
       state.is_login = true;
     },
     logOut: (state) => {
       deleteCookie("is_login");
+      deleteCookie("Authorization");
+      deleteCookie("nickname");
+      deleteCookie("profileimage");
+      deleteCookie("email");
+      deleteCookie("password");
       localStorage.removeItem("nickname");
       localStorage.removeItem("token");
-      state.user = null;
+      state.userInfo = null;
       state.is_login = false;
     },
-    loadToken: (state) => {
-      const token = getCookie("Authorization");
-      if (token) {
-        state.is_login = true;
-        state.token = token;
-      }
+    loadToken: (state, action) => {
+      state.is_login = true;
+      state.token = action.payload.token;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginDB.fulfilled, (state, action) => {
-      state.is_login = true;
-      state.token = action.payload.token;
+      if (action.payload) {
+        state.is_login = true;
+        state.token = action.payload.token;
+      }
     });
     builder.addCase(loadTokenFB.fulfilled, (state, action) => {
-      state.is_login = true;
-      state.token = action.payload.token;
+      if (action.payload && action.payload.token) {
+        state.is_login = true;
+        state.token = action.payload.token;
+      }
     });
   },
 });
 
 export const { login, logOut, loadToken } = userSlice.actions;
 
-// Export the reducer
 export default userSlice.reducer;

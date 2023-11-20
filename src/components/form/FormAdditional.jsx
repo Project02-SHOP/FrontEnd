@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
+import { useAppDispatch } from "../../hooks/redux";
+import { createProduct } from "../../store/additional/additional.slice";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
@@ -65,27 +68,67 @@ const FormAdditional = () => {
     setOption(e.target.value);
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const product = {
+  //     title,
+  //     category,
+  //     price,
+  //     quantity,
+  //     option,
+  //     imageSrc,
+  //   };
+
+  //   dispatch(createProduct(product));
+
+  //   console.log("img : ", imageSrc);
+  //   console.log("title : ", title);
+  //   console.log("category : ", category);
+  //   console.log("price : ", price);
+  //   console.log("quantity : ", quantity);
+  //   console.log("option : ", option);
+  //   setImageSrc([]);
+  //   setTitle("");
+  //   setCategory("");
+  //   setPrice("");
+  //   setQuantity("");
+  //   setOption("");
+  //   img_ref.current.value = "";
+  //   setPlaceholder("이미지는 3장까지 가능합니다.");
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("img : ", imageSrc);
-    console.log("title : ", title);
-    console.log("category : ", category);
-    console.log("price : ", price);
-    console.log("quantity : ", quantity);
-    console.log("option : ", option);
-    setImageSrc([]);
-    setTitle("");
-    setCategory("");
-    setPrice("");
-    setQuantity("");
-    setOption("");
-    img_ref.current.value = "";
-    setPlaceholder("이미지는 3장까지 가능합니다.");
+
+    const product = {
+      title,
+      category,
+      price,
+      quantity,
+      option,
+      imageSrc,
+    };
+
+    dispatch(createProduct(product))
+      .then((data) => {
+        console.log("Product created:", data);
+        setImageSrc([]);
+        setTitle("");
+        setCategory("");
+        setPrice("");
+        setQuantity("");
+        setOption("");
+        img_ref.current.value = "";
+        setPlaceholder("이미지는 3장까지 가능합니다.");
+      })
+      .catch((error) => {
+        console.error("Error creating product:", error);
+      });
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {/* <div>{imageSrc && <img src={imageSrc[0]} alt="preview-img" />}</div> */}
       <div>
         {imageSrc.length > 0 ? (
           <img src={imageSrc[0]} alt="preview-img" />
