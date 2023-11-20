@@ -4,11 +4,27 @@ import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
+import { useAuth } from "../../../hooks/useAuth";
+import { api } from "../../../shared/apis/Apis";
+import { logOut, removeUser } from "../../../store/user/user.slice";
 
 const Nav = () => {
+  const { is_login } = useAuth();
+  const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
+
+  const handleSignOut = async () => {
+    try {
+      await api.post("/api/user/logout");
+      dispatch(removeUser());
+      dispatch(logOut());
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <nav className={styles.nav}>
       <ul>
@@ -50,8 +66,20 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <VscSignOut className={styles.nav_sign_out} title="로그아웃" />
-          <FiLogIn title="로그인" />
+          {is_login === true ? (
+            <VscSignOut
+              className={styles.nav_sign_out}
+              onClick={handleSignOut}
+              title="로그아웃"
+            />
+          ) : (
+            <Link
+              to={"./login"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <FiLogIn title="로그인" />
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

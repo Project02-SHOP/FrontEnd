@@ -92,6 +92,13 @@ const userSlice = createSlice({
         state.token = token;
       }
     },
+    removeUser: (state) => {
+      state.email = "";
+      state.token = "";
+      state.id = "";
+
+      localStorage.setItem("user", JSON.stringify(state));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginDB.fulfilled, (state, action) => {
@@ -107,6 +114,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logOut, loadToken } = userSlice.actions;
+export const { login, logOut, loadToken, removeUser } = userSlice.actions;
 
 export default userSlice.reducer;
