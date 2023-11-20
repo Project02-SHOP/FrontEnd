@@ -7,22 +7,16 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useAuth } from "../../../hooks/useAuth";
-import { api } from "../../../shared/apis/Apis";
-import { logOut, removeUser } from "../../../store/user/user.slice";
+import { logOut } from "../../../store/user/user.slice";
 
 const Nav = () => {
   const { is_login } = useAuth();
   const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
 
-  const handleSignOut = async () => {
-    try {
-      await api.post("/api/user/logout");
-      dispatch(removeUser());
-      dispatch(logOut());
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSignOut = () => {
+    is_login === false;
+    dispatch(logOut());
   };
 
   return (
