@@ -4,23 +4,39 @@ import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
+import { useAuth } from "../../../hooks/useAuth";
+import { logOut } from "../../../store/user/user.slice";
 
 const Nav = () => {
+  const { is_login } = useAuth();
+  const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
+
+  const handleSignOut = () => {
+    is_login === false;
+    dispatch(logOut());
+  };
+
   return (
     <nav className={styles.nav}>
       <ul>
         <li>
           <div className={styles.counter}>
-            <Link
-              to={"/cart"}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              {""}
-              <FiShoppingCart />
-            </Link>
+            {is_login ? (
+              <Link
+                to={"/cart"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                {""}
+                <FiShoppingCart />
+              </Link>
+            ) : (
+              <FiShoppingCart
+                onClick={() => alert("로그인 후 이용가능합니다.")}
+              />
+            )}
             {products.length > 0 && <b>{products.length}</b>}
             {products.length > 0 && (
               <div className={styles.nav_hover_cart}>
@@ -31,13 +47,20 @@ const Nav = () => {
         </li>
         <li>
           <div className={styles.counter}>
-            <Link
-              to={"/order"}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              {""}
-              <FiUser title="주문" />
-            </Link>
+            {is_login ? (
+              <Link
+                to={"/order"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                {""}
+                <FiUser title="주문" />
+              </Link>
+            ) : (
+              <FiUser
+                title="주문"
+                onClick={() => alert("로그인 후 이용가능합니다.")}
+              />
+            )}
           </div>
         </li>
         <li>
@@ -50,8 +73,20 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <VscSignOut className={styles.nav_sign_out} title="로그아웃" />
-          <FiLogIn title="로그인" />
+          {is_login === true ? (
+            <VscSignOut
+              className={styles.nav_sign_out}
+              onClick={handleSignOut}
+              title="로그아웃"
+            />
+          ) : (
+            <Link
+              to={"./login"}
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <FiLogIn title="로그인" />
+            </Link>
+          )}
         </li>
       </ul>
     </nav>
