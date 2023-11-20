@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../../shared/apis/Apis";
+import { apiToken } from "../../shared/apis/Apis";
 import axios from "axios";
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
   async (product, thunkAPI) => {
     try {
-      const response = await api.post("/api/product/create", {
+      const response = await apiToken.post("/api/product/create", {
         product: product,
       });
       return response.data;

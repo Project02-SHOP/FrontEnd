@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
 import { api } from "../../shared/apis/Apis";
-import axios from "axios";
 
 const initialState = {
   userInfo: {
@@ -25,11 +24,11 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await axios.post(
-        "http://15.164.234.129:8080/api/user/login",
+      const response = await api.post(
+        "/api/user/login",
         {
-          email: email,
-          password: password,
+          email,
+          password,
         },
         {
           headers: {
@@ -45,8 +44,8 @@ export const loginDB = createAsyncThunk(
           user: {
             nickname,
             profileimage,
-            email: email,
-            password: password,
+            email,
+            password,
           },
         })
       );
