@@ -85,9 +85,19 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.is_login = false;
     },
-    loadToken: (state, action) => {
-      state.is_login = true;
-      state.token = action.payload.token;
+    loadToken: (state) => {
+      const token = getCookie("Authorization");
+      if (token) {
+        state.is_login = true;
+        state.token = token;
+      }
+    },
+    removeUser: (state) => {
+      state.email = "";
+      state.token = "";
+      state.id = "";
+
+      localStorage.setItem("user", JSON.stringify(state));
     },
   },
   extraReducers: (builder) => {
@@ -98,14 +108,12 @@ const userSlice = createSlice({
       }
     });
     builder.addCase(loadTokenFB.fulfilled, (state, action) => {
-      if (action.payload && action.payload.token) {
-        state.is_login = true;
-        state.token = action.payload.token;
-      }
+      state.is_login = true;
+      state.token = action.payload.token;
     });
   },
 });
 
-export const { login, logOut, loadToken } = userSlice.actions;
+export const { login, logOut, loadToken, removeUser } = userSlice.actions;
 
 export default userSlice.reducer;

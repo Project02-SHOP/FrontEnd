@@ -8,8 +8,8 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { removeUser } from "../../../store/user/user.slice";
 import { removeUserId } from "../../../store/cart/cart.slice";
 
-// import { getAuth, signOut } from "firebase/auth";  //서버로직으로 바꿔주세요
-// import app from "../../../firebase";//서버로직으로 바꿔주세요
+import { getAuth, signOut } from "firebase/auth"; //서버로직으로 바꿔주세요
+import app from "../../../firebase"; //서버로직으로 바꿔주세요
 
 const Nav = () => {
   const { isAuth } = useAuth();
