@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api } from "../../../shared/apis/Apis";
-import { deleteCookie } from "../../../shared/Cookie";
+import { deleteCookie, getCookie } from "../../../shared/Cookie";
 import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
@@ -9,8 +9,10 @@ const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
 
   const deleteUser = async () => {
+    const user = getCookie("email")
     try {
-      const response = await api.delete("/api/user/delete");
+      const response = await api.delete("/api/user/delete",{user});
+      console.log(user)
       console.log(response.data);
       setIsDeleted(true);
       deleteCookie("Authorization", response.data.token);
