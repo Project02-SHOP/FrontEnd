@@ -68,6 +68,36 @@ const FormAdditional = () => {
     setOption(e.target.value);
   };
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const product = {
+  //     title,
+  //     category,
+  //     price,
+  //     quantity,
+  //     option,
+  //     imageSrc,
+  //   };
+
+  //   dispatch(createProduct(product));
+
+  //   console.log("img : ", imageSrc);
+  //   console.log("title : ", title);
+  //   console.log("category : ", category);
+  //   console.log("price : ", price);
+  //   console.log("quantity : ", quantity);
+  //   console.log("option : ", option);
+  //   setImageSrc([]);
+  //   setTitle("");
+  //   setCategory("");
+  //   setPrice("");
+  //   setQuantity("");
+  //   setOption("");
+  //   img_ref.current.value = "";
+  //   setPlaceholder("이미지는 3장까지 가능합니다.");
+  // };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -80,22 +110,21 @@ const FormAdditional = () => {
       imageSrc,
     };
 
-    dispatch(createProduct(product));
-
-    console.log("img : ", imageSrc);
-    console.log("title : ", title);
-    console.log("category : ", category);
-    console.log("price : ", price);
-    console.log("quantity : ", quantity);
-    console.log("option : ", option);
-    setImageSrc([]);
-    setTitle("");
-    setCategory("");
-    setPrice("");
-    setQuantity("");
-    setOption("");
-    img_ref.current.value = "";
-    setPlaceholder("이미지는 3장까지 가능합니다.");
+    dispatch(createProduct(product))
+      .then((data) => {
+        console.log("Product created:", data);
+        setImageSrc([]);
+        setTitle("");
+        setCategory("");
+        setPrice("");
+        setQuantity("");
+        setOption("");
+        img_ref.current.value = "";
+        setPlaceholder("이미지는 3장까지 가능합니다.");
+      })
+      .catch((error) => {
+        console.error("Error creating product:", error);
+      });
   };
 
   return (
