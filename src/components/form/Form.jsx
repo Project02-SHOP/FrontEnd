@@ -11,8 +11,8 @@ const Form = () => {
   const navigate = useNavigate();
   const user = useAppSelector((user) => user);
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const login = (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const Form = () => {
       window.alert("이메일 형식이 맞지 않습니다.");
       return;
     }
-    dispatch(loginDB(email, password));
+    dispatch(loginDB({ email, password }));
   };
 
   useEffect(() => {
