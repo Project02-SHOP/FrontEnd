@@ -24,7 +24,7 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await axios.post(
+      const res = await axios.post(
         "http://15.164.234.129:8080/api/user/login",
         {
           email: email,
@@ -32,11 +32,13 @@ export const loginDB = createAsyncThunk(
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":"application/json",
           },
         }
       );
-      const { token, nickname, profileimage } = response.data;
+      console.log(axios.defaults.headers.common.Authorization)      
+      const { token, nickname, profileimage } = res.data;
+
       dispatch(
         login({
           is_login: true,
@@ -49,7 +51,6 @@ export const loginDB = createAsyncThunk(
           },
         })
       );
-      console.log(token);
       setCookie("Authorization", token);
       setCookie("nickname", nickname);
       setCookie("profileimage", profileimage);
