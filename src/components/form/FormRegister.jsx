@@ -5,8 +5,6 @@ import styles from "./FormRegister.module.scss";
 import { emailCheck } from "../../shared/SignUpCheck";
 import { api } from "../../shared/apis/Apis";
 
-import axios from "axios";
-
 const FormRegister = () => {
   const img_ref = useRef(null);
 
@@ -51,43 +49,28 @@ const FormRegister = () => {
   // 이메일 중복 체크
   const dupEmail = async (event) => {
     event.preventDefault();
-    await api
-      .post("/api/user/signup/", email, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        window.alert("사용 가능한 아이디입니다.");
+    if (!emailCheck(email)) {
+      return window.alert("이메일 형식을 지켜주세요.");
+    } else {
+      try {
+        await api.post("/api/user/signup/dupEmail");
+
+        window.alert("사용 가능한 아이디 입니다.");
         setIsEmailAvailable(true);
-      })
-      .catch((error) => {
-        window.alert("이미 사용중인 아이디입니다.");
-        setEmail("");
+      } catch (error) {
+        window.alert("이미 사용중인 아이디 입니다.");
         setIsEmailAvailable(false);
-        console.log("SignUp Error", error);
-      });
+        console.error("SignUp Error", error);
+      }
+    }
   };
 
-  // // 닉네임 중복 체크
-  // const dupNick = async () => {
-  //   await axios
-  //     .get(`https://15.164.234.129/api/user/signup/${nickname}`)
-  //     .then(() => {
-  //       window.alert("사용 가능한 닉네임입니다.");
-  //     })
-  //     .catch((error) => {
-  //       window.alert("이미 사용중인 닉네임입니다.");
-  //       console.log("Login Error", error);
-  //     });
-  // };
   const Submit = async (event) => {
     event.preventDefault();
-    //빈칸 확인
-    // if (!isEmailAvailable) {
-    //   window.alert("이메일 중복 검사를 하셔야 합니다.");
-    //   return;
-    // }
+    if (!isEmailAvailable) {
+      window.alert("이메일 중복 검사를 하셔야 합니다.");
+      return;
+    }
     if (
       email === "" ||
       nickname === "" ||
@@ -111,12 +94,11 @@ const FormRegister = () => {
       return;
     }
 
-    await axios
-      .post("http://15.164.234.129:8080/api/user/signup", {
+    await api
+      .post("/api/user/signup", {
         email,
         nickname,
-        password,
-        confirmPassword,
+        password,        
         address,
         profileimage,
       })
