@@ -28,12 +28,13 @@ export const loginDB = createAsyncThunk(
         email: email,
         password: password,
       });
-      dispatch(login({ is_login: true, token: response.data.token }));
+      dispatch(login({ is_login: true, token: response.data.token, }));
       setCookie("Authorization", response.data.token);
       setCookie("nickname", response.data.nickname);
       setCookie("profileimage", response.data.profileimage);
       setCookie("email", response.data.email);
       setCookie("password", response.data.password)
+      window.alert("로그인 완료")
       return response.data;
     } catch (error) {
       window.alert("로그인 에러");

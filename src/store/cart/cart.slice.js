@@ -1,14 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getCookie } from "../../shared/Cookie";
 
 export const postOrder = createAsyncThunk(
   "cart/postOrder",
   async (order, thunkAPI) => {
     try {
-      await axios.post(
-        "https://64ec02e5e51e1e82c577bd81.mockapi.io/orders",
-        order
-      );
+      await axios.post("https://15.164.234.129/api/shop/cart/order", order);
 
       thunkAPI.dispatch(sendOrder());
     } catch (error) {
@@ -17,77 +15,78 @@ export const postOrder = createAsyncThunk(
   }
 );
 
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async (product, thunkAPI) => {
+    try {
+      // 서버에 POST 요청을 보내 카트에 상품 추가
+      await axios.post(
+        `https://15.164.234.129/api/shop/cart/${product.id}`,
+        product
+      );
+
+      // 성공적으로 추가되었으면 로컬 스토어 업데이트는 서버에서 가져오는 데이터로 처리
+      const response = await axios.get("https://15.164.234.129/api/shop/cart");
+      return response.data;
+    } catch (error) {
+      // 오류 발생 시 처리
+      return thunkAPI.rejectWithValue("카트에 상품 추가 도중 오류가 발생하였습니다.", error);
+    }
+  }
+);
+//카트 에서 프로덕트 삭제
+export const deleteFromCartDB = createAsyncThunk(
+  "cart/deleteFromCart",
+  async (productId, thunkAPI) => {
+    try {
+      // 카트에서 항목을 삭제하기 위해 서버에 DELETE 요청을 보냅니다
+      await axios.delete(`https://15.164.234.129/api/shop/cart/${productId}`);
+
+      // 성공하면 로컬 상태를 업데이트하기 위한 액션을 디스패치합니다
+      thunkAPI.dispatch(cartSlice.actions.deleteFromCart(productId));
+    } catch (error) {
+      // If an error occurs, reject with an error message
+      return thunkAPI.rejectWithValue("카트에서 삭제 도중 오류가 발생하였습니다.");
+    }
+  }
+);
+
+
+// 카트 프로덕트 수량 정보 수정
+export const updateCartItemQuantity = createAsyncThunk(
+  "cart/updateCartItemQuantity",
+  async ({ productId, quantity }, thunkAPI) => {
+    try {
+      const response = await axios.put(
+        `https://15.164.234.129/api/shop/cart/${productId}`,
+        { quantity }
+      );
+
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Error updating cart item quantity");
+    }
+  }
+);
+
 const initialState = {
-  products: localStorage.getItem("cartProducts") // 만약 장바구니에 제품이 있다면 가져오는데
-    ? JSON.parse(localStorage.getItem("cartProducts") || "") // Json으로 변환 후 가져와라
-    : [], // 없으면 빈배열을 가져와라
+  products:  [], // 없으면 빈배열을 가져와라
   totalPrice: 0,
-  userId: localStorage.getItem("userId")
-    ? JSON.parse(localStorage.getItem("userId") || "")
-    : "",
+  userId: getCookie("nickname") || "",
+   
 };
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    // 어떤 user의 cart인지
-    setUserId: (state, action) => {
-      state.userId = action.payload;
-
-      localStorage.setItem("userId", JSON.stringify(state.userId));
-    },
-    // userId를 없애주는거
-    removeUserId: (state) => {
-      state.userId = "";
-
-      localStorage.setItem("userId", JSON.stringify(state.userId));
-    },
-    //상품을 cart에 넣어주기
-    addToCart: (state, action) => {
-      state.products.push({
-        ...action.payload,
-        quantity: 1,
-        total: action.payload.price,
-      });
-
-      localStorage.setItem("cartProducts", JSON.stringify(state.products));
-    },
+  reducers: {   
     //상품을 cart에서 지워주기
     deleteFromCart: (state, action) => {
       state.products = state.products.filter(
         (item) => item.id !== action.payload
       );
-
-      localStorage.setItem("cartProducts", JSON.stringify(state.products));
     },
-    // cart에 상품을 증가시키기
-    incrementProduct: (state, action) => {
-      state.products = state.products.map((item) =>
-        item.id === action.payload
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-              total: item.price * (item.quantity + 1),
-            }
-          : item
-      );
-      localStorage.setItem("cartProducts", JSON.stringify(state.products));
-    },
-    // cart에 상품을 감소시키기
-    decrementProduct: (state, action) => {
-      state.products = state.products.map((item) =>
-        item.id === action.payload
-          ? {
-              ...item,
-              quantity: item.quantity - 1,
-              total: item.price * (item.quantity - 1),
-            }
-          : item
-      );
-      localStorage.setItem("cartProducts", JSON.stringify(state.products));
-    },
-    // 총상품의 가격을 구하기
+   // 총상품의 가격을 구하기
     getTotalPrice: (state) => {
       state.totalPrice = state.products.reduce(
         (acc, item) => (acc += item.total),
@@ -100,18 +99,20 @@ export const cartSlice = createSlice({
       state.products = [];
       localStorage.setItem("cartProducts", JSON.stringify(state.products));
     },
+    extraReducers: (builder) => {
+      builder.addCase(updateCartItemQuantity.fulfilled, (state, action) => {
+        // 업데이트된 장바구니 정보를 반영
+        state.products = action.payload;
+        localStorage.setItem("cartProducts", JSON.stringify(state.products));
+      });
+    },
   },
 });
 
 export const {
-  addToCart,
-  sendOrder,
   deleteFromCart,
-  incrementProduct,
-  decrementProduct,
-  getTotalPrice,
-  setUserId,
-  removeUserId,
+  sendOrder,
+  getTotalPrice,  
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

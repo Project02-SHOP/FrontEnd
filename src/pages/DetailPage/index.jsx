@@ -21,8 +21,13 @@ const DetailPage = () => {
     dispatch(fetchProduct(productId)); //store에서 product를 가져온다
   }, [productId]);
 
-  const addItemToCart = () => {
-    dispatch(addToCart(product));
+  const addItemToCart = async () => {
+    try{
+      await dispatch(addToCart(product));
+    } catch (error) {
+      console.error("카트추가 에러", error)
+    }
+    
   };
 
   console.log(productMatching);

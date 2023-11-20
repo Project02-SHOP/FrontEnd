@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../../hooks/redux";
 import {
-  decrementProduct,
-  deleteFromCart,
-  incrementProduct,
+  deleteFromCartDB,
+  updateCartItemQuantity,
 } from "../../../../store/cart/cart.slice";
 import styles from "./CartItem.module.scss";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -14,15 +13,15 @@ const CartItem = ({ item }) => {
   console.log(item);
 
   const deleteProduct = () => {
-    dispatch(deleteFromCart(item.id));
+    dispatch(deleteFromCartDB(item.id));
   };
 
   const incrementCount = () => {
-    dispatch(incrementProduct(item.id));
+    dispatch(updateCartItemQuantity({ productId: item.id, quantity: item.quantity + 1 }));
   };
 
   const decrementCount = () => {
-    dispatch(decrementProduct(item.id));
+    dispatch(updateCartItemQuantity({ productId: item.id, quantity: item.quantity - 1 }));
   };
   return (
     <div className={styles.cart_item}>
