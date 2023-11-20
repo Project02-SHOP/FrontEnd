@@ -37,6 +37,8 @@ export const loginDB = createAsyncThunk(
         }
       );
       const { token, nickname, profileimage } = response.data;
+      // const token = response.headers["authorization"];
+      console.log(response.headers.data);
       dispatch(
         login({
           is_login: true,
