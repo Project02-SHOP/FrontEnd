@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import { api } from "../../shared/apis/Apis";
 import axios from "axios";
 
 const initialState = {
