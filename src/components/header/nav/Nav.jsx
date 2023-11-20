@@ -19,6 +19,8 @@ const Nav = () => {
     dispatch(logOut());
   };
 
+  const loginAlert = () => alert("로그인 후 이용가능합니다.");
+
   return (
     <nav className={styles.nav}>
       <ul>
@@ -33,9 +35,7 @@ const Nav = () => {
                 <FiShoppingCart />
               </Link>
             ) : (
-              <FiShoppingCart
-                onClick={() => alert("로그인 후 이용가능합니다.")}
-              />
+              <FiShoppingCart onClick={loginAlert} />
             )}
             {products.length > 0 && <b>{products.length}</b>}
             {products.length > 0 && (
@@ -56,10 +56,7 @@ const Nav = () => {
                 <FiUser title="주문" />
               </Link>
             ) : (
-              <FiUser
-                title="주문"
-                onClick={() => alert("로그인 후 이용가능합니다.")}
-              />
+              <FiUser title="주문" onClick={loginAlert} />
             )}
           </div>
         </li>
