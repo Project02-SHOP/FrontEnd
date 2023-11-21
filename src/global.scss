@@ -59,6 +59,39 @@ li {
   flex-direction: column;
   align-items: center;
   width: 90%;
+  min-width: 600px;
+  height: auto;
+  margin: 80px auto;
+  padding: 10px;
+  box-shadow: rgb(0 0 0 / 35%) 0 5px 15px;
+
+  a {
+    color: var(--main-color);
+
+    &:hover {
+      color: var(--second-color);
+      cursor: pointer;
+      transition: 0.3s all ease;
+    }
+  }
+
+  @media (min-width: 576px) {
+    width: 70%;
+  }
+
+  @media (min-width: 768px) {
+    width: 60%;
+  }
+
+  @media (min-width: 992px) {
+    width: 30%;
+  }
+}
+.form_container_additional {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
   min-width: 900px;
   height: auto;
   margin: 80px auto;
