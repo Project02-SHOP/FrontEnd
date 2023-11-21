@@ -53,7 +53,7 @@ const FormRegister = () => {
       return window.alert("이메일 형식을 지켜주세요.");
     } else {
       try {
-        await api.post("/api/user/signup/dupEmail");
+        await api.post("/api/user/signup/dupEmail",{email});
 
         window.alert("사용 가능한 아이디 입니다.");
         setIsEmailAvailable(true);
@@ -67,18 +67,19 @@ const FormRegister = () => {
 
   const Submit = async (event) => {
     event.preventDefault();
-    if (!isEmailAvailable) {
-      window.alert("이메일 중복 검사를 하셔야 합니다.");
-      return;
-    }
+    // if (!isEmailAvailable) {
+    //   window.alert("이메일 중복 검사를 하셔야 합니다.");
+    //   return;
+    // }
     if (
       email === "" ||
       nickname === "" ||
       password === "" ||
       confirmPassword === "" ||
-      address === ""
+      address === "" ||
+      profileimage === null
     ) {
-      window.alert("아이디,비밀번호,닉네임 및 주소지 모두를 입력해주세요!");
+      window.alert("아이디,비밀번호,닉네임,주소지 및 프로필이미지 모두를 입력해주세요!");
       return;
     }
 

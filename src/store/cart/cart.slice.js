@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
+import { apiToken } from "../../shared/apis/Apis";
 
 export const postOrder = createAsyncThunk(
   "cart/postOrder",
   async (order, thunkAPI) => {
     try {
-      await axios.post("https://15.164.234.129/api/shop/cart/order", order);
+      await apiToken.post("/api/shop/cart/order", order);
 
       thunkAPI.dispatch(sendOrder());
     } catch (error) {
