@@ -5,10 +5,11 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { CgUserlane } from "react-icons/cg";
-import { useAuth } from "../../../hooks/useAuth";
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
-  const { nickname, email } = useAuth();
+  const nickname = getCookie("nickname");
+  const email = getCookie("email");
+  console.log(email);
 
   const deleteUser = async () => {
     const user = getCookie("email")
@@ -41,10 +42,6 @@ const MyInfo = () => {
           <h3>
             {" "}
             <RiHome4Line /> 제주도 제주도 제주도 제주도
-          </h3>
-          <h3>
-            {" "}
-            <CgUserlane /> 유저닉네임
           </h3>
         </div>
 
