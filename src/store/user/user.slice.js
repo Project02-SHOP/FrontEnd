@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import { api } from "../../shared/apis/Apis";
+import { api, apiToken } from "../../shared/apis/Apis";
 
 const initialState = {
   userInfo: {
@@ -32,13 +32,12 @@ export const loginDB = createAsyncThunk(
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":"application/json",
           },
         }
       );
       const { token, nickname, profileimage } = response.data;
-      // const token = response.headers["authorization"];
-      console.log(response.headers.data);
+      console.log(response);
       dispatch(
         login({
           is_login: true,
@@ -51,7 +50,6 @@ export const loginDB = createAsyncThunk(
           },
         })
       );
-      console.log(token);
       setCookie("Authorization", token);
       setCookie("nickname", nickname);
       setCookie("profileimage", profileimage);
@@ -64,6 +62,20 @@ export const loginDB = createAsyncThunk(
     }
   }
 );
+
+export const logoutDB= createAsyncThunk(
+  "user/logout",
+  async (token, {dispatch}) => {
+    try{
+      await apiToken.post(
+        "/api/user/logout", {}, {headrs:{Authorization: `Bearer ${token}`}}
+      );
+      dispatch(logOut())
+    }catch (error){
+      console.error("logOut Error", error)
+    }
+  }
+)
 
 const userSlice = createSlice({
   name: "user",
