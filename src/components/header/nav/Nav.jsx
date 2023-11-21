@@ -7,16 +7,18 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useAuth } from "../../../hooks/useAuth";
-import { logOut } from "../../../store/user/user.slice";
+import { logoutDB } from "../../../store/user/user.slice";
+import { getCookie } from "../../../shared/Cookie";
 
 const Nav = () => {
-  const { is_login } = useAuth();
+  let { is_login } = useAuth();
   const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
 
   const handleSignOut = () => {
-    is_login === false;
-    dispatch(logOut());
+    const token = getCookie("token")
+    is_login = false;
+    dispatch(logoutDB(token));
   };
 
   const loginAlert = () => alert("로그인 후 이용가능합니다.");
