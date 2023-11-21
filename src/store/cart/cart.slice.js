@@ -15,6 +15,20 @@ export const postOrder = createAsyncThunk(
   }
 );
 
+export const getCart = createAsyncThunk(
+  "cart/getCart",
+  async (_, thunkAPI) => { 
+    const user_id  =getCookie("email")
+    try {
+      const response = await axios.get(`https://15.164.234.129/api/mypage/cart/${user_id}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("카트 정보를 불러오는 도중 오류가 발생하였습니다.", error);
+    }
+  }
+);
+
+
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (product, thunkAPI) => {
@@ -102,6 +116,10 @@ export const cartSlice = createSlice({
     extraReducers: (builder) => {
       builder.addCase(updateCartItemQuantity.fulfilled, (state, action) => {
         // 업데이트된 장바구니 정보를 반영
+        state.products = action.payload;
+        localStorage.setItem("cartProducts", JSON.stringify(state.products));
+      });
+      builder.addCase(getCart.fulfilled, (state, action) => {
         state.products = action.payload;
         localStorage.setItem("cartProducts", JSON.stringify(state.products));
       });
