@@ -14,10 +14,10 @@ const MyInfo = () => {
   const navigator = useNavigate();
 
   const deleteUser = async () => {
-    const user = getCookie("email")
+    const user = getCookie("email");
     try {
-      const response = await api.delete("/api/user/delete",{user});
-      console.log(user)
+      const response = await api.delete("/api/user/delete", { user });
+      console.log(user);
       console.log(response.data);
       setIsDeleted(true);
       deleteCookie("Authorization", response.data.token);
@@ -49,7 +49,9 @@ const MyInfo = () => {
 
         <div className={styles.info_quit}>
           <h4>판매 상품</h4>
-          <button onClick={() => navigator("/mypage")}>수량 수정</button>
+          <button onClick={() => navigator(`/seller/${email}`)}>
+            수량 수정
+          </button>
         </div>
 
         <div className={styles.info_quit}>

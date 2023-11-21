@@ -53,6 +53,7 @@ export const additionalSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      //Create Product 로직
       .addCase(createProduct.pending, (state) => {
         state.isLoading = true;
       })
@@ -64,6 +65,7 @@ export const additionalSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      //Update Item Quantity 로직
       .addCase(updateItemQuantity.pending, (state) => {
         state.isLoading = true;
       })
@@ -75,6 +77,7 @@ export const additionalSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      //Bring My Item 로직
       .addCase(bringMyItem.pending, (state) => {
         state.isLoading = true;
       })

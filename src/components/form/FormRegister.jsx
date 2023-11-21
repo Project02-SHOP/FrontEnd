@@ -53,7 +53,7 @@ const FormRegister = () => {
       return window.alert("이메일 형식을 지켜주세요.");
     } else {
       try {
-        await api.post("/api/user/signup/dupEmail");
+        await api.post("/api/user/signup/dupEmail", { email });
 
         window.alert("사용 가능한 아이디 입니다.");
         setIsEmailAvailable(true);
@@ -98,7 +98,7 @@ const FormRegister = () => {
       .post("/api/user/signup", {
         email,
         nickname,
-        password,        
+        password,
         address,
         profileimage,
       })

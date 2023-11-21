@@ -8,7 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import OrderPage from "./pages/OrderPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AdditionalPage from "./pages/AdditionalPage";
-import Mypage from "./pages/MyPage/MyPage/Mypage";
+import SellerPage from "./pages/SellerPage";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="order" element={<OrderPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="additional" element={<AdditionalPage />} />
-          <Route path="mypage" element={<Mypage />} />
+          <Route path="seller/:userId" element={<SellerPage />} />
           <Route path="order" element={<OrderPage />} />
         </Route>
       </Routes>

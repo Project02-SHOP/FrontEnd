@@ -1,21 +1,30 @@
-import styles from "./OrderItem.module.scss";
+import { useState } from "react";
+import styles from "./SellerItem.module.scss";
+import { updateItemQuantity } from "../../../../store/additional/additional.slice";
 
-const SellerItem = () => {
+const SellerItem = ({ item }) => {
+  const [quantity, setQuantity] = useState(item.quantity);
+
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
+  };
+
+  const handleUpdateQuantity = () => {
+    updateItemQuantity(item.id, quantity);
+  };
+
   return (
     <li className={styles.order_item}>
-      <img src="주문이미지" alt="product card" />
-
-      <div className={styles.order_description}>
-        <h4>주문카테고리</h4>
-        <h3>주문타이틀</h3>
-      </div>
+      <img src={item.image[0]} alt="product card" />
       <div className={styles.order_price}>
-        <h4>가격 :</h4>
-        <span>$ 주문가격 x 주문갯수 </span>
-      </div>
-      <div className={styles.order_total}>
-        <h4>합계 : </h4>
-        <span>$ 주문합계</span>
+        <h4>수량</h4>
+        <input
+          type="number"
+          min="0"
+          value={quantity}
+          onChange={handleQuantityChange}
+        />
+        <button onClick={handleUpdateQuantity}>수량 수정</button>
       </div>
     </li>
   );
