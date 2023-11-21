@@ -24,13 +24,19 @@ const Nav = () => {
       <ul>
         <li>
           <div className={styles.counter}>
-            <Link
-              to={"/cart"}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              {""}
-              <FiShoppingCart />
-            </Link>
+            {is_login ? (
+              <Link
+                to={"/cart"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                {""}
+                <FiShoppingCart />
+              </Link>
+            ) : (
+              <FiShoppingCart
+                onClick={() => alert("로그인 후 이용가능합니다.")}
+              />
+            )}
             {products.length > 0 && <b>{products.length}</b>}
             {products.length > 0 && (
               <div className={styles.nav_hover_cart}>
@@ -41,13 +47,20 @@ const Nav = () => {
         </li>
         <li>
           <div className={styles.counter}>
-            <Link
-              to={"/order"}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              {""}
-              <FiUser title="주문" />
-            </Link>
+            {is_login ? (
+              <Link
+                to={"/order"}
+                style={{ textDecoration: "none", color: "black" }}
+              >
+                {""}
+                <FiUser title="주문" />
+              </Link>
+            ) : (
+              <FiUser
+                title="주문"
+                onClick={() => alert("로그인 후 이용가능합니다.")}
+              />
+            )}
           </div>
         </li>
         <li>

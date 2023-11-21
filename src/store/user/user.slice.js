@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import axios from "axios";
+import { api } from "../../shared/apis/Apis";
 
 const initialState = {
   userInfo: {
@@ -24,11 +24,11 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const res = await axios.post(
-        "http://15.164.234.129:8080/api/user/login",
+      const response = await api.post(
+        "/api/user/login",
         {
-          email: email,
-          password: password,
+          email,
+          password,
         },
         {
           headers: {
@@ -36,9 +36,9 @@ export const loginDB = createAsyncThunk(
           },
         }
       );
-      console.log(axios.defaults.headers.common.Authorization)      
-      const { token, nickname, profileimage } = res.data;
-
+      const { token, nickname, profileimage } = response.data;
+      // const token = response.headers["authorization"];
+      console.log(response.headers.data);
       dispatch(
         login({
           is_login: true,
@@ -46,8 +46,8 @@ export const loginDB = createAsyncThunk(
           user: {
             nickname,
             profileimage,
-            email: email,
-            password: password,
+            email,
+            password,
           },
         })
       );

@@ -5,11 +5,13 @@ import styles from "./DetailPage.module.scss";
 import Loader from "../../components/loader/Loader";
 import { addToCart } from "../../store/cart/cart.slice";
 import { fetchProduct } from "../../store/products/product.slice";
+import { useAuth } from "../../hooks/useAuth";
 
 const DetailPage = () => {
   const { id } = useParams();
   const productId = Number(id);
   const dispatch = useAppDispatch();
+  const { is_login } = useAuth();
 
   const { product, isLoading } = useAppSelector((state) => state.productSlice); //store에서 product를 가져온다
   const { products } = useAppSelector((state) => state.cartSlice); // 장바구니에 있는 products도 가져온다
@@ -22,12 +24,15 @@ const DetailPage = () => {
   }, [productId]);
 
   const addItemToCart = async () => {
-    try{
-      await dispatch(addToCart(product));
-    } catch (error) {
-      console.error("카트추가 에러", error)
+    if (is_login === false) {
+      window.alert("로그인 후 이용가능합니다.");
+    } else if (is_login === true) {
+      try {
+        await dispatch(addToCart(product));
+      } catch (error) {
+        console.error("카트추가 에러", error);
+      }
     }
-    
   };
 
   console.log(productMatching);
@@ -54,8 +59,6 @@ const DetailPage = () => {
             <h4> $ {product.price}</h4>
             <p>{product.description}</p>
             <div className={styles.option}>
-              {/* <div className={styles.option_sel}></div>
-              <div className={styles.option_sel}></div> */}
               <div>
                 <select
                   className={styles.form_select}
@@ -74,19 +77,17 @@ const DetailPage = () => {
               </div>
             </div>
             <div>
-              {/* <button
-                disabled={!productMatching}
-                onClick={() => productMatching && addItemToCart()}
-              >
-                {productMatching ? "장바구니에 담기" : "장바구니에 담긴 제품"}
-              </button> */}
               <button
                 disabled={productMatching}
                 onClick={() => !productMatching && addItemToCart()}
               >
                 {!productMatching ? "장바구니에 담기" : "장바구니에 담긴 제품"}
               </button>
-              <Link to="/cart">장바구니로 이동</Link>
+              {is_login ? (
+                <Link to="/cart">장바구니로 이동</Link>
+              ) : (
+                <Link to="/login">로그인 후 이용하기</Link>
+              )}
             </div>
           </div>
         </div>

@@ -5,8 +5,10 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { CgUserlane } from "react-icons/cg";
+import { useAuth } from "../../../hooks/useAuth";
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
+  const { nickname, email } = useAuth();
 
   const deleteUser = async () => {
     const user = getCookie("email")
@@ -31,10 +33,10 @@ const MyInfo = () => {
       <li className={styles.my_info}>
         <div className={styles.profile}></div>
         <div className={styles.info_description}>
-          <h4>유저님 반갑습니다</h4>
+          <h4>{nickname}님 반갑습니다</h4>
           <h3>
             {" "}
-            <MdOutlineMarkEmailRead /> email
+            <MdOutlineMarkEmailRead /> {email}
           </h3>
           <h3>
             {" "}
