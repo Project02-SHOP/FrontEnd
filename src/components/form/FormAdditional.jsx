@@ -5,6 +5,7 @@ import { createProduct } from "../../store/additional/additional.slice";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
+  const endDate_ref = useRef(null);
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -12,9 +13,20 @@ const FormAdditional = () => {
   const [quantity, setQuantity] = useState("");
   const [option, setOption] = useState("");
   const [imageSrc, setImageSrc] = useState([]);
+  const [endDate, setEndDate] = useState("");
+  const [desc, setDesc] = useState("");
   const [placeholder, setPlaceholder] =
     useState("이미지는 3장까지 가능합니다.");
 
+  //현재 날짜를 정하는 부분
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const date = String(now.getDate()).padStart(2, "0");
+  const today = `${year}-${month}-${date}`;
+  // console.log(today);
+
+  //입력받은 image를 Base64로 인코딩하는 부분
   const encodeFileToBase64 = (files) => {
     let promises = [];
     for (let i = 0; i < files.length; i++) {
@@ -31,6 +43,7 @@ const FormAdditional = () => {
     return Promise.all(promises);
   };
 
+  //onChange를 핸들링하는 부분
   const inputImgHandler = (e) => {
     if (img_ref.current.value !== "") {
       const fileName = img_ref.current.value;
@@ -51,14 +64,12 @@ const FormAdditional = () => {
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
-  useEffect(() => {
-    console.log(category);
-  }, [category]);
+  useEffect(() => {}, [category]);
+  console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
-    // console.log(category);
   };
 
   const inputPriceHandler = (e) => {
@@ -73,8 +84,19 @@ const FormAdditional = () => {
     setOption(e.target.value);
   };
 
+  const inputEndDateHandler = (e) => {
+    setEndDate(e.target.value);
+  };
+
+  const inputDescHandler = (e) => {
+    setDesc(e.target.value);
+  };
+
+  //상품 등록을 클릭했을 때 이벤트 핸들링하는 부분
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const selectedCategory = category;
 
     const product = {
       title,
@@ -83,37 +105,49 @@ const FormAdditional = () => {
       quantity,
       option,
       imageSrc,
+      endDate,
+      desc,
     };
 
-    dispatch(createProduct(product))
-      .then((data) => {
-        console.log("Product created:", data);
-        setImageSrc([]);
-        setTitle("");
-        setCategory("");
-        setPrice("");
-        setQuantity("");
-        setOption("");
-        img_ref.current.value = "";
-        setPlaceholder("이미지는 3장까지 가능합니다.");
-      })
-      .catch((error) => {
-        console.error("Error creating product:", error);
-      });
+    if (selectedCategory === "") {
+      alert("카테고리는 필수사항입니다.");
+    } else {
+      dispatch(createProduct(product))
+        .then((data) => {
+          console.log("Product created:", data);
+          setImageSrc([]);
+          setTitle("");
+          setCategory("");
+          setPrice("");
+          setQuantity("");
+          setOption("");
+          setEndDate("");
+          setDesc("");
+          img_ref.current.value = "";
+          setPlaceholder("이미지는 3장까지 가능합니다.");
+        })
+        .catch((error) => {
+          console.error("Error creating product:", error);
+        });
+    }
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      {/* 미리보기 이미지 구현 */}
       <div>
         {imageSrc.length > 0 ? (
           <img src={imageSrc[0]} alt="preview-img" />
         ) : null}
       </div>
       <div>
+        {/* 이미지 업로드 구현 */}
         <input placeholder={placeholder} disabled />
         <label htmlFor="itemImg" className={styles.label}>
           업로드
         </label>
+        {/* 판매 상품 타이틀 구현 */}
+        {/* <label className="hintLabel">Item Title</label> */}
         <input
           type="text"
           name="title"
@@ -122,18 +156,21 @@ const FormAdditional = () => {
           onChange={inputTitleHandler}
           value={title}
         />
+        {/* 판매 상품 카테고리 구현 */}
+        {/* <label>Item Category</label> */}
         <select
           name="category"
           value={category}
           onChange={inputCategoryHandler}
-          required
         >
-          <option value={null}>Item Option</option>
-          <option value={"Men's clothing"}>남성 의류</option>
-          <option value={"Women's clothing"}>여성 의류</option>
-          <option value={"Electronics"}>전자기기</option>
-          <option value={"Jewelery"}>쥬얼리</option>
+          <option value={"null"}>Item Category</option>
+          <option value={"1"}>남성 의류</option>
+          <option value={"2"}>여성 의류</option>
+          <option value={"3"}>전자기기</option>
+          <option value={"4"}>쥬얼리</option>
         </select>
+        {/* 판매 상품 가격 구현 */}
+        {/* <label>Item Price</label> */}
         <input
           type="number"
           name="price"
@@ -144,6 +181,8 @@ const FormAdditional = () => {
           onChange={inputPriceHandler}
           value={price}
         />
+        {/* 판매 상품 개수 구현 */}
+        {/* <label>Item Quantity</label> */}
         <input
           type="number"
           name="quantity"
@@ -153,6 +192,8 @@ const FormAdditional = () => {
           onChange={inputQuantityHandler}
           value={quantity}
         />
+        {/* 옵션 입력 구현 */}
+        {/* <label>Item Option</label> */}
         <input
           type="text"
           name="option"
@@ -160,6 +201,29 @@ const FormAdditional = () => {
           required
           onChange={inputOptionHandler}
           value={option}
+        />
+        {/* 판매 종료 날짜 구현 */}
+        {/* <label>End date of item sale</label> */}
+        <input
+          className="endDate"
+          type="date"
+          name="endDate"
+          ref={endDate_ref}
+          id="endDate"
+          required
+          onChange={inputEndDateHandler}
+          value={endDate}
+          min={today}
+        />
+        {/* 상품설명 구현 */}
+        {/* <label>Item Description</label> */}
+        <input
+          type="text"
+          name="desc"
+          required
+          onChange={inputDescHandler}
+          value={desc}
+          placeholder="Item Description"
         />
         <button>상품등록</button>
         <div className={styles.itemImg}>
