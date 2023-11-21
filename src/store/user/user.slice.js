@@ -36,7 +36,7 @@ export const loginDB = createAsyncThunk(
           },
         }
       );
-      const { token, nickname, profileimage, staus } = response.data;
+      const { token, nickname, profileimage, staus, adress } = response.data;
       console.log(response.data.staus);
       dispatch(
         login({
@@ -48,6 +48,7 @@ export const loginDB = createAsyncThunk(
             email,
             password,
             staus,
+            adress,
           },
         })
       );
@@ -57,6 +58,7 @@ export const loginDB = createAsyncThunk(
       setCookie("email", email);
       setCookie("password", password);
       setCookie("status", staus);
+      setCookie("address", adress);
       return { token };
     } catch (error) {
       window.alert("로그인 에러");
