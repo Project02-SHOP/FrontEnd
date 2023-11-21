@@ -134,111 +134,119 @@ const FormAdditional = () => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {/* 미리보기 이미지 구현 */}
-      <div>
-        {imageSrc.length > 0 ? (
-          <img src={imageSrc[0]} alt="preview-img" />
-        ) : null}
-      </div>
-      <div>
-        {/* 이미지 업로드 구현 */}
-        <input placeholder={placeholder} disabled />
-        <label htmlFor="itemImg" className={styles.label}>
-          업로드
-        </label>
-        {/* 판매 상품 타이틀 구현 */}
-        {/* <label className="hintLabel">Item Title</label> */}
-        <input
-          type="text"
-          name="title"
-          placeholder="Item Title"
-          required
-          onChange={inputTitleHandler}
-          value={title}
-        />
-        {/* 판매 상품 카테고리 구현 */}
-        {/* <label>Item Category</label> */}
-        <select
-          name="category"
-          value={category}
-          onChange={inputCategoryHandler}
-        >
-          <option value={"null"}>Item Category</option>
-          <option value={"1"}>남성 의류</option>
-          <option value={"2"}>여성 의류</option>
-          <option value={"3"}>전자기기</option>
-          <option value={"4"}>쥬얼리</option>
-        </select>
-        {/* 판매 상품 가격 구현 */}
-        {/* <label>Item Price</label> */}
-        <input
-          type="number"
-          name="price"
-          min="0"
-          step="1"
-          placeholder="Item Price"
-          required
-          onChange={inputPriceHandler}
-          value={price}
-        />
-        {/* 판매 상품 개수 구현 */}
-        {/* <label>Item Quantity</label> */}
-        <input
-          type="number"
-          name="quantity"
-          min="0"
-          placeholder="Item Quantity"
-          required
-          onChange={inputQuantityHandler}
-          value={quantity}
-        />
-        {/* 옵션 입력 구현 */}
-        {/* <label>Item Option</label> */}
-        <input
-          type="text"
-          name="option"
-          placeholder="Item Option"
-          required
-          onChange={inputOptionHandler}
-          value={option}
-        />
-        {/* 판매 종료 날짜 구현 */}
-        {/* <label>End date of item sale</label> */}
-        <input
-          className="endDate"
-          type="date"
-          name="endDate"
-          ref={endDate_ref}
-          id="endDate"
-          required
-          onChange={inputEndDateHandler}
-          value={endDate}
-          min={today}
-        />
-        {/* 상품설명 구현 */}
-        {/* <label>Item Description</label> */}
-        <input
-          type="text"
-          name="desc"
-          required
-          onChange={inputDescHandler}
-          value={desc}
-          placeholder="Item Description"
-        />
-        <button>상품등록</button>
-        <div className={styles.itemImg}>
-          <input
-            type="file"
-            name="image"
-            ref={img_ref}
-            multiple="multiple"
-            accept=".jpg, .jpeg, .png"
-            id="itemImg"
-            className="itemImg"
-            required
-            onChange={inputImgHandler}
-          />
+      <content className={styles.formContents}>
+        <div className={styles.formLeft}>
+          {/* 미리보기 이미지 구현 */}
+          <div className={styles.formPreview}></div>
+          <div>
+            {imageSrc.length > 0 ? (
+              <img src={imageSrc[0]} alt="preview-img" />
+            ) : null}
+          </div>
+          <div>
+            {/* 이미지 업로드 구현 */}
+            <input placeholder={placeholder} disabled />
+            <label htmlFor="itemImg" className={styles.label}>
+              업로드
+            </label>
+          </div>
         </div>
+        <div className={styles.formRight}>
+          {/* 판매 상품 타이틀 구현 */}
+          {/* <label className="hintLabel">Item Title</label> */}
+          <input
+            type="text"
+            name="title"
+            placeholder="Item Title"
+            required
+            onChange={inputTitleHandler}
+            value={title}
+          />
+          {/* 판매 상품 카테고리 구현 */}
+          {/* <label>Item Category</label> */}
+          <select
+            name="category"
+            value={category}
+            onChange={inputCategoryHandler}
+          >
+            <option value={"null"}>Item Category</option>
+            <option value={"1"}>남성 의류</option>
+            <option value={"2"}>여성 의류</option>
+            <option value={"3"}>전자기기</option>
+            <option value={"4"}>쥬얼리</option>
+          </select>
+          {/* 판매 상품 가격 구현 */}
+          {/* <label>Item Price</label> */}
+          <input
+            type="number"
+            name="price"
+            min="0"
+            step="1"
+            placeholder="Item Price"
+            required
+            onChange={inputPriceHandler}
+            value={price}
+          />
+          {/* 판매 상품 개수 구현 */}
+          {/* <label>Item Quantity</label> */}
+          <input
+            type="number"
+            name="quantity"
+            min="0"
+            placeholder="Item Quantity"
+            required
+            onChange={inputQuantityHandler}
+            value={quantity}
+          />
+          {/* 옵션 입력 구현 */}
+          {/* <label>Item Option</label> */}
+          <input
+            type="text"
+            name="option"
+            placeholder="Item Option"
+            required
+            onChange={inputOptionHandler}
+            value={option}
+          />
+          {/* 판매 종료 날짜 구현 */}
+          {/* <label>End date of item sale</label> */}
+          <input
+            className="endDate"
+            type="date"
+            name="endDate"
+            ref={endDate_ref}
+            id="endDate"
+            required
+            onChange={inputEndDateHandler}
+            value={endDate}
+            min={today}
+          />
+          {/* 상품설명 구현 */}
+          {/* <label>Item Description</label> */}
+          <input
+            type="text"
+            name="desc"
+            required
+            onChange={inputDescHandler}
+            value={desc}
+            placeholder="Item Description"
+          />
+          <button>상품등록</button>
+        </div>
+      </content>
+
+      <div className={styles.itemImg}>
+        <input
+          type="file"
+          name="image"
+          ref={img_ref}
+          multiple="multiple"
+          accept=".jpg, .jpeg, .png"
+          id="itemImg"
+          className="itemImg"
+          required
+          onChange={inputImgHandler}
+        />
       </div>
     </form>
   );
