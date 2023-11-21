@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
 import { useAppDispatch } from "../../hooks/redux";
 import { createProduct } from "../../store/additional/additional.slice";
@@ -51,9 +51,14 @@ const FormAdditional = () => {
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
+  useEffect(() => {
+    console.log(category);
+  }, [category]);
 
   const inputCategoryHandler = (e) => {
-    setCategory(e.target.value);
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+    // console.log(category);
   };
 
   const inputPriceHandler = (e) => {
@@ -67,36 +72,6 @@ const FormAdditional = () => {
   const inputOptionHandler = (e) => {
     setOption(e.target.value);
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const product = {
-  //     title,
-  //     category,
-  //     price,
-  //     quantity,
-  //     option,
-  //     imageSrc,
-  //   };
-
-  //   dispatch(createProduct(product));
-
-  //   console.log("img : ", imageSrc);
-  //   console.log("title : ", title);
-  //   console.log("category : ", category);
-  //   console.log("price : ", price);
-  //   console.log("quantity : ", quantity);
-  //   console.log("option : ", option);
-  //   setImageSrc([]);
-  //   setTitle("");
-  //   setCategory("");
-  //   setPrice("");
-  //   setQuantity("");
-  //   setOption("");
-  //   img_ref.current.value = "";
-  //   setPlaceholder("이미지는 3장까지 가능합니다.");
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -147,14 +122,18 @@ const FormAdditional = () => {
           onChange={inputTitleHandler}
           value={title}
         />
-        <input
-          type="text"
+        <select
           name="category"
-          placeholder="Item Category"
-          required
-          onChange={inputCategoryHandler}
           value={category}
-        />
+          onChange={inputCategoryHandler}
+          required
+        >
+          <option value={null}>Item Option</option>
+          <option value={"Men's clothing"}>남성 의류</option>
+          <option value={"Women's clothing"}>여성 의류</option>
+          <option value={"Electronics"}>전자기기</option>
+          <option value={"Jewelery"}>쥬얼리</option>
+        </select>
         <input
           type="number"
           name="price"
