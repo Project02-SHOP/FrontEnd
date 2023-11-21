@@ -32,12 +32,12 @@ export const loginDB = createAsyncThunk(
         },
         {
           headers: {
-            "Content-Type":"application/json",
+            "Content-Type": "application/json",
           },
         }
       );
-      const { token, nickname, profileimage, adress } = response.data;
-      console.log(response)
+      const { token, nickname, profileimage, staus, adress } = response.data;
+      console.log(response.data.staus);
       dispatch(
         login({
           is_login: true,
@@ -47,6 +47,7 @@ export const loginDB = createAsyncThunk(
             profileimage,
             email,
             password,
+            staus,
             adress,
           },
         })
@@ -56,7 +57,8 @@ export const loginDB = createAsyncThunk(
       setCookie("profileimage", profileimage);
       setCookie("email", email);
       setCookie("password", password);
-      setCookie("address", adress)
+      setCookie("status", staus);
+      setCookie("address", adress);
       return { token };
     } catch (error) {
       window.alert("로그인 에러");
@@ -65,19 +67,21 @@ export const loginDB = createAsyncThunk(
   }
 );
 
-export const logoutDB= createAsyncThunk(
+export const logoutDB = createAsyncThunk(
   "user/logout",
-  async (token, {dispatch}) => {
-    try{
+  async (token, { dispatch }) => {
+    try {
       await apiToken.post(
-        "/api/user/logout", {}, {headrs:{Authorization: `Bearer ${token}`}}
+        "/api/user/logout",
+        {},
+        { headrs: { Authorization: `Bearer ${token}` } }
       );
-      dispatch(logOut())
-    }catch (error){
-      console.error("logOut Error", error)
+      dispatch(logOut());
+    } catch (error) {
+      console.error("logOut Error", error);
     }
   }
-)
+);
 
 const userSlice = createSlice({
   name: "user",

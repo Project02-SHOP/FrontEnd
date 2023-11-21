@@ -53,7 +53,7 @@ const FormRegister = () => {
       return window.alert("이메일 형식을 지켜주세요.");
     } else {
       try {
-        await api.post("/api/user/signup/dupEmail",{email});
+        await api.post("/api/user/signup/dupEmail", { email });
 
         window.alert("사용 가능한 아이디 입니다.");
         setIsEmailAvailable(true);
@@ -79,7 +79,9 @@ const FormRegister = () => {
       address === "" ||
       profileimage === null
     ) {
-      window.alert("아이디,비밀번호,닉네임,주소지 및 프로필이미지 모두를 입력해주세요!");
+      window.alert(
+        "아이디,비밀번호,닉네임,주소지 및 프로필이미지 모두를 입력해주세요!"
+      );
       return;
     }
 
@@ -99,7 +101,7 @@ const FormRegister = () => {
       .post("/api/user/signup", {
         email,
         nickname,
-        password,        
+        password,
         address,
         profileimage,
       })
