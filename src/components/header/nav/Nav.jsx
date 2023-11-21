@@ -3,7 +3,7 @@ import { VscSignOut } from "react-icons/vsc";
 import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useAuth } from "../../../hooks/useAuth";
@@ -17,6 +17,7 @@ const Nav = () => {
   const handleSignOut = () => {
     is_login === false;
     dispatch(logOut());
+    return <Navigate to="/" replace />;
   };
 
   const loginAlert = () => alert("로그인 후 이용가능합니다.");
