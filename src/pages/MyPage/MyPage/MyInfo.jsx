@@ -4,7 +4,7 @@ import { deleteCookie, getCookie } from "../../../shared/Cookie";
 import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
-import { CgUserlane } from "react-icons/cg";
+// import { CgUserlane } from "react-icons/cg";
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const nickname = getCookie("nickname");
