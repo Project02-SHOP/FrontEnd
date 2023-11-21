@@ -12,10 +12,13 @@ const MyInfo = () => {
   console.log(email);
 
   const deleteUser = async () => {
-    const user = getCookie("email")
+    const email = getCookie("email");
     try {
-      const response = await api.delete("/api/user/delete",{user});
-      console.log(user)
+      const response = await api.put(
+        "/api/user/delete",
+        {},
+        { headers: { "email":{email} } }
+      );
       console.log(response.data);
       setIsDeleted(true);
       deleteCookie("Authorization", response.data.token);

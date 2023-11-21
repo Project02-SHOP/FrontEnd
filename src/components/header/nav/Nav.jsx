@@ -16,9 +16,10 @@ const Nav = () => {
   const { products } = useAppSelector((state) => state.cartSlice);
 
   const handleSignOut = () => {
-    const token = getCookie("token")
+    const token = getCookie("Authorization")
     is_login = false;
     dispatch(logoutDB(token));
+    console.log(token)
     return <Navigate to="/" replace />;
   };
 
