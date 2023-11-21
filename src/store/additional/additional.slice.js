@@ -15,6 +15,32 @@ export const createProduct = createAsyncThunk(
   }
 );
 
+export const updateItemQuantity = createAsyncThunk(
+  "product/updateItemQuantity",
+  async ({ productId, quantity }, thunkAPI) => {
+    try {
+      const response = await apiToken.put(
+        `/api/product/${productId}/${quantity}`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("updating item quantity error");
+    }
+  }
+);
+
+export const bringMyItem = createAsyncThunk(
+  "product/bringMyItem",
+  async ({ userId }, thunkAPI) => {
+    try {
+      const response = await apiToken.get(`/api/product/${userId}/active`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("bring my item error");
+    }
+  }
+);
+
 const initialState = {
   product: {},
   isLoading: false,
@@ -35,6 +61,28 @@ export const additionalSlice = createSlice({
         state.product = action.payload;
       })
       .addCase(createProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateItemQuantity.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateItemQuantity.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.product.quantity = action.payload;
+      })
+      .addCase(updateItemQuantity.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(bringMyItem.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(bringMyItem.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.product = action.payload;
+      })
+      .addCase(bringMyItem.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

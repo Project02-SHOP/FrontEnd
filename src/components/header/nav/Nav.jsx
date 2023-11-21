@@ -67,7 +67,7 @@ const Nav = () => {
             to="/additional"
             style={{ textDecoration: "none", color: "black" }}
           >
-            <BsFillPencilFill />
+            <BsFillPencilFill title="상품등록" />
           </Link>
         </li>
         <li>
