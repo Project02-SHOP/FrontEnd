@@ -67,10 +67,10 @@ const FormRegister = () => {
 
   const Submit = async (event) => {
     event.preventDefault();
-    // if (!isEmailAvailable) {
-    //   window.alert("이메일 중복 검사를 하셔야 합니다.");
-    //   return;
-    // }
+    if (!isEmailAvailable) {
+      window.alert("이메일 중복 검사를 하셔야 합니다.");
+      return;
+    }
     if (
       email === "" ||
       nickname === "" ||

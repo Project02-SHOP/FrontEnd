@@ -17,9 +17,10 @@ const Nav = () => {
   const status = getCookie("status");
 
   const handleSignOut = () => {
-    const token = getCookie("token");
+    const token = getCookie("token")
     is_login = false;
     dispatch(logoutDB(token));
+    console.log(token)
     return <Navigate to="/" replace />;
   };
 
