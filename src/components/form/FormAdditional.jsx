@@ -99,14 +99,14 @@ const FormAdditional = () => {
     const selectedCategory = category;
 
     const product = {
-      title,
+      productName: title,
       category,
       price,
-      quantity,
+      productQuantity: quantity,
       option,
-      imageSrc,
-      endDate,
-      desc,
+      img: imageSrc,
+      saleEndDate: endDate,
+      productDetail: desc,
     };
 
     if (selectedCategory === "" || selectedCategory === "null") {
@@ -137,7 +137,6 @@ const FormAdditional = () => {
       <div className={styles.formContents}>
         <div className={styles.formLeft}>
           {/* 미리보기 이미지 구현 */}
-
           <div>
             {imageSrc.length > 0 ? (
               <div className={styles.formPreview}>
@@ -179,8 +178,6 @@ const FormAdditional = () => {
             <option value={"null"}></option>
             <option value={"1"}>남성 의류</option>
             <option value={"2"}>여성 의류</option>
-            {/* <option value={"3"}>전자기기</option>
-            <option value={"4"}>쥬얼리</option> */}
           </select>
           {/* 판매 상품 가격 구현 */}
           <div className={styles.labelHint}>
@@ -190,7 +187,7 @@ const FormAdditional = () => {
             type="number"
             name="price"
             min="0"
-            step="1"
+            step="0.01"
             required
             onChange={inputPriceHandler}
             value={price}

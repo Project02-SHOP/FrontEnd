@@ -10,7 +10,7 @@ export const createProduct = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Error creating product");
+      return thunkAPI.rejectWithValue("creating product error");
     }
   }
 );
