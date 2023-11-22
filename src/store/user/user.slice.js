@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import { api } from "../../shared/apis/Apis";
+import { api, apiToken } from "../../shared/apis/Apis";
 
 const initialState = {
   userInfo: {
@@ -13,30 +13,17 @@ const initialState = {
 export const loadTokenFB = createAsyncThunk(
   "user/loadToken",
   async (_, { dispatch }) => {
-    if (getCookie("Authorization")) {
-      dispatch(loadToken());
+    const token = getCookie("Authorization");
+    if (token) {
+      dispatch(loadToken({ token }));
     }
   }
 );
 
-// 로그인 비동기 액션
 export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-<<<<<<< HEAD
-      const response = await api.post("/api/user/login", {
-        email: email,
-        password: password,
-      });
-      dispatch(login({ is_login: true, token: response.data.token }));
-      setCookie("Authorization", response.data.token);
-      setCookie("nickname", response.data.nickname);
-      setCookie("profileimage", response.data.profileimage);
-      setCookie("email", response.data.email);
-      setCookie("password", response.data.password);
-      return response.data;
-=======
       const response = await api.post(
         "/api/user/login",
         {
@@ -77,7 +64,6 @@ export const loginDB = createAsyncThunk(
       setCookie("status", staus);
       setCookie("address", adress);
       return { token };
->>>>>>> 47c3517d46fc81327f800bafbb97d7f8a41238a2
     } catch (error) {
       window.alert("로그인 에러");
       console.error("Login Error", error);
@@ -85,12 +71,10 @@ export const loginDB = createAsyncThunk(
   }
 );
 
-<<<<<<< HEAD
-=======
 export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
-    try {    
+    try {
       await apiToken.post(
         "/api/user/logout",
         {},
@@ -103,7 +87,6 @@ export const logoutDB = createAsyncThunk(
   }
 );
 
->>>>>>> 47c3517d46fc81327f800bafbb97d7f8a41238a2
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -111,13 +94,11 @@ const userSlice = createSlice({
     login: (state, action) => {
       setCookie("is_login", "true");
       state.token = action.payload.token;
-      state.user = action.payload.user;
+      state.userInfo = action.payload.user;
       state.is_login = true;
     },
     logOut: (state) => {
       deleteCookie("is_login");
-<<<<<<< HEAD
-=======
       deleteCookie("Authorization");
       deleteCookie("nickname");
       deleteCookie("profileimage");
@@ -125,10 +106,9 @@ const userSlice = createSlice({
       deleteCookie("password");
       deleteCookie("address");
       setCookie("status");
->>>>>>> 47c3517d46fc81327f800bafbb97d7f8a41238a2
       localStorage.removeItem("nickname");
       localStorage.removeItem("token");
-      state.user = null;
+      state.userInfo = null;
       state.is_login = false;
     },
     loadToken: (state) => {
@@ -138,11 +118,20 @@ const userSlice = createSlice({
         state.token = token;
       }
     },
+    removeUser: (state) => {
+      state.email = "";
+      state.token = "";
+      state.id = "";
+
+      localStorage.setItem("user", JSON.stringify(state));
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginDB.fulfilled, (state, action) => {
-      state.is_login = true;
-      state.token = action.payload.token;
+      if (action.payload) {
+        state.is_login = true;
+        state.token = action.payload.token;
+      }
     });
     builder.addCase(loadTokenFB.fulfilled, (state, action) => {
       state.is_login = true;
@@ -151,7 +140,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logOut, loadToken } = userSlice.actions;
+export const { login, logOut, loadToken, removeUser } = userSlice.actions;
 
-// Export the reducer
 export default userSlice.reducer;
