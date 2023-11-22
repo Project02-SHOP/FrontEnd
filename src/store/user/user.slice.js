@@ -74,7 +74,7 @@ export const loginDB = createAsyncThunk(
 export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
-    try {    
+    try {
       await apiToken.post(
         "/api/user/logout",
         {},
