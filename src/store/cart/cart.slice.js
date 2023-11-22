@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
 import { apiToken } from "../../shared/apis/Apis";
 
@@ -21,7 +20,7 @@ export const getCart = createAsyncThunk(
   async (_, thunkAPI) => { 
     const user_id  =getCookie("email")
     try {
-      const response = await axios.get(`https://15.164.234.129/api/mypage/cart/${user_id}`);
+      const response = await apiToken.get(`/api/mypage/cart/${user_id}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("카트 정보를 불러오는 도중 오류가 발생하였습니다.", error);
@@ -35,13 +34,13 @@ export const addToCart = createAsyncThunk(
   async (product, thunkAPI) => {
     try {
       // 서버에 POST 요청을 보내 카트에 상품 추가
-      await axios.post(
-        `https://15.164.234.129/api/shop/cart/${product.id}`,
+      await apiToken.post(
+        `/api/shop/cart/${product.id}`,
         product
       );
 
       // 성공적으로 추가되었으면 로컬 스토어 업데이트는 서버에서 가져오는 데이터로 처리
-      const response = await axios.get("https://15.164.234.129/api/shop/cart");
+      const response = await apiToken.get("/api/shop/cart");
       return response.data;
     } catch (error) {
       // 오류 발생 시 처리
@@ -52,13 +51,13 @@ export const addToCart = createAsyncThunk(
 //카트 에서 프로덕트 삭제
 export const deleteFromCartDB = createAsyncThunk(
   "cart/deleteFromCart",
-  async (productId, thunkAPI) => {
+  async (product_Id, thunkAPI) => {
     try {
       // 카트에서 항목을 삭제하기 위해 서버에 DELETE 요청을 보냅니다
-      await axios.delete(`https://15.164.234.129/api/shop/cart/${productId}`);
+      await apiToken.delete(`/api/shop/cart/${product_Id}`);
 
       // 성공하면 로컬 상태를 업데이트하기 위한 액션을 디스패치합니다
-      thunkAPI.dispatch(cartSlice.actions.deleteFromCart(productId));
+      thunkAPI.dispatch(cartSlice.actions.deleteFromCart(product_Id));
     } catch (error) {
       // If an error occurs, reject with an error message
       return thunkAPI.rejectWithValue("카트에서 삭제 도중 오류가 발생하였습니다.");
@@ -72,8 +71,8 @@ export const updateCartItemQuantity = createAsyncThunk(
   "cart/updateCartItemQuantity",
   async ({ productId, quantity }, thunkAPI) => {
     try {
-      const response = await axios.put(
-        `https://15.164.234.129/api/shop/cart/${productId}`,
+      const response = await apiToken.put(
+        `/api/shop/cart/${productId}`,
         { quantity }
       );
 
