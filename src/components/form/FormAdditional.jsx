@@ -104,7 +104,9 @@ const FormAdditional = () => {
       price,
       productQuantity: quantity,
       option,
-      img: imageSrc,
+      img1: imageSrc[0],
+      img2: imageSrc[1],
+      img3: imageSrc[2],
       saleEndDate: endDate,
       productDetail: desc,
     };
@@ -254,7 +256,7 @@ const FormAdditional = () => {
           accept=".jpg, .jpeg, .png"
           id="itemImg"
           className="itemImg"
-          required
+          // required
           onChange={inputImgHandler}
         />
       </div>
