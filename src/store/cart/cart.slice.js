@@ -31,16 +31,16 @@ export const getCart = createAsyncThunk(
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
-  async (product, thunkAPI) => {
+  async (product_id, thunkAPI) => {
+    const user_id  =getCookie("email")
     try {
       // 서버에 POST 요청을 보내 카트에 상품 추가
       await apiToken.post(
-        `/api/shop/cart/${product.id}`,
-        product
+        `/api/shop/cart/${product_id}`
       );
 
       // 성공적으로 추가되었으면 로컬 스토어 업데이트는 서버에서 가져오는 데이터로 처리
-      const response = await apiToken.get("/api/shop/cart");
+      const response = await apiToken.get(`/api/mypage/cart/${user_id}`);
       return response.data;
     } catch (error) {
       // 오류 발생 시 처리
