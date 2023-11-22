@@ -14,10 +14,14 @@
     width: 500px;
     .formPreview {
       width: 350px;
-      height: 410px;
+      height: 390px;
       margin-left: 45px;
       background-color: #e8e8e8;
       border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
     }
   }
   div.formRight {
@@ -28,7 +32,6 @@
     width: 80%;
     height: auto;
     padding: 10px;
-    margin: 10px 0 10px;
     color: var(--second-color);
     font-size: 16px;
     border: 1px solid var(--second-color);
@@ -45,7 +48,6 @@
     width: 80%;
     height: auto;
     padding: 10px 15px 10px 10px;
-    margin: 10px 0;
     font-size: 16px;
     border: 1px solid var(--second-color);
     border-radius: 5px;
@@ -77,11 +79,20 @@
     border: 1px solid var(--main-color);
     cursor: pointer;
     transition: 0.3s all ease;
+    margin-top: 10px;
   }
 
   div img {
-    width: 100px;
-    padding-bottom: 15px;
+    width: 80%;
+  }
+
+  .labelHint {
+    display: flex;
+    justify-content: left;
+    margin-left: 45px;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 1px;
   }
 
   .endDate {
@@ -102,7 +113,7 @@
   }
   button {
     width: 350px;
-    height: 100px;
+    height: 50px;
     margin: 10px;
     border-radius: 5px;
     padding: 15px 40px;

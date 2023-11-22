@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  apiToken } from "../../../shared/apis/Apis";
+import { apiToken } from "../../../shared/apis/Apis";
 import { deleteCookie, getCookie } from "../../../shared/Cookie";
 import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
@@ -8,12 +8,15 @@ import { useNavigate } from "react-router-dom";
 // import { CgUserlane } from "react-icons/cg";
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
+  const status = getCookie("status");
   const [userInfo, setUserInfo] = useState({
     nickname: "",
     email: "",
     profileimage: "",
     address: "",
   });
+
+  // console.log(status);
 
   const navigator = useNavigate();
 
@@ -57,7 +60,7 @@ const MyInfo = () => {
     <div>
       <li className={styles.my_info}>
         <div className={styles.profile}>
-        {userInfo.profileimage && (
+          {userInfo.profileimage && (
             <img src={userInfo.profileimage} alt="Profile" />
           )}
         </div>
@@ -73,12 +76,14 @@ const MyInfo = () => {
           </h3>
         </div>
 
-        <div className={styles.info_quit}>
-          <h4>판매 상품</h4>
-          <button onClick={() => navigator(`/seller/${userInfo.email}`)}>
-            수량 수정
-          </button>
-        </div>
+        {status === "SELLER" ? (
+          <div className={styles.info_quit}>
+            <h4>판매 상품</h4>
+            <button onClick={() => navigator(`/seller/${userInfo.email}`)}>
+              수량 수정
+            </button>
+          </div>
+        ) : null}
 
         <div className={styles.info_quit}>
           <h4>회원 탈퇴</h4>
