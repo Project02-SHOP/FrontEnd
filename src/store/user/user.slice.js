@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setCookie, getCookie, deleteCookie } from "../../shared/Cookie";
-import { api, apiToken } from "../../shared/apis/Apis";
+import { api } from "../../shared/apis/Apis";
 
 const initialState = {
   userInfo: {
@@ -13,72 +13,31 @@ const initialState = {
 export const loadTokenFB = createAsyncThunk(
   "user/loadToken",
   async (_, { dispatch }) => {
-    const token = getCookie("Authorization");
-    if (token) {
-      dispatch(loadToken({ token }));
+    if (getCookie("Authorization")) {
+      dispatch(loadToken());
     }
   }
 );
 
+// 로그인 비동기 액션
 export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await api.post(
-        "/api/user/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const { token, nickname, profileimage, staus, adress } = response.data;
-      console.log(response.data.staus);
-      dispatch(
-        login({
-          is_login: true,
-          token,
-          user: {
-            nickname,
-            profileimage,
-            email,
-            password,
-            staus,
-            adress,
-          },
-        })
-      );
-      setCookie("Authorization", token);
-      setCookie("nickname", nickname);
-      setCookie("profileimage", profileimage);
-      setCookie("email", email);
-      setCookie("password", password);
-      setCookie("status", staus);
-      setCookie("address", adress);
-      return { token };
+      const response = await api.post("/api/user/login", {
+        email: email,
+        password: password,
+      });
+      dispatch(login({ is_login: true, token: response.data.token }));
+      setCookie("Authorization", response.data.token);
+      setCookie("nickname", response.data.nickname);
+      setCookie("profileimage", response.data.profileimage);
+      setCookie("email", response.data.email);
+      setCookie("password", response.data.password);
+      return response.data;
     } catch (error) {
       window.alert("로그인 에러");
       console.error("Login Error", error);
-    }
-  }
-);
-
-export const logoutDB = createAsyncThunk(
-  "user/logout",
-  async (token, { dispatch }) => {
-    try {
-      await apiToken.post(
-        "/api/user/logout",
-        {},
-        { headrs: { Authorization: `Bearer ${token}` } }
-      );
-      dispatch(logOut());
-    } catch (error) {
-      console.error("logOut Error", error);
     }
   }
 );
@@ -90,19 +49,14 @@ const userSlice = createSlice({
     login: (state, action) => {
       setCookie("is_login", "true");
       state.token = action.payload.token;
-      state.userInfo = action.payload.user;
+      state.user = action.payload.user;
       state.is_login = true;
     },
     logOut: (state) => {
       deleteCookie("is_login");
-      deleteCookie("Authorization");
-      deleteCookie("nickname");
-      deleteCookie("profileimage");
-      deleteCookie("email");
-      deleteCookie("password");
       localStorage.removeItem("nickname");
       localStorage.removeItem("token");
-      state.userInfo = null;
+      state.user = null;
       state.is_login = false;
     },
     loadToken: (state) => {
@@ -112,20 +66,11 @@ const userSlice = createSlice({
         state.token = token;
       }
     },
-    removeUser: (state) => {
-      state.email = "";
-      state.token = "";
-      state.id = "";
-
-      localStorage.setItem("user", JSON.stringify(state));
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginDB.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.is_login = true;
-        state.token = action.payload.token;
-      }
+      state.is_login = true;
+      state.token = action.payload.token;
     });
     builder.addCase(loadTokenFB.fulfilled, (state, action) => {
       state.is_login = true;
@@ -134,6 +79,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logOut, loadToken, removeUser } = userSlice.actions;
+export const { login, logOut, loadToken } = userSlice.actions;
 
+// Export the reducer
 export default userSlice.reducer;
