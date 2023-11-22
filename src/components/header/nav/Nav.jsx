@@ -14,9 +14,10 @@ const Nav = () => {
   let { is_login } = useAuth();
   const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
+  const status = getCookie("status");
 
   const handleSignOut = () => {
-    const token = getCookie("Authorization")
+    const token = getCookie("token")
     is_login = false;
     dispatch(logoutDB(token));
     console.log(token)
@@ -64,15 +65,19 @@ const Nav = () => {
             )}
           </div>
         </li>
-        <li>
-          {/* user && user.isAdmin && 일때만 등록페이지 */}
-          <Link
-            to="/additional"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <BsFillPencilFill />
-          </Link>
-        </li>
+        {is_login && status === "SELLER" ? (
+          <li>
+            <Link
+              to="/additional"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <BsFillPencilFill title="상품등록" />
+            </Link>
+          </li>
+        ) : (
+          <div style={{ display: "none" }}></div>
+        )}
+
         <li>
           {is_login === true ? (
             <VscSignOut

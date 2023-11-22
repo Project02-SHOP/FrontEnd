@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
+    "aws-sdk": "^2.1500.0",
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "firebase": "^10.3.0",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",

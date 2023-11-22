@@ -1,26 +1,56 @@
 .form {
   display: flex;
-  flex-direction: column;
   align-items: center;
   width: 100%;
 
-  div {
+  .formContents {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    // flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
     width: 100%;
+  }
+  div.formLeft {
+    width: 500px;
+    .formPreview {
+      width: 350px;
+      height: 410px;
+      margin-left: 45px;
+      background-color: #e8e8e8;
+      border-radius: 5px;
+    }
+  }
+  div.formRight {
+    width: 500px;
   }
 
   input {
     width: 80%;
     height: auto;
-    padding: 10px 15px;
-    margin-bottom: 15px;
+    padding: 10px;
+    margin: 10px 0 10px;
     color: var(--second-color);
     font-size: 16px;
     border: 1px solid var(--second-color);
     border-radius: 5px;
     outline: none;
+
+    &:focus {
+      border: 3px solid var(--second-color);
+      border-radius: 5px;
+    }
+  }
+
+  select {
+    width: 80%;
+    height: auto;
+    padding: 10px 15px 10px 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid var(--second-color);
+    border-radius: 5px;
+    outline: none;
+    color: #757575;
 
     &:focus {
       border: 3px solid var(--second-color);
@@ -39,9 +69,8 @@
     border-radius: 5px;
     overflow: hidden;
     width: 80%;
-    height: 40px;
-    margin-bottom: 15px;
-    padding: 15px 40px;
+    height: 50px;
+    margin: 0 0 10px 42px;
     color: #fff;
     font-size: 14px;
     background: var(--main-color);
@@ -50,9 +79,32 @@
     transition: 0.3s all ease;
   }
 
-  button {
+  div img {
+    width: 100px;
+    padding-bottom: 15px;
+  }
+
+  .endDate {
     width: 80%;
-    margin-top: 10px;
+    height: auto;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    color: var(--second-color);
+    font-size: 16px;
+    border: 1px solid var(--second-color);
+    border-radius: 5px;
+    outline: none;
+
+    &:focus {
+      border: 3px solid var(--second-color);
+      border-radius: 5px;
+    }
+  }
+  button {
+    width: 350px;
+    height: 100px;
+    margin: 10px;
+    border-radius: 5px;
     padding: 15px 40px;
     color: #fff;
     font-size: 14px;
@@ -63,11 +115,7 @@
 
     &:hover {
       background: var(--second-color);
+      border: 1px solid var(--second-color);
     }
-  }
-
-  div img {
-    width: 100px;
-    padding-bottom: 15px;
   }
 }

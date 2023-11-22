@@ -36,8 +36,12 @@ export const loginDB = createAsyncThunk(
           },
         }
       );
-      const { token, nickname, profileimage, adress } = response.data;
-      console.log(response);
+      const tokenWithBearer = response.headers.get("Authorization");
+      const token = tokenWithBearer.split("Bearer ")[1];
+      const { nickname, profileimage, staus, adress } = response.data;
+      console.log(response.headers);
+      console.log(token);
+
       dispatch(
         login({
           is_login: true,
@@ -47,15 +51,17 @@ export const loginDB = createAsyncThunk(
             profileimage,
             email,
             password,
+            staus,
             adress,
           },
         })
       );
-      setCookie("Authorization", token);
+      setCookie("token", token);
       setCookie("nickname", nickname);
       setCookie("profileimage", profileimage);
       setCookie("email", email);
       setCookie("password", password);
+      setCookie("status", staus);
       setCookie("address", adress);
       return { token };
     } catch (error) {
@@ -68,11 +74,11 @@ export const loginDB = createAsyncThunk(
 export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
-    try {
+    try {    
       await apiToken.post(
         "/api/user/logout",
         {},
-        { headers: { "X-AUTH-TOKEN": `${token}` } }
+        { headers: { "X-AUTH-TOKEN": ` ${token}` } }
       );
       dispatch(logOut());
     } catch (error) {
@@ -98,13 +104,15 @@ const userSlice = createSlice({
       deleteCookie("profileimage");
       deleteCookie("email");
       deleteCookie("password");
+      deleteCookie("address");
+      setCookie("status");
       localStorage.removeItem("nickname");
       localStorage.removeItem("token");
       state.userInfo = null;
       state.is_login = false;
     },
     loadToken: (state) => {
-      const token = getCookie("Authorization");
+      const token = getCookie("token");
       if (token) {
         state.is_login = true;
         state.token = token;
