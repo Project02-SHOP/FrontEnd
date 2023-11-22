@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api, apiToken } from "../../shared/apis/Apis";
-import { getCookie } from "../../shared/Cookie";
-const status = getCookie("status");
-const token = getCookie("token");
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
-  async (product, thunkAPI) => {
+  async ({ product, status, token }, thunkAPI) => {
     try {
-      const response = await api.post(
+      const response = await apiToken.post(
         "/api/product/create",
         {
           product: product,
@@ -16,12 +13,13 @@ export const createProduct = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
-            status: status,
+            status,
             "X-AUTH-TOKEN": `${token}`,
+            token: `${token}`,
           },
         }
       );
-      return response.data;
+      return response.data, console.log(status);
     } catch (error) {
       return thunkAPI.rejectWithValue("creating product error");
     }
@@ -77,6 +75,8 @@ export const additionalSlice = createSlice({
       .addCase(createProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+        console.log("Payload:", action.payload); // Payload 출력
+        console.log("Error:", action.error); // Error 출력
       })
       //Update Item Quantity 로직
       .addCase(updateItemQuantity.pending, (state) => {
