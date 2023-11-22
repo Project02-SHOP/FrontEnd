@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
 import { useAppDispatch } from "../../hooks/redux";
 import { createProduct } from "../../store/additional/additional.slice";
@@ -64,8 +64,8 @@ const FormAdditional = () => {
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
-  useEffect(() => {}, [category]);
-  console.log(category);
+  // useEffect(() => {}, [category]);
+  // console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
@@ -140,7 +140,7 @@ const FormAdditional = () => {
           <div className={styles.formPreview}></div>
           <div>
             {imageSrc.length > 0 ? (
-              <img src={imageSrc[0]} alt="preview-img" />
+              <img src={imageSrc} alt="preview-img" />
             ) : null}
           </div>
           <div>
@@ -160,13 +160,13 @@ const FormAdditional = () => {
             placeholder="Item Title"
             required
             onChange={inputTitleHandler}
-            value={title}
+            value={title ?? ""}
           />
           {/* 판매 상품 카테고리 구현 */}
           {/* <label>Item Category</label> */}
           <select
             name="category"
-            value={category}
+            value={category ?? ""}
             onChange={inputCategoryHandler}
           >
             <option value={"null"}>Item Category</option>
