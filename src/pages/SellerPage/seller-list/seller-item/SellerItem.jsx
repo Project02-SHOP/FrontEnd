@@ -1,16 +1,18 @@
 import { useState } from "react";
 import styles from "./SellerItem.module.scss";
 import { updateItemQuantity } from "../../../../store/additional/additional.slice";
+import { useAppDispatch } from "../../../../hooks/redux";
 
 const SellerItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
+  const dispatch = useAppDispatch();
 
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
 
   const handleUpdateQuantity = () => {
-    updateItemQuantity(item.id, quantity);
+    dispatch(updateItemQuantity(item.id, quantity));
   };
 
   return (

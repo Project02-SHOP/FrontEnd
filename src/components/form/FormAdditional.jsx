@@ -109,7 +109,7 @@ const FormAdditional = () => {
       desc,
     };
 
-    if (selectedCategory === "") {
+    if (selectedCategory === "" || selectedCategory === "null") {
       alert("카테고리는 필수사항입니다.");
     } else {
       dispatch(createProduct(product))
@@ -134,14 +134,18 @@ const FormAdditional = () => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <content className={styles.formContents}>
+      <div className={styles.formContents}>
         <div className={styles.formLeft}>
           {/* 미리보기 이미지 구현 */}
-          <div className={styles.formPreview}></div>
+
           <div>
             {imageSrc.length > 0 ? (
-              <img src={imageSrc[0]} alt="preview-img" />
-            ) : null}
+              <div className={styles.formPreview}>
+                <img src={imageSrc[0]} alt="preview-img" />
+              </div>
+            ) : (
+              <div className={styles.formPreview}></div>
+            )}
           </div>
           <div>
             {/* 이미지 업로드 구현 */}
@@ -153,63 +157,71 @@ const FormAdditional = () => {
         </div>
         <div className={styles.formRight}>
           {/* 판매 상품 타이틀 구현 */}
-          {/* <label className="hintLabel">Item Title</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Title</label>
+          </div>
           <input
             type="text"
             name="title"
-            placeholder="Item Title"
             required
             onChange={inputTitleHandler}
             value={title}
           />
           {/* 판매 상품 카테고리 구현 */}
-          {/* <label>Item Category</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Category</label>
+          </div>
           <select
             name="category"
             value={category}
             onChange={inputCategoryHandler}
           >
-            <option value={"null"}>Item Category</option>
+            <option value={"null"}></option>
             <option value={"1"}>남성 의류</option>
             <option value={"2"}>여성 의류</option>
-            <option value={"3"}>전자기기</option>
-            <option value={"4"}>쥬얼리</option>
+            {/* <option value={"3"}>전자기기</option>
+            <option value={"4"}>쥬얼리</option> */}
           </select>
           {/* 판매 상품 가격 구현 */}
-          {/* <label>Item Price</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Price</label>
+          </div>
           <input
             type="number"
             name="price"
             min="0"
             step="1"
-            placeholder="Item Price"
             required
             onChange={inputPriceHandler}
             value={price}
           />
           {/* 판매 상품 개수 구현 */}
-          {/* <label>Item Quantity</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Quantity</label>
+          </div>
           <input
             type="number"
             name="quantity"
             min="0"
-            placeholder="Item Quantity"
             required
             onChange={inputQuantityHandler}
             value={quantity}
           />
           {/* 옵션 입력 구현 */}
-          {/* <label>Item Option</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Option</label>
+          </div>
           <input
             type="text"
             name="option"
-            placeholder="Item Option"
             required
             onChange={inputOptionHandler}
             value={option}
           />
           {/* 판매 종료 날짜 구현 */}
-          {/* <label>End date of item sale</label> */}
+          <div className={styles.labelHint}>
+            <label>End date of item sale</label>
+          </div>
           <input
             className="endDate"
             type="date"
@@ -222,18 +234,19 @@ const FormAdditional = () => {
             min={today}
           />
           {/* 상품설명 구현 */}
-          {/* <label>Item Description</label> */}
+          <div className={styles.labelHint}>
+            <label>Item Description</label>
+          </div>
           <input
             type="text"
             name="desc"
             required
             onChange={inputDescHandler}
             value={desc}
-            placeholder="Item Description"
           />
           <button>상품등록</button>
         </div>
-      </content>
+      </div>
 
       <div className={styles.itemImg}>
         <input
