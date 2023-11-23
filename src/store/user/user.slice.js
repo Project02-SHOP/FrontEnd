@@ -13,7 +13,7 @@ const initialState = {
 export const loadTokenFB = createAsyncThunk(
   "user/loadToken",
   async (_, { dispatch }) => {
-    const token = getCookie("Authorization");
+    const token = getCookie("token");
     if (token) {
       dispatch(loadToken({ token }));
     }
@@ -37,9 +37,10 @@ export const loginDB = createAsyncThunk(
         }
       );
       const tokenWithBearer = response.headers.get("Authorization");
+      console.log()
       const token = tokenWithBearer.split("Bearer ")[1];
-      const { nickname, profileimage, staus, adress } = response.data;
-      console.log(response.headers);
+      const { nickname, profileimage, staus, address } = response.data;
+      console.log(response.data);
       console.log(token);
 
       dispatch(
@@ -52,7 +53,7 @@ export const loginDB = createAsyncThunk(
             email,
             password,
             staus,
-            adress,
+            address,
           },
         })
       );
@@ -62,10 +63,18 @@ export const loginDB = createAsyncThunk(
       setCookie("email", email);
       setCookie("password", password);
       setCookie("status", staus);
-      setCookie("address", adress);
+      setCookie("address", address);
       return { token };
     } catch (error) {
-      window.alert("로그인 에러");
+      if (error.response.data === "5회 이상 오류로 인해 접속이 1분간 불가 합니다") {
+        // 서버에서 특정 에러 메시지를 보낸 경우 알림 표시
+        console.log(error.response)
+        window.alert("로그인 5회 실패로 계정이 1분간 잠겼습니다.");
+      } else {
+        // 그 외의 경우 일반적인 로그인 에러 메시지 표시
+        window.alert("로그인 에러");
+      }
+      console.log(error.response)
       console.error("Login Error", error);
     }
   }
@@ -74,7 +83,7 @@ export const loginDB = createAsyncThunk(
 export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
-    try {    
+    try {
       await apiToken.post(
         "/api/user/logout",
         {},
@@ -99,13 +108,13 @@ const userSlice = createSlice({
     },
     logOut: (state) => {
       deleteCookie("is_login");
-      deleteCookie("Authorization");
+      deleteCookie("token");
       deleteCookie("nickname");
       deleteCookie("profileimage");
       deleteCookie("email");
       deleteCookie("password");
       deleteCookie("address");
-      setCookie("status");
+      deleteCookie("status");
       localStorage.removeItem("nickname");
       localStorage.removeItem("token");
       state.userInfo = null;

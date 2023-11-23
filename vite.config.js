@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   // server: {
   //   port: 5173,
-  // proxy: {
-  //   "/api": {
-  //     target: "http://15.164.234.129:8080",
-  //     changeOrigin: true,
-  //     // secure: false,
-  //     // ws: true,
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://15.164.234.129:8080",
+  //       changeOrigin: true,
+  //       // secure: false,
+  //       // ws: true,
+  //     },
   //   },
-  // },
   // },
 });

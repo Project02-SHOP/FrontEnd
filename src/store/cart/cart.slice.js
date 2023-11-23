@@ -16,35 +16,37 @@ export const postOrder = createAsyncThunk(
 );
 
 export const getCart = createAsyncThunk(
-  "cart/getCart",
-  async (_, thunkAPI) => { 
-    const user_id  =getCookie("email")
-    try {
-      const response = await apiToken.get(`/api/mypage/cart/${user_id}`);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue("카트 정보를 불러오는 도중 오류가 발생하였습니다.", error);
-    }
+  "cart/getCart", 
+  async (_, thunkAPI) => {
+    const user_id = getCookie("email");
+  try {
+    const response = await apiToken.get(`/api/mypage/cart/${user_id}`);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      "카트 정보를 불러오는 도중 오류가 발생하였습니다.",
+      error
+    );
   }
-);
-
+});
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async (product_id, thunkAPI) => {
-    const user_id  =getCookie("email")
+    const user_id = getCookie("email");
     try {
       // 서버에 POST 요청을 보내 카트에 상품 추가
-      await apiToken.post(
-        `/api/shop/cart/${product_id}`
-      );
+      await apiToken.post(`/api/shop/cart/${product_id}`);
 
       // 성공적으로 추가되었으면 로컬 스토어 업데이트는 서버에서 가져오는 데이터로 처리
       const response = await apiToken.get(`/api/mypage/cart/${user_id}`);
       return response.data;
     } catch (error) {
       // 오류 발생 시 처리
-      return thunkAPI.rejectWithValue("카트에 상품 추가 도중 오류가 발생하였습니다.", error);
+      return thunkAPI.rejectWithValue(
+        "카트에 상품 추가 도중 오류가 발생하였습니다.",
+        error
+      );
     }
   }
 );
@@ -60,21 +62,21 @@ export const deleteFromCartDB = createAsyncThunk(
       thunkAPI.dispatch(cartSlice.actions.deleteFromCart(product_Id));
     } catch (error) {
       // If an error occurs, reject with an error message
-      return thunkAPI.rejectWithValue("카트에서 삭제 도중 오류가 발생하였습니다.");
+      return thunkAPI.rejectWithValue(
+        "카트에서 삭제 도중 오류가 발생하였습니다."
+      );
     }
   }
 );
-
 
 // 카트 프로덕트 수량 정보 수정
 export const updateCartItemQuantity = createAsyncThunk(
   "cart/updateCartItemQuantity",
   async ({ productId, quantity }, thunkAPI) => {
     try {
-      const response = await apiToken.put(
-        `/api/shop/cart/${productId}`,
-        { quantity }
-      );
+      const response = await apiToken.put(`/api/shop/cart/${productId}`, {
+        quantity,
+      });
 
       return response.data;
     } catch (error) {
@@ -84,23 +86,22 @@ export const updateCartItemQuantity = createAsyncThunk(
 );
 
 const initialState = {
-  products:  [], // 없으면 빈배열을 가져와라
+  products: [], // 없으면 빈배열을 가져와라
   totalPrice: 0,
   userId: getCookie("nickname") || "",
-   
 };
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {   
+  reducers: {
     //상품을 cart에서 지워주기
     deleteFromCart: (state, action) => {
       state.products = state.products.filter(
         (item) => item.id !== action.payload
       );
     },
-   // 총상품의 가격을 구하기
+    // 총상품의 가격을 구하기
     getTotalPrice: (state) => {
       state.totalPrice = state.products.reduce(
         (acc, item) => (acc += item.total),
@@ -127,10 +128,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const {
-  deleteFromCart,
-  sendOrder,
-  getTotalPrice,  
-} = cartSlice.actions;
+export const { deleteFromCart, sendOrder, getTotalPrice } = cartSlice.actions;
 
 export default cartSlice.reducer;

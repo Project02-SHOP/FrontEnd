@@ -1,16 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiToken } from "../../shared/apis/Apis";
+import { getCookie } from "../../shared/Cookie";
+const status = getCookie("status");
+const token = getCookie("token");
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
   async (product, thunkAPI) => {
     try {
-      const response = await apiToken.post("/api/product/create", {
-        product: product,
-      });
+      console.log(status);
+      const response = await apiToken.post(
+        "/api/product/create",
+        {
+          product: product,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "X-AUTH-TOKEN": `${token}`,
+            status: status,
+          },       
+        }
+      );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Error creating product");
+      return thunkAPI.rejectWithValue("creating product error");
     }
   }
 );
