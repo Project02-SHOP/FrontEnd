@@ -11,12 +11,13 @@ const FormRegister = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState();
-  const [nickname, setNickname] = useState();
+  const [nickName, setNickName] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
   const [profileimage, setProfileimage] = useState("");
+  const [status, setStatus] = useState("USER")
   const [placeholder, setPlaceholder] =
     useState("썸네일은 하나만 등록 가능합니다.");
 
@@ -53,10 +54,14 @@ const FormRegister = () => {
       return window.alert("이메일 형식을 지켜주세요.");
     } else {
       try {
-        await api.post("/api/user/signup/dupEmail", { email });
-
-        window.alert("사용 가능한 아이디 입니다.");
-        setIsEmailAvailable(true);
+        const response = await api.post("/api/user/signup/dupEmail", { email });
+        if (response.data === true) {
+          window.alert("사용 가능한 아이디 입니다.");
+          setIsEmailAvailable(true);
+        } else {
+          window.alert("이미 사용중인 아이디 입니다.");
+          setIsEmailAvailable(false);
+        }
       } catch (error) {
         window.alert("이미 사용중인 아이디 입니다.");
         setIsEmailAvailable(false);
@@ -73,7 +78,7 @@ const FormRegister = () => {
     }
     if (
       email === "" ||
-      nickname === "" ||
+      nickName === "" ||
       password === "" ||
       confirmPassword === "" ||
       address === "" ||
@@ -100,10 +105,11 @@ const FormRegister = () => {
     await api
       .post("/api/user/signup", {
         email,
-        nickname,
+        nickName,
         password,
         address,
         profileimage,
+        status,
       })
       .then((res) => {
         console.log(res);
@@ -133,7 +139,7 @@ const FormRegister = () => {
           type="text"
           placeholder="닉네임"
           onChange={(event) => {
-            setNickname(event.target.value);
+            setNickName(event.target.value);
           }}
         />
         <input
@@ -157,6 +163,28 @@ const FormRegister = () => {
             setAddress(event.target.value);
           }}
         />
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="userType"
+              value="USER"
+              checked={status === "USER"}
+              onChange={() => setStatus("USER")}
+            />
+            일반 USER
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="userType"
+              value="SELLER"
+              checked={status === "SELLER"}
+              onChange={() => setStatus("SELLER")}
+            />
+            판매자 SELLER
+          </label>
+        </div>
         <div>
           {profileimage && <img src={profileimage} alt="preview-img" />}
         </div>
