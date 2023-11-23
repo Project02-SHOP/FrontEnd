@@ -19,7 +19,7 @@
 
 ### 2. axios로 HTTP 메서드(GET, POST, PUT, DELETE 등)를 통해 서버와 데이터 통신
 
-### 3. reduxjs/toolkit을 사용하여 효율적으로 비동기 작업
+### 3. reduxjs/toolkit을 사용하여 비동기 작업을 간단하게 처리하고, 로딩 상태 및 에러 처리를 포함한 여러 상태를 관리
 
 <br />
 <br />
