@@ -6,7 +6,7 @@ import { getCookie } from "../../shared/Cookie";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
-  const endDate_ref = useRef(null);
+  // const endDate_ref = useRef(null);
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -22,17 +22,17 @@ const FormAdditional = () => {
   const token = getCookie("token");
   // const userId = getCookie("email");
 
-  console.log(status);
+  // console.log(status);
 
   //현재 날짜를 정하는 부분
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const date = String(now.getDate()).padStart(2, "0");
-  const hour = String(now.getHours()).padStart(2, "0");
-  const min = String(now.getMinutes()).padStart(2, "0");
-  const sec = String(now.getSeconds()).padStart(2, "0");
-  const today = `${year}-${month}-${date}T${hour}:${min}:${sec}`;
+  // const hour = String(now.getHours()).padStart(2, "0");
+  // const min = String(now.getMinutes()).padStart(2, "0");
+  // const sec = String(now.getSeconds()).padStart(2, "0");
+  const today = `${year}-${month}-${date}`;
   // console.log(today);
 
   //입력받은 image를 Base64로 인코딩하는 부분
@@ -232,18 +232,18 @@ const FormAdditional = () => {
           <div className={styles.labelHint}>
             <label>End date of item sale</label>
           </div>
-          {/* <input
+          <input
             className="endDate"
             type="date"
             name="endDate"
-            ref={endDate_ref}
+            // ref={endDate_ref}
             id="endDate"
             required
             onChange={inputEndDateHandler}
             value={endDate}
             min={today}
-          /> */}
-          <input
+          />
+          {/* <input
             className="endDate"
             type="datetime-local"
             name="endDate"
@@ -254,7 +254,7 @@ const FormAdditional = () => {
             onChange={inputEndDateHandler}
             value={endDate}
             min={today}
-          />
+            /> */}
 
           {/* 상품설명 구현 */}
           <div className={styles.labelHint}>

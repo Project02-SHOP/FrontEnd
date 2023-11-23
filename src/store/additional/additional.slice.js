@@ -5,7 +5,7 @@ export const createProduct = createAsyncThunk(
   "product/createProduct",
   async ({ product, status, token }, thunkAPI) => {
     try {
-      const response = await apiToken.post(
+      const response = await api.post(
         "/api/product/create",
         {
           product: product,
@@ -15,7 +15,6 @@ export const createProduct = createAsyncThunk(
             "Content-Type": "application/json",
             status,
             "X-AUTH-TOKEN": `${token}`,
-            token: `${token}`,
           },
         }
       );
