@@ -17,10 +17,10 @@ const Nav = () => {
   const status = getCookie("status");
 
   const handleSignOut = () => {
-    const token = getCookie("token")
+    const token = getCookie("token");
     is_login = false;
     dispatch(logoutDB(token));
-    console.log(token)
+    console.log(token);
     return <Navigate to="/" replace />;
   };
 
@@ -65,7 +65,7 @@ const Nav = () => {
             )}
           </div>
         </li>
-        {is_login && status === "SELLER" ? (
+        {is_login === true && status === "SELLER" ? (
           <li>
             <Link
               to="/additional"
