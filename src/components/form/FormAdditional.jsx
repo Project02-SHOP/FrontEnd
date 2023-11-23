@@ -20,6 +20,7 @@ const FormAdditional = () => {
     useState("이미지는 3장까지 가능합니다.");
   const status = getCookie("status");
   const token = getCookie("token");
+  // const userId = getCookie("email");
 
   console.log(status);
 
@@ -108,9 +109,9 @@ const FormAdditional = () => {
 
     const product = {
       productName: title,
-      category,
-      price,
-      productQuantity: quantity,
+      category: Number(category),
+      price: Number(price),
+      productQuantity: Number(quantity),
       option,
       img1: imageSrc[0],
       img2: imageSrc[1],
@@ -118,6 +119,7 @@ const FormAdditional = () => {
       saleEndDate: endDate,
       productDetail: desc,
       registerDate: today,
+      // userId: Number("32"),
     };
 
     if (selectedCategory === "" || selectedCategory === "null") {
