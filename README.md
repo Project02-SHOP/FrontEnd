@@ -1,12 +1,10 @@
-<img src="https://sour-process-b08.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F812354cb-4304-4b1b-b07d-f3c2e18143f4%2Ffe9b6636-8f94-468a-8018-9d708e7df3d1%2F%25EC%25A0%2584%25EC%25B2%25B4%25ED%2599%2594%25EB%25A9%25B4.jpg?table=block&id=23afb863-f337-4054-9fbc-4c3fba826b71&spaceId=812354cb-4304-4b1b-b07d-f3c2e18143f4&width=2000&userId=&cache=v2"/>
-
 ## NewShop Shopping Mall
 
-<br />
-
-## [깃 주소 Link.](https://fe02-clonecodingproject.vercel.app)
+<img src="https://sour-process-b08.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F812354cb-4304-4b1b-b07d-f3c2e18143f4%2Ffe9b6636-8f94-468a-8018-9d708e7df3d1%2F%25EC%25A0%2584%25EC%25B2%25B4%25ED%2599%2594%25EB%25A9%25B4.jpg?table=block&id=23afb863-f337-4054-9fbc-4c3fba826b71&spaceId=812354cb-4304-4b1b-b07d-f3c2e18143f4&width=2000&userId=&cache=v2"/>
 
 <br />
+
+<!-- ## [깃 주소 Link.](https://fe02-clonecodingproject.vercel.app) -->
 
 ## 📆 프로젝트 기간
 
@@ -59,13 +57,9 @@
 
 **`문제점`**
 
--
+- **`해결방안`**
 
-**`해결방안`**
-
--
-
-**`결과`**
+- **`결과`**
 
 -
 
