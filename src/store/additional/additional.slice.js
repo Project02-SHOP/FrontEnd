@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api, apiToken } from "../../shared/apis/Apis";
+import { apiToken } from "../../shared/apis/Apis";
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
@@ -13,10 +13,9 @@ export const createProduct = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
-            status,
             "X-AUTH-TOKEN": `${token}`,
-            token: `${token}`,
-          },
+            status: status,
+          },       
         }
       );
       return response.data, console.log(status);

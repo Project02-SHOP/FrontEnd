@@ -28,7 +28,7 @@ const DetailPage = () => {
       window.alert("로그인 후 이용가능합니다.");
     } else if (is_login === true) {
       try {
-        await dispatch(addToCart(product));
+        await dispatch(addToCart(product.id));
       } catch (error) {
         console.error("카트추가 에러", error);
       }

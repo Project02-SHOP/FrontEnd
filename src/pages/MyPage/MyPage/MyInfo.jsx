@@ -16,43 +16,49 @@ const MyInfo = () => {
     address: "",
   });
 
-  // console.log(status);
-
   const navigator = useNavigate();
 
   const deleteUser = async () => {
     const email = getCookie("email");
     const password = getCookie("password");
+    const token = getCookie("token");
 
     const requestData = {
       email: email,
       password: password,
     };
     try {
-      const response = await apiToken.put("/api/user/delete", requestData);
+      const response = await apiToken.put(
+        "/api/user/delete",
+         requestData ,
+        {
+          headers: { "X-AUTH-TOKEN": ` ${token}` },
+        }
+      );
       console.log(response.data);
       setIsDeleted(true);
-      deleteCookie("Authorization", response.data.token);
+      deleteCookie("token", response.data.token);
       deleteCookie("nickname", response.data.nickname);
       deleteCookie("profileimage", response.data.profileimage);
       deleteCookie("email", response.data.email);
       deleteCookie("password", response.data.password);
+      deleteCookie("status", response.data.status)
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);
       // 오류 처리 (예: 오류 메시지 표시 등)
     }
   };
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const res = await apiToken.get("/api/mypage/info");
-        setUserInfo(res.data); // Assuming the API response contains the user information
-      } catch (error) {
-        console.error("유저 정보 가져오기 오류:", error);
-        // 오류 처리 (예: 오류 메시지 표시 등)
-      }
-    };
+  const fetchUserInfo = async () => {
+    try {
+      const res = await apiToken.get("/api/mypage/info");
+      setUserInfo(res.data);
+    } catch (error) {
+      console.error("유저 정보 가져오기 오류:", error);
+      // 사용자에게 알리기 위해 오류 메시지를 표시하거나 다른 처리를 추가할 수 있음
+    }
+  };
 
+  useEffect(() => {
     fetchUserInfo();
   }, []);
 

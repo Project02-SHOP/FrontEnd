@@ -28,7 +28,6 @@ const Form = () => {
   };
 
   useEffect(() => {
-    console.log(user);
     //user에 모든 redux toolkit의 slice가 포함되어 있음
     if (user.userSlice.is_login === true) {
       navigate("/");
