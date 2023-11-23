@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
 import { useAppDispatch } from "../../hooks/redux";
 import { createProduct } from "../../store/additional/additional.slice";
@@ -73,8 +73,8 @@ const FormAdditional = () => {
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
-  useEffect(() => {}, [category]);
-  console.log(category);
+  // useEffect(() => {}, [category]);
+  // console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
@@ -177,7 +177,7 @@ const FormAdditional = () => {
             name="title"
             required
             onChange={inputTitleHandler}
-            value={title}
+            value={title ?? ""}
           />
           {/* 판매 상품 카테고리 구현 */}
           <div className={styles.labelHint}>
@@ -185,7 +185,7 @@ const FormAdditional = () => {
           </div>
           <select
             name="category"
-            value={category}
+            value={category ?? ""}
             onChange={inputCategoryHandler}
           >
             <option value={"null"}></option>
