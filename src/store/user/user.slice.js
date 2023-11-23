@@ -37,7 +37,6 @@ export const loginDB = createAsyncThunk(
         }
       );
       const tokenWithBearer = response.headers.get("Authorization");
-      console.log()
       const token = tokenWithBearer.split("Bearer ")[1];
       const { nickname, profileimage, staus, address } = response.data;
       console.log(response.data);

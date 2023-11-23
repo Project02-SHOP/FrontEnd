@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./FormAdditional.module.scss";
 import { useAppDispatch } from "../../hooks/redux";
 import { createProduct } from "../../store/additional/additional.slice";
+import { getCookie } from "../../shared/Cookie";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
@@ -17,13 +18,20 @@ const FormAdditional = () => {
   const [desc, setDesc] = useState("");
   const [placeholder, setPlaceholder] =
     useState("이미지는 3장까지 가능합니다.");
+  const status = getCookie("status");
+  const token = getCookie("token");
+
+  console.log(status);
 
   //현재 날짜를 정하는 부분
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const date = String(now.getDate()).padStart(2, "0");
-  const today = `${year}-${month}-${date}`;
+  const hour = String(now.getHours()).padStart(2, "0");
+  const min = String(now.getMinutes()).padStart(2, "0");
+  const sec = String(now.getSeconds()).padStart(2, "0");
+  const today = `${year}-${month}-${date}T${hour}:${min}:${sec}`;
   // console.log(today);
 
   //입력받은 image를 Base64로 인코딩하는 부분
@@ -64,8 +72,8 @@ const FormAdditional = () => {
   const inputTitleHandler = (e) => {
     setTitle(e.target.value);
   };
-  useEffect(() => {}, [category]);
-  console.log(category);
+  // useEffect(() => {}, [category]);
+  // console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
@@ -109,12 +117,13 @@ const FormAdditional = () => {
       img3: imageSrc[2],
       saleEndDate: endDate,
       productDetail: desc,
+      registerDate: today,
     };
 
     if (selectedCategory === "" || selectedCategory === "null") {
       alert("카테고리는 필수사항입니다.");
     } else {
-      dispatch(createProduct(product))
+      dispatch(createProduct({ product, status, token }))
         .then((data) => {
           console.log("Product created:", data);
           setImageSrc([]);
@@ -166,7 +175,7 @@ const FormAdditional = () => {
             name="title"
             required
             onChange={inputTitleHandler}
-            value={title}
+            value={title ?? ""}
           />
           {/* 판매 상품 카테고리 구현 */}
           <div className={styles.labelHint}>
@@ -174,7 +183,7 @@ const FormAdditional = () => {
           </div>
           <select
             name="category"
-            value={category}
+            value={category ?? ""}
             onChange={inputCategoryHandler}
           >
             <option value={"null"}></option>
@@ -221,7 +230,7 @@ const FormAdditional = () => {
           <div className={styles.labelHint}>
             <label>End date of item sale</label>
           </div>
-          <input
+          {/* <input
             className="endDate"
             type="date"
             name="endDate"
@@ -231,7 +240,20 @@ const FormAdditional = () => {
             onChange={inputEndDateHandler}
             value={endDate}
             min={today}
+          /> */}
+          <input
+            className="endDate"
+            type="datetime-local"
+            name="endDate"
+            step="1"
+            ref={endDate_ref}
+            id="endDate"
+            required
+            onChange={inputEndDateHandler}
+            value={endDate}
+            min={today}
           />
+
           {/* 상품설명 구현 */}
           <div className={styles.labelHint}>
             <label>Item Description</label>
