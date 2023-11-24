@@ -1,3 +1,7 @@
+.myInfoCon {
+  min-width: 1070px;
+}
+
 .my_info {
   display: flex;
   flex-direction: row;
@@ -59,7 +63,7 @@
   }
 }
 .profile {
-  width: 125px;
+  width: 160px;
   height: 125px;
   border: none;
   border-radius: 50%;
@@ -82,7 +86,7 @@
 }
 
 .info_quit {
-  width: 15%;
+  width: 20%;
   text-align: left;
   margin-left: 15px;
 

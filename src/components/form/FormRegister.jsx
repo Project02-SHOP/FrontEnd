@@ -17,7 +17,7 @@ const FormRegister = () => {
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
   const [profileimage, setProfileimage] = useState("");
-  const [status, setStatus] = useState("USER")
+  const [status, setStatus] = useState("USER");
   const [placeholder, setPlaceholder] =
     useState("썸네일은 하나만 등록 가능합니다.");
 
@@ -163,27 +163,33 @@ const FormRegister = () => {
             setAddress(event.target.value);
           }}
         />
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="USER"
-              checked={status === "USER"}
-              onChange={() => setStatus("USER")}
-            />
-            일반 USER
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="SELLER"
-              checked={status === "SELLER"}
-              onChange={() => setStatus("SELLER")}
-            />
-            판매자 SELLER
-          </label>
+        <div className={styles.userTypeCon}>
+          <div className={styles.userTypeLeft}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="USER"
+                checked={status === "USER"}
+                onChange={() => setStatus("USER")}
+                className={styles.userType}
+              />
+              일반 USER
+            </label>
+          </div>
+          <div className={styles.userTypeRight}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="SELLER"
+                checked={status === "SELLER"}
+                onChange={() => setStatus("SELLER")}
+                className={styles.userType}
+              />
+              판매자 SELLER
+            </label>
+          </div>
         </div>
         <div>
           {profileimage && <img src={profileimage} alt="preview-img" />}
