@@ -5,7 +5,7 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-// import { CgUserlane } from "react-icons/cg";
+
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
@@ -16,6 +16,7 @@ const MyInfo = () => {
     address: "",
   });
 
+  console.log(userInfo);
   const navigator = useNavigate();
 
   const deleteUser = async () => {
@@ -28,13 +29,9 @@ const MyInfo = () => {
       password: password,
     };
     try {
-      const response = await apiToken.put(
-        "/api/user/delete",
-         requestData ,
-        {
-          headers: { "X-AUTH-TOKEN": ` ${token}` },
-        }
-      );
+      const response = await apiToken.put("/api/user/delete", requestData, {
+        headers: { "X-AUTH-TOKEN": ` ${token}` },
+      });
       console.log(response.data);
       setIsDeleted(true);
       deleteCookie("token", response.data.token);
@@ -42,7 +39,7 @@ const MyInfo = () => {
       deleteCookie("profileimage", response.data.profileimage);
       deleteCookie("email", response.data.email);
       deleteCookie("password", response.data.password);
-      deleteCookie("status", response.data.status)
+      deleteCookie("status", response.data.status);
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);
       // 오류 처리 (예: 오류 메시지 표시 등)
@@ -63,7 +60,7 @@ const MyInfo = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.myInfoCon}>
       <li className={styles.my_info}>
         <div className={styles.profile}>
           {userInfo.profileimage && (

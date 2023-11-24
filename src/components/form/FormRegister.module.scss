@@ -68,3 +68,18 @@
   border-radius: 5px;
   box-shadow: rgb(0 0 0 / 16%) 0 3px 6px, rgb(0 0 0 / 23%) 0 3px 6px;
 }
+div {
+  .userTypeCon {
+    display: flex;
+    width: 500px;
+  }
+  .userTypeLeft {
+    width: 100px;
+  }
+  .userTypeRight {
+    width: 200px;
+  }
+}
+input.userType {
+  width: 10px;
+}
