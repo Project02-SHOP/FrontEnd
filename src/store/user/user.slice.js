@@ -29,16 +29,11 @@ export const loginDB = createAsyncThunk(
         {
           email,
           password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
       const tokenWithBearer = response.headers.get("Authorization");
       const token = tokenWithBearer.split("Bearer ")[1];
-      const { nickname, profileimage, staus, address } = response.data;
+      const { nick_name, profileimage, staus, address } = response.data;
       console.log(response.data);
       console.log(token);
 
@@ -47,7 +42,7 @@ export const loginDB = createAsyncThunk(
           is_login: true,
           token,
           user: {
-            nickname,
+            nick_name,
             profileimage,
             email,
             password,
@@ -57,7 +52,7 @@ export const loginDB = createAsyncThunk(
         })
       );
       setCookie("token", token);
-      setCookie("nickname", nickname);
+      setCookie("nickname", nick_name);
       setCookie("profileimage", profileimage);
       setCookie("email", email);
       setCookie("password", password);
@@ -84,9 +79,7 @@ export const logoutDB = createAsyncThunk(
   async (token, { dispatch }) => {
     try {
       await apiToken.post(
-        "/api/user/logout",
-        {},
-        { headers: { "X-AUTH-TOKEN": ` ${token}` } }
+        "/api/user/logout"
       );
       dispatch(logOut());
     } catch (error) {
