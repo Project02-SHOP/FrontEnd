@@ -71,12 +71,12 @@ const FormAdditional = () => {
     setTitle(e.target.value);
   };
   // useEffect(() => {}, [category]);
-  // console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
   };
+  // console.log(category);
 
   const inputPriceHandler = (e) => {
     setPrice(e.target.value);

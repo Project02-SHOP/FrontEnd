@@ -24,13 +24,10 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await api.post(
-        "/api/user/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await api.post("/api/user/login", {
+        email,
+        password,
+      });
       const tokenWithBearer = response.headers.get("Authorization");
       const token = tokenWithBearer.split("Bearer ")[1];
       const { nick_name, profileimage, staus, address } = response.data;
@@ -80,9 +77,7 @@ export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
     try {
-      await apiToken.post(
-        "/api/user/logout"
-      );
+      await apiToken.post("/api/user/logout");
       dispatch(logOut());
     } catch (error) {
       console.error("logOut Error", error);

@@ -11,7 +11,7 @@ const SellerList = ({ userId }) => {
 
   useEffect(() => {
     dispatch(bringMyItem(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, SellerItem]);
 
   return (
     <div className={styles.orders}>
