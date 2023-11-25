@@ -19,7 +19,7 @@ export const createProduct = createAsyncThunk(
 
 export const updateItemQuantity = createAsyncThunk(
   "product/updateItemQuantity",
-  async ({ productId, productQuantity, token }, thunkAPI) => {
+  async ({ productId, productQuantity }, thunkAPI) => {
     try {
       const response = await apiToken.put(
         `/api/product/${productId}/quantity`,

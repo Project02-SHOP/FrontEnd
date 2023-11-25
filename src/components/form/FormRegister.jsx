@@ -17,7 +17,7 @@ const FormRegister = () => {
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
   const [profileimage, setProfileImage] = useState(null);
-  const [status, setStatus] = useState("USER");
+  const [role, setRole] = useState("USER");
   const [placeholder, setPlaceholder] =
     useState("썸네일은 하나만 등록 가능합니다.");
 
@@ -116,7 +116,7 @@ const FormRegister = () => {
       password: password,
       address: address,
       filePath: profileimage,
-      status: status,
+      role: role,
     };
 
   
@@ -179,8 +179,8 @@ const FormRegister = () => {
                 type="radio"
                 name="userType"
                 value="USER"
-                checked={status === "USER"}
-                onChange={() => setStatus("USER")}
+                checked={role === "USER"}
+                onChange={() => setRole("USER")}
                 className={styles.userType}
               />
               일반 USER
@@ -192,8 +192,8 @@ const FormRegister = () => {
                 type="radio"
                 name="userType"
                 value="SELLER"
-                checked={status === "SELLER"}
-                onChange={() => setStatus("SELLER")}
+                checked={role === "SELLER"}
+                onChange={() => setRole("SELLER")}
                 className={styles.userType}
               />
               판매자 SELLER
