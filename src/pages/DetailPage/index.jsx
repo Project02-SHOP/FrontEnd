@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import styles from "./DetailPage.module.scss";
@@ -6,12 +6,15 @@ import Loader from "../../components/loader/Loader";
 import { addToCart } from "../../store/cart/cart.slice";
 import { fetchProduct } from "../../store/products/product.slice";
 import { useAuth } from "../../hooks/useAuth";
+import SelectBox from "../../components/selectBox/SelectBox";
 
 const DetailPage = () => {
   const { id } = useParams();
   const productId = Number(id);
   const dispatch = useAppDispatch();
   const { is_login } = useAuth();
+  const [selectedOption, setSelectedOption] = useState("");
+  const option = ["s", "m", "l", "xl"];
 
   const { product, isLoading } = useAppSelector((state) => state.productSlice); //store에서 product를 가져온다
   const { products } = useAppSelector((state) => state.cartSlice); // 장바구니에 있는 products도 가져온다
@@ -23,18 +26,22 @@ const DetailPage = () => {
     dispatch(fetchProduct(productId)); //store에서 product를 가져온다
   }, [productId]);
 
-  const addItemToCart = async () => {
+  const addItemToCart = () => {
     if (is_login === false) {
       window.alert("로그인 후 이용가능합니다.");
     } else if (is_login === true) {
       try {
-        await dispatch(addToCart(product.id));
+        dispatch(addToCart({ product_id: product.id }));
       } catch (error) {
         console.error("카트추가 에러", error);
       }
     }
   };
 
+  const optionSelectHandler = (e) => {
+    setSelectedOption(e.target.value);
+  };
+  console.log(selectedOption.toLowerCase());
   console.log(productMatching);
   return (
     <div className="page">
@@ -60,19 +67,7 @@ const DetailPage = () => {
             <p>{product.description}</p>
             <div className={styles.option}>
               <div>
-                <select
-                  className={styles.form_select}
-                  name="product-1"
-                  id="product-1"
-                  required
-                >
-                  <option value="">옵션선택</option>
-                  <option value="1">선택 사항1</option>
-                  <option value="2">선택 사항2</option>
-                  <option value="3">선택 사항3</option>
-                  <option value="4">선택 사항4</option>
-                  <option value="5">선택 사항5</option>
-                </select>
+                <SelectBox onChange={optionSelectHandler} options={option} />
                 <div className={styles.ic_caret}></div>
               </div>
             </div>

@@ -14,7 +14,7 @@ const CardItem = ({ item }) => {
     if (is_login === false) {
       alert("로그인 후 이용가능합니다.");
     } else if (is_login === true) {
-      dispatch(addToCart(item));
+      dispatch(addToCart({ product_id: item.id }));
     }
   };
   return (

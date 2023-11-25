@@ -1,11 +1,18 @@
 import React from "react";
-import Option from "./Option";
+import Option from "./option/Option";
+import styles from "./SelectBox.module.scss";
 
-const SelectBox = ({ options }) => {
+const SelectBox = ({ options, onChange }) => {
   return (
-    <select>
+    <select
+      className={styles.form_select}
+      name="product-1"
+      id="product-1"
+      required
+      onChange={onChange}
+    >
       {options.map((option) => (
-        <Option key={option.id} value={option.option} />
+        <Option key={option} value={option.toUpperCase()} />
       ))}
     </select>
   );
