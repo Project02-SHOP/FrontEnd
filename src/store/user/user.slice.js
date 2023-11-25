@@ -60,15 +60,17 @@ export const loginDB = createAsyncThunk(
       setCookie("address", address);
       return { token };
     } catch (error) {
-      if (error.response.data === "5회 이상 오류로 인해 접속이 1분간 불가 합니다") {
+      if (
+        error.response.data === "5회 이상 오류로 인해 접속이 1분간 불가 합니다"
+      ) {
         // 서버에서 특정 에러 메시지를 보낸 경우 알림 표시
-        console.log(error.response)
+        console.log(error.response);
         window.alert("로그인 5회 실패로 계정이 1분간 잠겼습니다.");
       } else {
         // 그 외의 경우 일반적인 로그인 에러 메시지 표시
         window.alert("로그인 에러");
       }
-      console.log(error.response)
+      console.log(error.response);
       console.error("Login Error", error);
     }
   }
@@ -141,6 +143,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logOut, loadToken, removeUser } = userSlice.actions;
+export const { login, logOut, loadToken, removeUser, nickname } =
+  userSlice.actions;
 
 export default userSlice.reducer;

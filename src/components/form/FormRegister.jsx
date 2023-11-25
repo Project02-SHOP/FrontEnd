@@ -172,27 +172,33 @@ const FormRegister = () => {
             setAddress(event.target.value);
           }}
         />
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="USER"
-              checked={status === "USER"}
-              onChange={() => setStatus("USER")}
-            />
-            일반 USER
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="SELLER"
-              checked={status === "SELLER"}
-              onChange={() => setStatus("SELLER")}
-            />
-            판매자 SELLER
-          </label>
+        <div className={styles.userTypeCon}>
+          <div className={styles.userTypeLeft}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="USER"
+                checked={status === "USER"}
+                onChange={() => setStatus("USER")}
+                className={styles.userType}
+              />
+              일반 USER
+            </label>
+          </div>
+          <div className={styles.userTypeRight}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="SELLER"
+                checked={status === "SELLER"}
+                onChange={() => setStatus("SELLER")}
+                className={styles.userType}
+              />
+              판매자 SELLER
+            </label>
+          </div>
         </div>
         <div>
           {profileimage && <img src={profileimage} alt="preview-img" />}

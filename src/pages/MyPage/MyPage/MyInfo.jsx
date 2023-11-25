@@ -5,7 +5,7 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-// import { CgUserlane } from "react-icons/cg";
+
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
@@ -17,6 +17,7 @@ const MyInfo = () => {
     address: "",
   });
 
+  console.log(userInfo);
   const navigator = useNavigate();
 
   const deleteUser = async () => {
@@ -59,7 +60,7 @@ const MyInfo = () => {
   }, [token]);
 
   return (
-    <div>
+    <div className={styles.myInfoCon}>
       <li className={styles.my_info}>
         <div className={styles.profile}>
           {userInfo.profileimage && (
