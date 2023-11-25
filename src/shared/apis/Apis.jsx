@@ -13,8 +13,8 @@ export const apiToken = axios.create({
 
 apiToken.interceptors.request.use(
   (config) => {
-    const authorization = getCookie("token");
-    config.headers.Authorization = `${authorization}`;
+    const authToken = getCookie("token");
+    config.headers["X-AUTH-TOKEN"] = authToken; 
     return config;
   },
   (error) => {
