@@ -2,9 +2,12 @@ import { useState } from "react";
 import styles from "./SellerItem.module.scss";
 import { updateItemQuantity } from "../../../../store/additional/additional.slice";
 import { useAppDispatch } from "../../../../hooks/redux";
+import { getCookie } from "../../../../shared/Cookie";
 
 const SellerItem = ({ item }) => {
   const [quantity, setQuantity] = useState(item.quantity);
+  const token = getCookie("token");
+  const productId = item.id;
   const dispatch = useAppDispatch();
 
   const handleQuantityChange = (e) => {
@@ -12,7 +15,7 @@ const SellerItem = ({ item }) => {
   };
 
   const handleUpdateQuantity = () => {
-    dispatch(updateItemQuantity(item.id, quantity));
+    dispatch(updateItemQuantity({ productId, productQuantity, token }));
   };
 
   return (
@@ -23,6 +26,7 @@ const SellerItem = ({ item }) => {
         <input
           type="number"
           min="0"
+          step={1}
           value={quantity}
           onChange={handleQuantityChange}
         />
