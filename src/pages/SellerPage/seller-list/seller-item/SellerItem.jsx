@@ -2,12 +2,10 @@ import { useState } from "react";
 import styles from "./SellerItem.module.scss";
 import { updateItemQuantity } from "../../../../store/additional/additional.slice";
 import { useAppDispatch } from "../../../../hooks/redux";
-import { getCookie } from "../../../../shared/Cookie";
 
-const SellerItem = ({ item }) => {
-  const [quantity, setQuantity] = useState(item.quantity);
-  const token = getCookie("token");
-  const productId = item.id;
+const SellerItem = ({ product: { id, productQuantity, img1 } }) => {
+  const [quantity, setQuantity] = useState(productQuantity);
+  const productId = id;
   const dispatch = useAppDispatch();
 
   const handleQuantityChange = (e) => {
@@ -15,14 +13,15 @@ const SellerItem = ({ item }) => {
   };
 
   const handleUpdateQuantity = () => {
-    dispatch(updateItemQuantity({ productId, productQuantity, token }));
+    dispatch(updateItemQuantity({ productId, productQuantity: quantity }));
   };
 
   return (
     <li className={styles.order_item}>
-      <img src={item.image[0]} alt="product card" />
+      <img src={img1} alt="product-card" />
       <div className={styles.order_price}>
         <h4>수량</h4>
+        <div>수량 : {quantity}</div>
         <input
           type="number"
           min="0"

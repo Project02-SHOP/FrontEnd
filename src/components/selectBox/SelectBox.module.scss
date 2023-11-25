@@ -1,0 +1,19 @@
+.form_select {
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--main-color);
+  display: block;
+  width: 542px;
+  height: 3.5rem;
+  padding: 0 1.6rem;
+  margin-bottom: 20px;
+  cursor: pointer;
+  background-color: #fff;
+  border: 0.1rem solid var(--main-color);
+  appearance: none;
+  transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
+}
+.form_select::placeholder {
+  color: #b2b3b9;
+}

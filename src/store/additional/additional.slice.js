@@ -21,12 +21,10 @@ export const updateItemQuantity = createAsyncThunk(
   "product/updateItemQuantity",
   async ({ productId, productQuantity }, thunkAPI) => {
     try {
-      const response = await apiToken.put(
-        `/api/product/${productId}/quantity`,
-        {
-          productQuantity,
-        }
-      );
+      const response = await apiToken.put(`/api/product/quantity`, {
+        productId,
+        productQuantity,
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("updating item quantity error");
@@ -36,9 +34,9 @@ export const updateItemQuantity = createAsyncThunk(
 
 export const bringMyItem = createAsyncThunk(
   "product/bringMyItem",
-  async ({ userId }, thunkAPI) => {
+  async (thunkAPI) => {
     try {
-      const response = await apiToken.get(`/api/product/${userId}/active`);
+      const response = await apiToken.get(`/api/product/active`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("bring my item error");
