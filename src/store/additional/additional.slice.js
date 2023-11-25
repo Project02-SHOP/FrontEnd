@@ -45,7 +45,7 @@ export const bringMyItem = createAsyncThunk(
 );
 
 const initialState = {
-  product: {},
+  product: [],
   isLoading: false,
   error: "",
 };
@@ -72,9 +72,18 @@ export const additionalSlice = createSlice({
       .addCase(updateItemQuantity.pending, (state) => {
         state.isLoading = true;
       })
+      // .addCase(updateItemQuantity.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.product.quantity = action.payload;
+      // })
       .addCase(updateItemQuantity.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.product.quantity = action.payload;
+        const productIndex = state.product.findIndex(
+          (product) => product.id === action.payload.id
+        );
+        if (productIndex > -1) {
+          state.product[productIndex].quantity = action.payload.quantity;
+        }
       })
       .addCase(updateItemQuantity.rejected, (state, action) => {
         state.isLoading = false;
