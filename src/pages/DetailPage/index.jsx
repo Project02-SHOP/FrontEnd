@@ -41,6 +41,7 @@ const DetailPage = () => {
   const optionSelectHandler = (e) => {
     setSelectedOption(e.target.value);
   };
+
   console.log(selectedOption.toLowerCase());
   console.log(productMatching);
   return (
