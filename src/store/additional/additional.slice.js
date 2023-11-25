@@ -1,14 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api, apiToken } from "../../shared/apis/Apis";
+import { apiToken } from "../../shared/apis/Apis";
 
 export const createProduct = createAsyncThunk(
   "product/createProduct",
-  async ({ product, status, token }, thunkAPI) => {
+  async ({ product, status }, thunkAPI) => {
     try {
-      const response = await api.post("/api/product/create", product, {
+      const response = await apiToken.post("/api/product/create", product, {
         headers: {
-          "Content-Type": "application/json",
-          "X-AUTH-TOKEN": `${token}`,
           status,
         },
       });
@@ -23,13 +21,10 @@ export const updateItemQuantity = createAsyncThunk(
   "product/updateItemQuantity",
   async ({ productId, productQuantity, token }, thunkAPI) => {
     try {
-      const response = await api.put(
+      const response = await apiToken.put(
         `/api/product/${productId}/quantity`,
-        { productQuantity },
         {
-          headers: {
-            "X-AUTH-TOKEN": `${token}`,
-          },
+          productQuantity,
         }
       );
       return response.data;

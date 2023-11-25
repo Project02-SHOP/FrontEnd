@@ -5,44 +5,39 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-// import { CgUserlane } from "react-icons/cg";
+
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
+  const token = getCookie("token");
   const [userInfo, setUserInfo] = useState({
-    nickname: "",
+    nick_name: "",
     email: "",
     profileimage: "",
     address: "",
   });
 
+  console.log(userInfo);
   const navigator = useNavigate();
 
   const deleteUser = async () => {
     const email = getCookie("email");
     const password = getCookie("password");
-    const token = getCookie("token");
 
     const requestData = {
       email: email,
       password: password,
     };
     try {
-      const response = await apiToken.put(
-        "/api/user/delete",
-         requestData ,
-        {
-          headers: { "X-AUTH-TOKEN": ` ${token}` },
-        }
-      );
+      const response = await apiToken.put("/api/user/delete", requestData);
       console.log(response.data);
       setIsDeleted(true);
       deleteCookie("token", response.data.token);
-      deleteCookie("nickname", response.data.nickname);
+      deleteCookie("nickname", response.data.nick_name);
       deleteCookie("profileimage", response.data.profileimage);
       deleteCookie("email", response.data.email);
       deleteCookie("password", response.data.password);
-      deleteCookie("status", response.data.status)
+      deleteCookie("status", response.data.status);
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);
       // 오류 처리 (예: 오류 메시지 표시 등)
@@ -52,6 +47,8 @@ const MyInfo = () => {
     try {
       const res = await apiToken.get("/api/mypage/info");
       setUserInfo(res.data);
+      console.log(res.data);
+      console.log(userInfo);
     } catch (error) {
       console.error("유저 정보 가져오기 오류:", error);
       // 사용자에게 알리기 위해 오류 메시지를 표시하거나 다른 처리를 추가할 수 있음
@@ -60,10 +57,10 @@ const MyInfo = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, []);
+  }, [token]);
 
   return (
-    <div>
+    <div className={styles.myInfoCon}>
       <li className={styles.my_info}>
         <div className={styles.profile}>
           {userInfo.profileimage && (
@@ -71,7 +68,7 @@ const MyInfo = () => {
           )}
         </div>
         <div className={styles.info_description}>
-          <h4>{userInfo.nickname}님 반갑습니다</h4>
+          <h4>{userInfo.nick_name}님 반갑습니다</h4>
           <h3>
             {" "}
             <MdOutlineMarkEmailRead /> {userInfo.email}email

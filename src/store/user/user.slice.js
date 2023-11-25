@@ -24,28 +24,22 @@ export const loginDB = createAsyncThunk(
   "user/login",
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await api.post(
-        "/api/user/login",
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await api.post("/api/user/login", {
+        email,
+        password,
+      });
       const tokenWithBearer = response.headers.get("Authorization");
       const token = tokenWithBearer.split("Bearer ")[1];
-      const { nickname, profileimage, staus, address } = response.data;
+      const { nick_name, profileimage, staus, address } = response.data;
+      console.log(response.data);
+      console.log(token);
 
       dispatch(
         login({
           is_login: true,
           token,
           user: {
-            nickname,
+            nick_name,
             profileimage,
             email,
             password,
@@ -55,7 +49,7 @@ export const loginDB = createAsyncThunk(
         })
       );
       setCookie("token", token);
-      setCookie("nickname", nickname);
+      setCookie("nickname", nick_name);
       setCookie("profileimage", profileimage);
       setCookie("email", email);
       setCookie("password", password);
@@ -83,11 +77,7 @@ export const logoutDB = createAsyncThunk(
   "user/logout",
   async (token, { dispatch }) => {
     try {
-      await apiToken.post(
-        "/api/user/logout",
-        {},
-        { headers: { "X-AUTH-TOKEN": ` ${token}` } }
-      );
+      await apiToken.post("/api/user/logout");
       dispatch(logOut());
     } catch (error) {
       console.error("logOut Error", error);
@@ -148,6 +138,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logOut, loadToken, removeUser } = userSlice.actions;
+export const { login, logOut, loadToken, removeUser, nickname } =
+  userSlice.actions;
 
 export default userSlice.reducer;

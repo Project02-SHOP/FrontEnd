@@ -18,7 +18,6 @@ const FormAdditional = () => {
   const [placeholder, setPlaceholder] =
     useState("이미지는 3장까지 가능합니다.");
   const status = getCookie("status");
-  const token = getCookie("token");
 
   //현재 날짜를 정하는 부분
   const now = new Date();
@@ -121,7 +120,7 @@ const FormAdditional = () => {
     if (selectedCategory === 0) {
       alert("카테고리는 필수사항입니다.");
     } else {
-      dispatch(createProduct({ product, status, token }))
+      dispatch(createProduct({ product, status }))
         .then(() => {
           // console.log("Product created:", data);
           console.log(product);

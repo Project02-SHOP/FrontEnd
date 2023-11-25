@@ -16,23 +16,23 @@ const FormRegister = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
-  const [profileimage, setProfileimage] = useState("");
-  const [status, setStatus] = useState("USER")
+  const [profileimage, setProfileImage] = useState(null);
+  const [status, setStatus] = useState("USER");
   const [placeholder, setPlaceholder] =
     useState("썸네일은 하나만 등록 가능합니다.");
 
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setProfileimage(reader.result);
-        resolve();
-      };
-    });
-  };
+  // const encodeFileToBase64 = (fileBlob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(fileBlob);
+  //   return new Promise((resolve) => {
+  //     reader.onload = () => {
+  //       setprofileimage(reader.result);
+  //       resolve();
+  //     };
+  //   });
+  // };
 
-  const inputImgHandler = (e) => {
+  const inputImgHandler = async (e) => {
     if (img_ref.current.value !== "") {
       const fileName = img_ref.current.value;
       setPlaceholder(fileName);
@@ -43,7 +43,15 @@ const FormRegister = () => {
       }
     }
     if (e.target.files.length > 0) {
-      encodeFileToBase64(e.target.files[0]);
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+
+      try {
+        const response = await api.post("/api/user/signup/image", formData);
+        setProfileImage(response.data.url);
+      } catch (error) {
+        console.error("Profile Image Upload Error", error);
+      }
     }
   };
 
@@ -102,24 +110,25 @@ const FormRegister = () => {
       return;
     }
 
-    await api
-      .post("/api/user/signup", {
-        email,
-        nickName,
-        password,
-        address,
-        profileimage,
-        status,
-      })
-      .then((res) => {
-        console.log(res);
-        window.alert("회원가입을 축하합니다!");
-        navigate("/Login");
-      })
-      .catch((error) => {
-        window.alert("아이디 또는 비밀번호를 확인해주세요.");
-        console.log("회원가입 DB Error", error);
-      });
+    const user = {
+      email: email,
+      nick_name: nickName,
+      password: password,
+      address: address,
+      filePath: profileimage,
+      status: status,
+    };
+
+  
+    try {
+      const response = await api.post("/api/user/signup", user);
+      console.log(response);
+      window.alert("회원가입을 축하합니다!");
+      navigate("/Login");
+    } catch (error) {
+      window.alert("아이디 또는 비밀번호를 확인해주세요.");
+      console.log("회원가입 DB Error", error);
+    }
   };
 
   return (
@@ -163,27 +172,33 @@ const FormRegister = () => {
             setAddress(event.target.value);
           }}
         />
-        <div>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="USER"
-              checked={status === "USER"}
-              onChange={() => setStatus("USER")}
-            />
-            일반 USER
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="userType"
-              value="SELLER"
-              checked={status === "SELLER"}
-              onChange={() => setStatus("SELLER")}
-            />
-            판매자 SELLER
-          </label>
+        <div className={styles.userTypeCon}>
+          <div className={styles.userTypeLeft}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="USER"
+                checked={status === "USER"}
+                onChange={() => setStatus("USER")}
+                className={styles.userType}
+              />
+              일반 USER
+            </label>
+          </div>
+          <div className={styles.userTypeRight}>
+            <label>
+              <input
+                type="radio"
+                name="userType"
+                value="SELLER"
+                checked={status === "SELLER"}
+                onChange={() => setStatus("SELLER")}
+                className={styles.userType}
+              />
+              판매자 SELLER
+            </label>
+          </div>
         </div>
         <div>
           {profileimage && <img src={profileimage} alt="preview-img" />}
