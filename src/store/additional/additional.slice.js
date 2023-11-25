@@ -5,20 +5,14 @@ export const createProduct = createAsyncThunk(
   "product/createProduct",
   async ({ product, status, token }, thunkAPI) => {
     try {
-      const response = await api.post(
-        "/api/product/create",
-        {
-          product: product,
+      const response = await api.post("/api/product/create", product, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-AUTH-TOKEN": `${token}`,
+          status,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            status,
-            "X-AUTH-TOKEN": `${token}`,
-          },
-        }
-      );
-      return response.data, console.log(status);
+      });
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("creating product error");
     }
@@ -27,10 +21,16 @@ export const createProduct = createAsyncThunk(
 
 export const updateItemQuantity = createAsyncThunk(
   "product/updateItemQuantity",
-  async ({ productId, quantity }, thunkAPI) => {
+  async ({ productId, productQuantity, token }, thunkAPI) => {
     try {
-      const response = await apiToken.put(
-        `/api/product/${productId}/${quantity}`
+      const response = await api.put(
+        `/api/product/${productId}/quantity`,
+        { productQuantity },
+        {
+          headers: {
+            "X-AUTH-TOKEN": `${token}`,
+          },
+        }
       );
       return response.data;
     } catch (error) {
@@ -63,7 +63,7 @@ export const additionalSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      //Create Product 로직
+      //Create Product 상태값에 따른 로직
       .addCase(createProduct.pending, (state) => {
         state.isLoading = true;
       })
@@ -74,10 +74,8 @@ export const additionalSlice = createSlice({
       .addCase(createProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-        console.log("Payload:", action.payload); // Payload 출력
-        console.log("Error:", action.error); // Error 출력
       })
-      //Update Item Quantity 로직
+      //Update Item Quantity 상태값에 따른 로직
       .addCase(updateItemQuantity.pending, (state) => {
         state.isLoading = true;
       })
@@ -89,7 +87,7 @@ export const additionalSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      //Bring My Item 로직
+      //Bring My Item 상태값에 따른 로직
       .addCase(bringMyItem.pending, (state) => {
         state.isLoading = true;
       })

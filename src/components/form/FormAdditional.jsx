@@ -6,13 +6,12 @@ import { getCookie } from "../../shared/Cookie";
 
 const FormAdditional = () => {
   const img_ref = useRef(null);
-  // const endDate_ref = useRef(null);
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(0);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState([]);
   const [imageSrc, setImageSrc] = useState([]);
   const [endDate, setEndDate] = useState("");
   const [desc, setDesc] = useState("");
@@ -20,22 +19,31 @@ const FormAdditional = () => {
     useState("이미지는 3장까지 가능합니다.");
   const status = getCookie("status");
   const token = getCookie("token");
-  // const userId = getCookie("email");
-
-  // console.log(status);
 
   //현재 날짜를 정하는 부분
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const date = String(now.getDate()).padStart(2, "0");
-  // const hour = String(now.getHours()).padStart(2, "0");
-  // const min = String(now.getMinutes()).padStart(2, "0");
-  // const sec = String(now.getSeconds()).padStart(2, "0");
   const today = `${year}-${month}-${date}`;
-  // console.log(today);
 
   //입력받은 image를 Base64로 인코딩하는 부분
+  // const encodeFileToBase64 = (files) => {
+  //   let promises = [];
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i];
+  //     const reader = new FileReader();
+  //     const promise = new Promise((resolve) => {
+  //       reader.onload = () => {
+  //         resolve(reader.result);
+  //       };
+  //     });
+  //     reader.readAsDataURL(file);
+  //     promises.push(promise);
+  //   }
+  //   return Promise.all(promises);
+  // };
+
   const encodeFileToBase64 = (files) => {
     let promises = [];
     for (let i = 0; i < files.length; i++) {
@@ -43,7 +51,9 @@ const FormAdditional = () => {
       const reader = new FileReader();
       const promise = new Promise((resolve) => {
         reader.onload = () => {
-          resolve(reader.result);
+          let base64Data = reader.result;
+          let pureBase64Data = base64Data.replace(/^data:.+;base64,/, "");
+          resolve(pureBase64Data);
         };
       });
       reader.readAsDataURL(file);
@@ -70,38 +80,25 @@ const FormAdditional = () => {
     });
   };
 
-  const inputTitleHandler = (e) => {
-    setTitle(e.target.value);
+  const handleInputChange = (setter) => (event) => {
+    setter(event.target.value);
   };
-  // useEffect(() => {}, [category]);
-  // console.log(category);
 
   const inputCategoryHandler = (e) => {
     const selectedCategory = e.target.value;
     setCategory(selectedCategory);
   };
 
-  const inputPriceHandler = (e) => {
-    setPrice(e.target.value);
-  };
-
-  const inputQuantityHandler = (e) => {
-    setQuantity(e.target.value);
-  };
-
   const inputOptionHandler = (e) => {
-    setOption(e.target.value);
+    const options = e.target.value.split(",").map((option) => option.trim());
+    setOption(options);
   };
 
-  const inputEndDateHandler = (e) => {
-    setEndDate(e.target.value);
-  };
+  // const inputOptionHandler = (e) => {
+  //   setOption(e.target.value);
+  // };
 
-  const inputDescHandler = (e) => {
-    setDesc(e.target.value);
-  };
-
-  //상품 등록을 클릭했을 때 이벤트 핸들링하는 부분
+  // 상품 등록을 클릭했을 때 이벤트 핸들링하는 부분
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -109,31 +106,31 @@ const FormAdditional = () => {
 
     const product = {
       productName: title,
-      category: Number(category),
+      category: Number(selectedCategory),
       price: Number(price),
       productQuantity: Number(quantity),
       option,
-      img1: imageSrc[0],
-      img2: imageSrc[1],
-      img3: imageSrc[2],
+      img1: "1234",
+      img2: "1234",
+      img3: "1234",
       saleEndDate: endDate,
       productDetail: desc,
       registerDate: today,
-      // userId: Number("32"),
     };
 
-    if (selectedCategory === "" || selectedCategory === "null") {
+    if (selectedCategory === 0) {
       alert("카테고리는 필수사항입니다.");
     } else {
       dispatch(createProduct({ product, status, token }))
-        .then((data) => {
-          console.log("Product created:", data);
+        .then(() => {
+          // console.log("Product created:", data);
+          console.log(product);
           setImageSrc([]);
           setTitle("");
-          setCategory("");
+          setCategory(0);
           setPrice("");
           setQuantity("");
-          setOption("");
+          setOption([]);
           setEndDate("");
           setDesc("");
           img_ref.current.value = "";
@@ -153,7 +150,10 @@ const FormAdditional = () => {
           <div>
             {imageSrc.length > 0 ? (
               <div className={styles.formPreview}>
-                <img src={imageSrc[0]} alt="preview-img" />
+                <img
+                  src={`data:image/jpeg;base64,${imageSrc[0]}`}
+                  alt="preview-img"
+                />
               </div>
             ) : (
               <div className={styles.formPreview}></div>
@@ -176,8 +176,8 @@ const FormAdditional = () => {
             type="text"
             name="title"
             required
-            onChange={inputTitleHandler}
-            value={title ?? ""}
+            onChange={handleInputChange(setTitle)}
+            value={title}
           />
           {/* 판매 상품 카테고리 구현 */}
           <div className={styles.labelHint}>
@@ -185,12 +185,12 @@ const FormAdditional = () => {
           </div>
           <select
             name="category"
-            value={category ?? ""}
+            value={category}
             onChange={inputCategoryHandler}
           >
-            <option value={"null"}></option>
-            <option value={"1"}>남성 의류</option>
-            <option value={"2"}>여성 의류</option>
+            <option value={0}></option>
+            <option value={1}>남성 의류</option>
+            <option value={2}>여성 의류</option>
           </select>
           {/* 판매 상품 가격 구현 */}
           <div className={styles.labelHint}>
@@ -202,7 +202,7 @@ const FormAdditional = () => {
             min="0"
             step="0.01"
             required
-            onChange={inputPriceHandler}
+            onChange={handleInputChange(setPrice)}
             value={price}
           />
           {/* 판매 상품 개수 구현 */}
@@ -214,7 +214,7 @@ const FormAdditional = () => {
             name="quantity"
             min="0"
             required
-            onChange={inputQuantityHandler}
+            onChange={handleInputChange(setQuantity)}
             value={quantity}
           />
           {/* 옵션 입력 구현 */}
@@ -236,25 +236,12 @@ const FormAdditional = () => {
             className="endDate"
             type="date"
             name="endDate"
-            // ref={endDate_ref}
             id="endDate"
             required
-            onChange={inputEndDateHandler}
+            onChange={handleInputChange(setEndDate)}
             value={endDate}
             min={today}
           />
-          {/* <input
-            className="endDate"
-            type="datetime-local"
-            name="endDate"
-            step="1"
-            ref={endDate_ref}
-            id="endDate"
-            required
-            onChange={inputEndDateHandler}
-            value={endDate}
-            min={today}
-            /> */}
 
           {/* 상품설명 구현 */}
           <div className={styles.labelHint}>
@@ -264,7 +251,7 @@ const FormAdditional = () => {
             type="text"
             name="desc"
             required
-            onChange={inputDescHandler}
+            onChange={handleInputChange(setDesc)}
             value={desc}
           />
           <button>상품등록</button>
@@ -272,7 +259,7 @@ const FormAdditional = () => {
       </div>
 
       <div className={styles.itemImg}>
-        <input
+        {/* <input
           type="file"
           name="image"
           ref={img_ref}
@@ -282,7 +269,7 @@ const FormAdditional = () => {
           className="itemImg"
           // required
           onChange={inputImgHandler}
-        />
+        /> */}
       </div>
     </form>
   );
