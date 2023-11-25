@@ -3,9 +3,9 @@ import styles from "./SellerItem.module.scss";
 import { updateItemQuantity } from "../../../../store/additional/additional.slice";
 import { useAppDispatch } from "../../../../hooks/redux";
 
-const SellerItem = ({ product: { id, productQuantity, img1 } }) => {
-  const [quantity, setQuantity] = useState(productQuantity);
-  const productId = id;
+const SellerItem = ({ product}) => {
+  const [quantity, setQuantity] = useState(product.productQuantity);
+  const productId = product.productId;
   const dispatch = useAppDispatch();
 
   const handleQuantityChange = (e) => {

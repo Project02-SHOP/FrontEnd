@@ -8,21 +8,16 @@ const SellerList = () => {
   const dispatch = useAppDispatch();
   const product = useAppSelector((state) => state.additionalSlice.product);
 
-  dispatch(bringMyItem());
+  useEffect(()=> {
+    dispatch(bringMyItem());
+  },[])
 
   console.log(product);
   return (
     <div className={styles.orders}>
-      <ul className={styles.orders_list}>
-        {/* {product.map((item, index) => (
-          <div key={index}>{JSON.stringify(item)}</div>
-        ))} */}
-        {/* {product &&
-          product.map((product) => (
-            <SellerItem key={product.id} product={product} /> 
-        ))}*/}
+      <ul className={styles.orders_list}>      
         {product &&
-          product.map((item) => <SellerItem key={item.id} product={item} />)}
+          product.map((item) => <SellerItem key={product.id} product={item} />)}
       </ul>
     </div>
   );
