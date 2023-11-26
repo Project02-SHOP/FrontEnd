@@ -3,13 +3,13 @@ import styles from "./SellerItem.module.scss";
 import { updateItemQuantity } from "../../../../store/additional/additional.slice";
 import { useAppDispatch } from "../../../../hooks/redux";
 
-const SellerItem = ({ product}) => {
+const SellerItem = ({ product }) => {
   const [quantity, setQuantity] = useState(product.productQuantity);
   const productId = product.productId;
   const dispatch = useAppDispatch();
 
   const handleQuantityChange = (e) => {
-    setQuantity(e.target.value);
+    setQuantity(Number(e.target.value));
   };
 
   const handleUpdateQuantity = () => {
@@ -18,7 +18,11 @@ const SellerItem = ({ product}) => {
 
   return (
     <li className={styles.order_item}>
-      <img src={img1} alt="product-card" />
+      <img src={product.img1} alt="product-card" />
+      <div className={styles.order_title}>
+        <h3>{product.productName}</h3>
+        <h4>price : {product.price}</h4>
+      </div>
       <div className={styles.order_price}>
         <h4>수량</h4>
         <div>수량 : {quantity}</div>

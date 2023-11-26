@@ -5,6 +5,8 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { bringMyItem } from "../../../store/additional/additional.slice";
 
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -17,7 +19,6 @@ const MyInfo = () => {
     address: "",
   });
 
-  console.log(userInfo);
   const navigator = useNavigate();
 
   const deleteUser = async () => {
@@ -48,7 +49,6 @@ const MyInfo = () => {
       const res = await apiToken.get("/api/mypage/info");
       setUserInfo(res.data);
       console.log(res.data);
-      console.log(userInfo);
     } catch (error) {
       console.error("유저 정보 가져오기 오류:", error);
       // 사용자에게 알리기 위해 오류 메시지를 표시하거나 다른 처리를 추가할 수 있음
