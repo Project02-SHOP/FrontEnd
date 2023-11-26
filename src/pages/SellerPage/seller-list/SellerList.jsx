@@ -24,4 +24,6 @@ const SellerList = () => {
   );
 };
 
+
+
 export default SellerList;
