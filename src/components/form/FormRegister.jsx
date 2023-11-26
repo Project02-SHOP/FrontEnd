@@ -16,6 +16,7 @@ const FormRegister = () => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [address, setAddress] = useState();
   const [isEmailAvailable, setIsEmailAvailable] = useState(false);
+  const [preView, setPreView] = useState(null);
   const [profileimage, setProfileImage] = useState(null);
   const [status, setStatus] = useState("USER");
   const [placeholder, setPlaceholder] =
@@ -43,6 +44,13 @@ const FormRegister = () => {
       }
     }
     if (e.target.files.length > 0) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPreView(reader.result);
+      };
+
+      reader.readAsDataURL(e.target.files[0]);
       const formData = new FormData();
       formData.append("file", e.target.files[0]);
 
@@ -119,7 +127,6 @@ const FormRegister = () => {
       status: status,
     };
 
-  
     try {
       const response = await api.post("/api/user/signup", user);
       console.log(response);
@@ -201,7 +208,7 @@ const FormRegister = () => {
           </div>
         </div>
         <div>
-          {profileimage && <img src={profileimage} alt="preview-img" />}
+          {preView && <img src={preView} alt="preview-img" />}
         </div>
         <input placeholder={placeholder} disabled />
         <label htmlFor="itemImg" className={styles.label}>
