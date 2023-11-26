@@ -5,8 +5,6 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { bringMyItem } from "../../../store/additional/additional.slice";
 
 const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);

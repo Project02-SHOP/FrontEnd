@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { apiToken } from "../../shared/apis/Apis";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
@@ -24,6 +25,26 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
+
+// export const fetchProducts = createAsyncThunk(
+//   "products/fetchProducts",
+//   async (category, thunkAPI) => {
+//     try {
+//       let response;
+
+//       if (category) {
+//         response = await apiToken.get(
+//           `/api/shop/product/${category}` //카테고리를 선택했다면
+//         );
+//       } else {
+//         response = await apiToken.get("/api/shop/allproduct"); //카테고리를 선택하지 안했다면
+//       }
+//       return response.data; //payload
+//     } catch (error) {
+//       thunkAPI.rejectWithValue("Error loading products");
+//     }
+//   }
+// );
 
 const initialState = {
   products: [],

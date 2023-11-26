@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { apiToken } from "../../shared/apis/Apis";
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
@@ -15,6 +16,18 @@ export const fetchProduct = createAsyncThunk(
     }
   }
 );
+
+// export const fetchProduct = createAsyncThunk(
+//   "product/fetchProduct",
+//   async (id, thunkAPI) => {
+//     try {
+//       const response = await apiToken.get(`/api/shop/product/${id}`);
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue("Error loading product");
+//     }
+//   }
+// );
 
 const initialState = {
   product: {},

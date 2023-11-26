@@ -72,10 +72,6 @@ export const additionalSlice = createSlice({
       .addCase(updateItemQuantity.pending, (state) => {
         state.isLoading = true;
       })
-      // .addCase(updateItemQuantity.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.product.quantity = action.payload;
-      // })
       .addCase(updateItemQuantity.fulfilled, (state, action) => {
         state.isLoading = false;
         const productIndex = state.product.findIndex(

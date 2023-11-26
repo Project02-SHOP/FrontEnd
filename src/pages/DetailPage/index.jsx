@@ -14,6 +14,7 @@ const DetailPage = () => {
   const dispatch = useAppDispatch();
   const { is_login } = useAuth();
   const [selectedOption, setSelectedOption] = useState("");
+  // const [selectImg, setSelectImg] = useState(img1);
   const option = ["s", "m", "l", "xl"];
 
   const { product, isLoading } = useAppSelector((state) => state.productSlice); //store에서 product를 가져온다
