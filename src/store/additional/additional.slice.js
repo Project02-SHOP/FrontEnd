@@ -19,14 +19,12 @@ export const createProduct = createAsyncThunk(
 
 export const updateItemQuantity = createAsyncThunk(
   "product/updateItemQuantity",
-  async ({ productId, productQuantity, token }, thunkAPI) => {
+  async ({ productId, productQuantity }, thunkAPI) => {
     try {
-      const response = await apiToken.put(
-        `/api/product/${productId}/quantity`,
-        {
-          productQuantity,
-        }
-      );
+      const response = await apiToken.put(`/api/product/quantity`, {
+        productId,
+        productQuantity,
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("updating item quantity error");
@@ -36,9 +34,9 @@ export const updateItemQuantity = createAsyncThunk(
 
 export const bringMyItem = createAsyncThunk(
   "product/bringMyItem",
-  async ({ userId }, thunkAPI) => {
+  async (thunkAPI) => {
     try {
-      const response = await apiToken.get(`/api/product/${userId}/active`);
+      const response = await apiToken.get(`/api/product/active`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("bring my item error");
@@ -47,7 +45,7 @@ export const bringMyItem = createAsyncThunk(
 );
 
 const initialState = {
-  product: {},
+  product: [],
   isLoading: false,
   error: "",
 };
@@ -74,9 +72,18 @@ export const additionalSlice = createSlice({
       .addCase(updateItemQuantity.pending, (state) => {
         state.isLoading = true;
       })
+      // .addCase(updateItemQuantity.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.product.quantity = action.payload;
+      // })
       .addCase(updateItemQuantity.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.product.quantity = action.payload;
+        const productIndex = state.product.findIndex(
+          (product) => product.id === action.payload.id
+        );
+        if (productIndex > -1) {
+          state.product[productIndex].quantity = action.payload.quantity;
+        }
       })
       .addCase(updateItemQuantity.rejected, (state, action) => {
         state.isLoading = false;
