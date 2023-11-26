@@ -10,10 +10,10 @@ const CardList = () => {
   const { products, isLoading } = useAppSelector(
     (state) => state.productsSlice
   );
-  const category = useAppSelector((state) => state.categoriesSlice);
+
   useEffect(() => {
-    dispatch(fetchProducts(category?.toLowerCase()));
-  }, [category]);
+    dispatch(fetchProducts());
+  }, []);
 
   if (isLoading) return <CardSkeleton />;
 

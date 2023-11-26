@@ -25,6 +25,7 @@ const DetailPage = () => {
 
   useEffect(() => {
     dispatch(fetchProduct(productId)); //store에서 product를 가져온다
+    // dispatch(fetchProduct({ product_id: productId }));
   }, [productId]);
 
   const addItemToCart = () => {

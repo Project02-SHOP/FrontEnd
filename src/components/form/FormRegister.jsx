@@ -123,7 +123,7 @@ const FormRegister = () => {
       nick_name: nickName,
       password: password,
       address: address,
-      filePath: profileimage,
+      file_path: profileimage,
       status: status,
     };
 
@@ -207,9 +207,7 @@ const FormRegister = () => {
             </label>
           </div>
         </div>
-        <div>
-          {preView && <img src={preView} alt="preview-img" />}
-        </div>
+        <div>{preView && <img src={preView} alt="preview-img" />}</div>
         <input placeholder={placeholder} disabled />
         <label htmlFor="itemImg" className={styles.label}>
           업로드

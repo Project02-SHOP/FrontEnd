@@ -28,16 +28,9 @@ export const fetchProducts = createAsyncThunk(
 
 // export const fetchProducts = createAsyncThunk(
 //   "products/fetchProducts",
-//   async (category, thunkAPI) => {
+//   async (thunkAPI) => {
 //     try {
-//       let response;
-
-//       if (category) {
-//         response = await apiToken.get(
-//           `/api/shop/product/${category}` //카테고리를 선택했다면
-//         );
-//       } else {
-//         response = await apiToken.get("/api/shop/allproduct"); //카테고리를 선택하지 안했다면
+//         const response = await apiToken.get("/api/shop/allproduct");//전체 상품 불러오기
 //       }
 //       return response.data; //payload
 //     } catch (error) {

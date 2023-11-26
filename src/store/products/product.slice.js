@@ -19,9 +19,9 @@ export const fetchProduct = createAsyncThunk(
 
 // export const fetchProduct = createAsyncThunk(
 //   "product/fetchProduct",
-//   async (id, thunkAPI) => {
+//   async (product_id, thunkAPI) => {
 //     try {
-//       const response = await apiToken.get(`/api/shop/product/${id}`);
+//       const response = await apiToken.get(`/api/shop/product/${product_id}`);
 //       return response.data;
 //     } catch (error) {
 //       return thunkAPI.rejectWithValue("Error loading product");
