@@ -68,7 +68,9 @@
 - **`문제점`** <br/>
   백엔드 배포 후 보안 상의 이유로 끊임없는 CORS 에러 발생하였습니다.
 - **`해결방안`**<br/>
-  백엔드단에서 Access-Control-Allow-Origin:\* 부분 수정하면 해결되는 문제였습니다.
+  - 1.  Controller에 @CrossOrigin(origins = "\*") 추가 → 다시 CORS 에러 발생
+  - 2.  CorsConfig 생성
+        SecurityConfig에 .cors().and(), .addFilter(corsCofig.corsFilter()) 추가
 - **`결과`**<br/>
   CORS(Cross-Origin Resource Sharing) 에러가 해결되었습니다.
 
