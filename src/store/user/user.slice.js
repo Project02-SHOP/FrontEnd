@@ -30,7 +30,7 @@ export const loginDB = createAsyncThunk(
       });
       const tokenWithBearer = response.headers.get("Authorization");
       const token = tokenWithBearer.split("Bearer ")[1];
-      const { nick_name, profileimage, staus, address } = response.data;
+      const { nick_name, file_path, userRole, address } = response.data;
       console.log(response.data);
       console.log(token);
 
@@ -40,20 +40,20 @@ export const loginDB = createAsyncThunk(
           token,
           user: {
             nick_name,
-            profileimage,
+            file_path,
             email,
             password,
-            staus,
+            userRole,
             address,           
           },
         })
       );
       setCookie("token", token);
       setCookie("nickname", nick_name);
-      setCookie("profileimage", profileimage);
+      setCookie("profileimage", file_path);
       setCookie("email", email);
       setCookie("password", password);
-      setCookie("status", staus);
+      setCookie("status", userRole);
       setCookie("address", address);
       return { token };
     } catch (error) {      
