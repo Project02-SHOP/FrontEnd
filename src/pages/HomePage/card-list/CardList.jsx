@@ -20,7 +20,7 @@ const CardList = () => {
   return (
     <ul className={styles.card_list}>
       {products.map((product) => (
-        <CardItem key={product.id} item={product} />
+        <CardItem key={product.productId} item={product} />
       ))}
     </ul>
   );

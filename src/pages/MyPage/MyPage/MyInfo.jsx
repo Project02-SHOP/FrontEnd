@@ -5,15 +5,18 @@ import styles from "./MyInfo.module.scss";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { RiHome4Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../hooks/redux";
+import { logOut } from "../../../store/user/user.slice";
 
 const MyInfo = () => {
+  const dispatch = useAppDispatch();
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
   const token = getCookie("token");
   const nickName = getCookie("nickname");
   const profileimg = getCookie("profileimage");
   const [userInfo, setUserInfo] = useState({
-    nick_name: "",
+    nickName: "",
     email: "",
     profileimage: "",
     address: "",
@@ -33,12 +36,17 @@ const MyInfo = () => {
       const response = await apiToken.put("/api/user/delete", requestData);
       console.log(response.data);
       setIsDeleted(true);
-      deleteCookie("token", response.data.token);
-      deleteCookie("nickname", response.data.nick_name);
-      deleteCookie("profileimage", response.data.profileimage);
-      deleteCookie("email", response.data.email);
-      deleteCookie("password", response.data.password);
-      deleteCookie("status", response.data.status);
+      deleteCookie("token");
+      deleteCookie("nickname");
+      deleteCookie("profileimage");
+      deleteCookie("email");
+      deleteCookie("password");
+      deleteCookie("status");
+      deleteCookie("is_login");
+      deleteCookie("address");
+      window.alert("회원 탈퇴에 성공 하셨습니다.");
+      dispatch(logOut());
+      navigator("/");
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);
       // 오류 처리 (예: 오류 메시지 표시 등)
@@ -57,7 +65,7 @@ const MyInfo = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [token]);
+  }, [token, isDeleted]);
 
   return (
     <div className={styles.myInfoCon}>
@@ -67,14 +75,15 @@ const MyInfo = () => {
           <img src={profileimg} alt="Profile" />
         </div>
         <div className={styles.info_description}>
-          <h4>{nickName}님 반갑습니다</h4>
+          <h4>{userInfo.nickName}님 반갑습니다</h4>
           <h3>
             {" "}
             <MdOutlineMarkEmailRead /> email : {userInfo.email}
           </h3>
           <h3>
             {" "}
-            <RiHome4Line /> 주소지 : {userInfo.address}
+            <RiHome4Line />
+            주소지 : {userInfo.address}
           </h3>
         </div>
 
