@@ -11,7 +11,7 @@ const SellerList = () => {
 
   useEffect(() => {
     dispatch(bringMyItem());
-  }, [product.productQuantity]);
+  }, []);
 
   return (
     <div className={styles.orders}>
@@ -30,7 +30,5 @@ const SellerList = () => {
     </div>
   );
 };
-
-
 
 export default SellerList;

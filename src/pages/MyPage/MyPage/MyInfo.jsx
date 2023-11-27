@@ -81,7 +81,7 @@ const MyInfo = () => {
           <div className={styles.info_quit}>
             <h4>판매 상품</h4>
             <button onClick={() => navigator(`/seller/${userInfo.email}`)}>
-              수량 수정
+              상품 관리
             </button>
           </div>
         ) : null}
