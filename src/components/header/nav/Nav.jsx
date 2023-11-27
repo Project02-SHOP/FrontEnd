@@ -3,26 +3,29 @@ import { VscSignOut } from "react-icons/vsc";
 import styles from "./Nav.module.scss";
 
 import NavCartBlock from "./nav-cart-block/NavCartBlock";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useAuth } from "../../../hooks/useAuth";
 import { logoutDB } from "../../../store/user/user.slice";
 import { getCookie } from "../../../shared/Cookie";
+import { useEffect } from "react";
 
 const Nav = () => {
   let { is_login } = useAuth();
   const dispatch = useAppDispatch();
   const { products } = useAppSelector((state) => state.cartSlice);
+  const navigator = useNavigate()
   const status = getCookie("status");
 
   const handleSignOut = () => {
     const token = getCookie("token");
     is_login = false;
     dispatch(logoutDB(token));
-    console.log(token);
-    return <Navigate to="/" replace />;
-  };
+    navigator("/")
+  }
+  useEffect (()=>{   
+  },[])
 
   const loginAlert = () => alert("로그인 후 이용가능합니다.");
 
