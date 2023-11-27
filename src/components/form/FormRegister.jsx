@@ -19,6 +19,7 @@ const FormRegister = () => {
   const [preView, setPreView] = useState(null);
   const [profileimage, setProfileImage] = useState(null);
   const [status, setStatus] = useState("USER");
+  const [gender, setGender] = useState("남자");
   const [placeholder, setPlaceholder] =
     useState("썸네일은 하나만 등록 가능합니다.");
 
@@ -56,7 +57,8 @@ const FormRegister = () => {
 
       try {
         const response = await api.post("/api/user/signup/image", formData);
-        setProfileImage(response.data.url);
+        setProfileImage(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Profile Image Upload Error", error);
       }
@@ -120,11 +122,12 @@ const FormRegister = () => {
 
     const user = {
       email: email,
-      nick_name: nickName,
+      nickName: nickName,
       password: password,
       address: address,
-      file_path: profileimage,
-      status: status,
+      filePath: profileimage,
+      userRole: status,
+      gender: gender,
     };
 
     try {

@@ -44,7 +44,7 @@ export const loginDB = createAsyncThunk(
             email,
             password,
             staus,
-            address,           
+            address,
           },
         })
       );
@@ -56,8 +56,8 @@ export const loginDB = createAsyncThunk(
       setCookie("status", staus);
       setCookie("address", address);
       return { token };
-    } catch (error) {      
-        window.alert(error.response.data);      
+    } catch (error) {
+      window.alert(error.response.data);
       console.error("Login Error", error);
     }
   }

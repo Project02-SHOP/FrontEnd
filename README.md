@@ -38,15 +38,25 @@
 </div>
 <br>
 <br>
-<br/>
+<!-- ## 🛠 기술 스택-->
 
-## 💻 라이브러리
+<!-- <div align=left>
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
+  <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+  <img src="https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white">
+  <img src="https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white">
+  <img src="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white">
+  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white">
+</div> -->
+
+## 💻 라이브러리 및 프레임워크
 
 | 이름            | 사용 이유                                                                                                                                                                                                                                                                                                            |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | React           | Component 단위의 작성을 통해 UI를 구성하는 개별적인 뷰단위의 개발을 하여 하나의 컴포넌트를 여러 부분에 다중 사용할수 있게 만들거 생산성과 유지 보수를 용이하게 하고 JSX를 사용해 컴포넌트를 쉽게 구성할수 있도록 해주며 Vitual DOM을 이용해 연산 비용을 줄일수 있기에 React 라이브러리를 사용하게 되었습니다.        |
 | Axios           | 우선 Fetch 같은 경우 호환성이 떨어져 웹브라우저가 구버전일 경우 지원하지 않는 경우가 있으며, Fetch에 비해 객체의 형태로 Param이나 Query를 성정할수 있어 가독성이 뛰어나며, 따로 JSON형태의 변환이 필요없이 자동 변환이 되고 개선된 error handling의 성능을 가지고 있기에 Axios를 사용하게 되었습니다.                |
 | reduxjs/toolkit | @reduxjs/toolkit은 비동기 작업을 위한 createAsyncThunk라는 유틸리티 함수를 제공합니다. 이를 사용하면 비동기 작업을 간단하게 처리하고, 로딩 상태 및 에러 처리를 포함한 여러 상태를 관리할 수 있습니다. 또한 간단한 애플리케이션부터 복잡한 애플리케이션까지 다양한 규모의 프로젝트에 적합한 유연한 구조를 제공합니다. |
+| Scss Frameworks | 복잡한 스타일시트를 더 효과적으로 작성하고 관리할 수 있도록 도와주는 도구입니다. SCSS는 CSS의 모든 기능을 포함하면서도 변수, 중첩 규칙, 믹스인, 확장 등과 같은 추가 기능을 제공하여 코드의 재사용성과 가독성을 향상시킵니다.                                                                                         |
 
 <br/><br/>
 
@@ -58,7 +68,9 @@
 - **`문제점`** <br/>
   백엔드 배포 후 보안 상의 이유로 끊임없는 CORS 에러 발생하였습니다.
 - **`해결방안`**<br/>
-  백엔드단에서 Access-Control-Allow-Origin:\* 부분 수정하면 해결되는 문제였습니다.
+  - 1.  Controller에 @CrossOrigin(origins = "\*") 추가 → 다시 CORS 에러 발생
+  - 2.  CorsConfig 생성
+        SecurityConfig에 .cors().and(), .addFilter(corsCofig.corsFilter()) 추가
 - **`결과`**<br/>
   CORS(Cross-Origin Resource Sharing) 에러가 해결되었습니다.
 
