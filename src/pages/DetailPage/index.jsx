@@ -65,6 +65,11 @@ const DetailPage = () => {
 
           <div className={styles.card_description}>
             <h3>{product.category}</h3>
+            {/* {product.category === 1 ? (
+              <h3>men's clothing</h3>
+            ) : (
+              <h3>women's clothing</h3>
+            )} */}
             <h1>{product.title}</h1>
             <h4> $ {product.price}</h4>
             <p>{product.description}</p>

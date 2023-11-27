@@ -10,6 +10,8 @@ const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
   const token = getCookie("token");
+  const nickName = getCookie("nickname");
+  const profileimg = getCookie("profileimage");
   const [userInfo, setUserInfo] = useState({
     nick_name: "",
     email: "",
@@ -61,19 +63,18 @@ const MyInfo = () => {
     <div className={styles.myInfoCon}>
       <li className={styles.my_info}>
         <div className={styles.profile}>
-          {userInfo.profileimage && (
-            <img src={userInfo.profileimage} alt="Profile" />
-          )}
+          {/* {userInfo.profileimage && <img src={profileimg} alt="Profile" />} */}
+          <img src={profileimg} alt="Profile" />
         </div>
         <div className={styles.info_description}>
-          <h4>{userInfo.nick_name}님 반갑습니다</h4>
+          <h4>{nickName}님 반갑습니다</h4>
           <h3>
             {" "}
-            <MdOutlineMarkEmailRead /> {userInfo.email}email
+            <MdOutlineMarkEmailRead /> email : {userInfo.email}
           </h3>
           <h3>
             {" "}
-            <RiHome4Line /> {userInfo.address}주소지
+            <RiHome4Line /> 주소지 : {userInfo.address}
           </h3>
         </div>
 
