@@ -13,6 +13,8 @@ const MyInfo = () => {
   const [isDeleted, setIsDeleted] = useState(false);
   const status = getCookie("status");
   const token = getCookie("token");
+  const nickName = getCookie("nickname");
+  const profileimg = getCookie("profileimage");
   const [userInfo, setUserInfo] = useState({
     nickName: "",
     email: "",
@@ -40,11 +42,11 @@ const MyInfo = () => {
       deleteCookie("email");
       deleteCookie("password");
       deleteCookie("status");
-      deleteCookie("is_login")
-      deleteCookie("address")
+      deleteCookie("is_login");
+      deleteCookie("address");
       window.alert("회원 탈퇴에 성공 하셨습니다.");
       dispatch(logOut());
-      navigator("/")
+      navigator("/");
     } catch (error) {
       console.error("회원 탈퇴 오류:", error);
       // 오류 처리 (예: 오류 메시지 표시 등)
@@ -63,15 +65,14 @@ const MyInfo = () => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [token,isDeleted]);
+  }, [token, isDeleted]);
 
   return (
     <div className={styles.myInfoCon}>
       <li className={styles.my_info}>
         <div className={styles.profile}>
-          {userInfo.profileimage && (
-            <img src={userInfo.profileimage} alt="Profile" />
-          )}
+          {/* {userInfo.profileimage && <img src={profileimg} alt="Profile" />} */}
+          <img src={profileimg} alt="Profile" />
         </div>
         <div className={styles.info_description}>
           <h4>{userInfo.nickName}님 반갑습니다</h4>
@@ -90,7 +91,7 @@ const MyInfo = () => {
           <div className={styles.info_quit}>
             <h4>판매 상품</h4>
             <button onClick={() => navigator(`/seller/${userInfo.email}`)}>
-              수량 수정
+              상품 관리
             </button>
           </div>
         ) : null}

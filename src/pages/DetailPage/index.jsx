@@ -14,6 +14,7 @@ const DetailPage = () => {
   const dispatch = useAppDispatch();
   const { is_login } = useAuth();
   const [selectedOption, setSelectedOption] = useState("");
+  // const [selectImg, setSelectImg] = useState(img1);
   const option = ["s", "m", "l", "xl"];
 
   const { product, isLoading } = useAppSelector((state) => state.productSlice); //store에서 product를 가져온다
@@ -24,6 +25,7 @@ const DetailPage = () => {
 
   useEffect(() => {
     dispatch(fetchProduct(productId)); //store에서 product를 가져온다
+    // dispatch(fetchProduct({ product_id: productId }));
   }, [productId]);
 
   const addItemToCart = () => {
@@ -62,10 +64,16 @@ const DetailPage = () => {
           </div>
 
           <div className={styles.card_description}>
-            <h3>{product.category}</h3>
+            {/* <h3>{product.category}</h3> */}
+            {product.category === 1 ? (
+              <h3>women's clothing</h3>
+            ) : (
+              <h3>men's clothing</h3>
+            )}
             <h1>{product.title}</h1>
             <h4> $ {product.price}</h4>
-            <p>{product.description}</p>
+            <p>{product.productDetail}</p>
+            <p>남은 수량 : {product.productQuantity}</p>
             <div className={styles.option}>
               <div>
                 <SelectBox onChange={optionSelectHandler} options={option} />
