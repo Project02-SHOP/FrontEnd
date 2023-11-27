@@ -56,10 +56,14 @@ const DetailPage = () => {
             <img src={product.image} alt="product card" />
             <ul className={styles.card_thumb}>
               <li className={styles.select}>
-                <img src={product.image} alt="product card" />
+                <img src={product.img1} alt="product card" />
               </li>
-              <li>{/* <img src={product?.image} /> */}</li>
-              <li>{/* <img src={product?.image} /> */}</li>
+              <li>
+                <img src={product.img2} alt="product card" />
+              </li>
+              <li>
+                <img src={product.img3} alt="product card" />
+              </li>
             </ul>
           </div>
 
